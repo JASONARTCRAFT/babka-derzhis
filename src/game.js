@@ -24,7 +24,7 @@ function beginLevel(i){const lv=L[i];$('#ov').hidden=true;
  const avail=[...lv.cards,...(save.shop.mine?['mine']:[])];S.avail=avail;
  S.deck=avail.length<=lv.slots?avail:(save.deck||avail).filter(k=>avail.includes(k)).slice(0,lv.slots);
  if(S.deck.length<Math.min(lv.slots,avail.length))avail.forEach(k=>{if(S.deck.length<lv.slots&&!S.deck.includes(k))S.deck.push(k)});
- setupHints(i);show('game');buildBar();layout();camX=0;music(lv.night?'night':'day');
+ setupHints(i);show('game');buildBar();layout();camX=0;MUS.force=null;MUS.I=.05;MUS.target=.03;music(lv.boss?'night':lv.night?'night':'day');
  const unseen=S.types.filter(t=>!save.seen[t]),me=S;
  const next=()=>{if(S!==me)return;if(!unseen.length){if(i>=3)preBattle(go);else go();return}const t=unseen.shift();save.seen[t]=1;persist();SFX.ominous();
   overlay(`<div class="tag warn">Новый враг на улице</div><h2>${E[t].n}</h2><canvas class="big dark" width="300" height="260" data-k="${t}"></canvas><p>${E[t].d}</p>`,[['Понятно',next]])};
@@ -221,7 +221,10 @@ function upE(e,dt){const d=E[e.type],t=e.type;e.ph+=dt*(e.eat?6:e.sp*22+(e.x>YC?
 function lose(){if(S.phase!='play')return;S.phase='lost';stopMusic();SFX.lose();
  setTimeout(()=>overlay(`<div class="tag">Уровень ${S.i+1}</div><h2>Зомби-коты прорвались в дом!</h2><canvas class="big" width="300" height="260" data-g="shock"></canvas><p>Бабка отбилась тапком, но это было близко. Попробуй расставить защиту иначе.</p>`,[['Ещё раз',()=>beginLevel(S.i)],['Уровни',()=>{toMenu();openLevels()},'alt']]),1100)}
 function banner(t){S.banner={t,life:2.6}}
-function step(dt){S.t+=dt;if(S.shake>0)S.shake-=dt*2;if(S.sndGap>0)S.sndGap-=dt;
+const THREAT={kit:.4,fat:2.5,box:1.5,basin:2.5,ath:1.2,vac:1.5,mom:1.5,lead:3,skate:1,swim:1.2,ghost:2,robo:3,owner:3,boss:8};
+function musicMood(){let th=0;S.enemies.forEach(e=>{th+=(THREAT[e.type]||1)*(e.x<YC?1.6:1)});const big=S.bigs.some(b=>b.shown&&S.t-b.t<25),boss=S.enemies.some(e=>e.type=='boss');
+ setMusicIntensity(.05+S.i*.025+th/14+(big?.25:0)+(boss?.3:0))}
+function step(dt){S.t+=dt;if(S.phase=='play')musicMood();if(S.shake>0)S.shake-=dt*2;if(S.sndGap>0)S.sndGap-=dt;
  for(const k in S.cool)S.cool[k]=Math.max(0,S.cool[k]-dt);for(const k in S.doorOpen)S.doorOpen[k]-=dt;
  if(S.phase=='play'){S.bigs.forEach(b=>{if(!b.shown&&S.t>=b.t-4){b.shown=1;banner(b.last?'Последняя волна!':'Огромная волна котов!');SFX.siren()}});
   while(S.spawns.length&&S.spawns[0].t<=S.t)spawn(S.spawns.shift())}
@@ -259,7 +262,7 @@ function step(dt){S.t+=dt;if(S.shake>0)S.shake-=dt*2;if(S.sndGap>0)S.sndGap-=dt;
  if(S.phase=='play'&&!S.spawns.length&&!S.enemies.length){S.phase='won';stopMusic();SFX.fanfare();banner('Улица отбита!');
   const p=S.last||{x:FX(5),y:FY(0)+C};S.trophy={x:p.x,y:p.y-C*.3,t:0};S.coins.forEach(c=>{if(!c.fly)grabCoin(0,0,c)})}
  if(S.trophy){S.trophy.t+=dt;if(S.trophy.t<1.2)camX=lerp(camX,clamp(S.trophy.x-VW/2,0,maxCam()),dt*4)}}
-function intro(dt){S.it+=dt;const M=maxCam(),t=S.it;
+function intro(dt){S.it+=dt;setMusicIntensity(.03);const M=maxCam(),t=S.it;
  if(t<.6)camX=0;else if(t<2.2)camX=ease((t-.6)/1.6)*M;else if(t<4.4)camX=M;else if(t<5.8)camX=(1-ease((t-4.4)/1.4))*M;else{camX=0;S.phase='ready';S.rt=0}
  S.preview.forEach(p=>p.ph+=dt*2)}
 

@@ -159,12 +159,12 @@ const SCENES=[
  {d:4.5,cap:'Бабка посмотрела в окно, поправила очки и сказала: «Ну уж нет».',draw:sceneAngry},
  {d:6,cap:'Коты у бабки умные. За ночь они собрали защиту из всего, что нашлось в сарае.',draw:sceneBuild},
  {d:4.5,cap:'',draw:sceneTitle}];
-function playCut(after){CUT.t=0;CUT.i=0;CUT.after=after;show('cut');music('night');$('#cap').textContent=SCENES[0].cap;$('#cap').hidden=false;save.intro=true;persist()}
-function endCut(){const a=CUT.after;CUT.after=null;(a||toMenu)()}
+function playCut(after){CUT.t=0;CUT.i=0;CUT.after=after;show('cut');stopMusic();music('menu');$('#cap').textContent=SCENES[0].cap;$('#cap').hidden=false;save.intro=true;persist()}
+function endCut(){MUS.force=null;const a=CUT.after;CUT.after=null;(a||toMenu)()}
 $('#skip').onclick=()=>{SFX.click();endCut()};
 $('#cut').addEventListener('pointerdown',e=>{if(e.target.id=='skip')return;if(CUT.i==SCENES.length-1&&CUT.t>1.5)endCut();else{CUT.t=SCENES[CUT.i].d}});
 function drawCut(dt){CUT.t+=dt;let sc=SCENES[CUT.i];if(CUT.t>sc.d){if(CUT.i<SCENES.length-1){CUT.i++;CUT.t=0;sc=SCENES[CUT.i];$('#cap').textContent=sc.cap;$('#cap').hidden=!sc.cap;
-  if(CUT.i==2)SFX.sting();if(CUT.i==3)music('day');if(CUT.i==4){music('menu');SFX.fanfare()}}else{CUT.t=sc.d}}
+  if(CUT.i==1){music('day');MUS.force=1;MUS.I=.8}if(CUT.i==2){SFX.sting();MUS.force=.45}if(CUT.i==3)MUS.force=.25;if(CUT.i==4){MUS.force=null;stopMusic();SFX.fanfare();setTimeout(()=>{if(!$('#cut').hidden)music('menu')},1600)}}else{CUT.t=sc.d}}
  const{x,W,H}=fitCanvas($('#cutCv')),c=cover(W,H*.82,.5),p=CUT.t/sc.d,z=1+p*.05;c.oy=Math.min(c.oy,0);x.fillStyle='#000';x.fillRect(0,0,W,H);
  x.save();x.translate(W/2,H/2);x.scale(z,z);x.translate(-W/2,-H/2);x.translate(c.ox,c.oy);x.scale(c.s,c.s);sc.draw(x,CUT.t,p);x.restore();
  const fa=Math.max(0,1-CUT.t/.45);if(fa>0){x.fillStyle=`rgba(0,0,0,${fa})`;x.fillRect(0,0,W,H)}}
