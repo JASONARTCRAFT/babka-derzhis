@@ -236,14 +236,16 @@ function bossCat(x,o){const ph=o.ph||0,hit=o.hit>0;
  el(x,-5,-1,5,5.5,'#fff3c4');el(x,-6,-1,2,2.5,'#111');ln(x,'#311b92',2,2,-3,7,1);ln(x,'#311b92',2,2,1,7,-3);ln(x,'#311b92',1.6,-6,8,-2,6,2,8,5,6);
  poly(x,'#ffc107',-11,-12,-11,-26,-6,-18,0,-30,6,-18,11,-26,11,-12);el(x,0,-20,2.2,2.2,'#e53935');el(x,-8,-16,1.5,1.5,'#29b6f6');el(x,8,-16,1.5,1.5,'#29b6f6');
  x.restore()}
-function sleepyCat(x,col,ph){el(x,0,0,24,5,'rgba(0,0,0,.2)');el(x,0,-9,20,11,col);el(x,-14,-12,9,8,col);poly(x,col,-21,-16,-20,-24,-14,-18);poly(x,col,-11,-18,-8,-24,-7,-16);
- ln(x,'#3a2210',1.4,-18,-12,-15,-11);ln(x,'#3a2210',1.4,-12,-12,-9,-11);el(x,-13.5,-9,1.2,.9,'#d47a8a');
+function sleepyCat(x,col,ph,react=0){el(x,0,0,24,5,'rgba(0,0,0,.2)');el(x,0,-9,20,11,col);el(x,-14,-12,9,8,col);poly(x,col,-21,-16,-20,-24,-14,-18);poly(x,col,-11,-18,-8,-24,-7,-16);
+ if(react>0){const o=Math.min(1,react*3,(1-react)*4);el(x,-16.5,-12,2.2,2*o+.2,'#fff3c4');el(x,-16.2,-11.6,1.1,1.1*o+.1,'#3a2210');ln(x,'#3a2210',1.6,-19,-13.8,-14,-12.8);ln(x,'#3a2210',1.4,-12,-12,-9,-11);ln(x,'#3a2210',1,-15,-7.5,-12,-8)}
+ else{ln(x,'#3a2210',1.4,-18,-12,-15,-11);ln(x,'#3a2210',1.4,-12,-12,-9,-11)}el(x,-13.5,-9,1.2,.9,'#d47a8a');
  x.strokeStyle=col;x.lineWidth=5;x.lineCap='round';x.beginPath();x.moveTo(18,-6);x.quadraticCurveTo(26,4,4,2+Math.sin(ph)*1.5);x.stroke();
- const z=(ph*.6)%3;x.globalAlpha*=1-z/3;x.fillStyle='#fff';x.font='bold 10px Nunito,sans-serif';x.textAlign='left';x.fillText('z',-10+z*4,-26-z*6);x.globalAlpha=1}
-function niceCat(x,col,o={}){const ph=o.ph||0;el(x,0,0,16,4,'rgba(0,0,0,.2)');
+ if(react>0)return;const z=(ph*.6)%3;x.globalAlpha*=1-z/3;x.fillStyle='#fff';x.font='bold 10px Nunito,sans-serif';x.textAlign='left';x.fillText('z',-10+z*4,-26-z*6);x.globalAlpha=1}
+function niceCat(x,col,o={}){const ph=o.ph||0,re=o.react||0;el(x,0,0,16,4,'rgba(0,0,0,.2)');if(re>0)x.translate(0,-Math.abs(Math.sin(re*Math.PI*2))*12);
  x.strokeStyle=col;x.lineWidth=5;x.lineCap='round';x.beginPath();x.moveTo(10,-6);x.quadraticCurveTo(24,-10+Math.sin(ph*2)*4,18,-30+Math.sin(ph*2)*3);x.stroke();
  el(x,0,-12,12,13,col);el(x,-2,-8,6,8,'#fff3e0');el(x,0,-30,12,11,col);poly(x,col,-11,-34,-9,-46,-3,-38);poly(x,col,11,-34,9,-46,3,-38);poly(x,'#f8a5b5',-9,-36,-8,-43,-5,-38);poly(x,'#f8a5b5',9,-36,8,-43,5,-38);
- if(o.blink&&Math.sin(ph*1.3)>.95){ln(x,'#3a2210',1.5,-6,-31,-2,-31);ln(x,'#3a2210',1.5,2,-31,6,-31)}else{el(x,-4,-31,2.2,2.6,'#3a2210');el(x,4,-31,2.2,2.6,'#3a2210');el(x,-3.4,-32,.8,.8,'#fff');el(x,4.6,-32,.8,.8,'#fff')}
+ if(re>0){ln(x,'#3a2210',1.6,-6,-30,-4,-32.5,-2,-30);ln(x,'#3a2210',1.6,2,-30,4,-32.5,6,-30);el(x,0,-24.5,2.2,2.4,'#b71c1c')}
+ else if(o.blink&&Math.sin(ph*1.3)>.95){ln(x,'#3a2210',1.5,-6,-31,-2,-31);ln(x,'#3a2210',1.5,2,-31,6,-31)}else{el(x,-4,-31,2.2,2.6,'#3a2210');el(x,4,-31,2.2,2.6,'#3a2210');el(x,-3.4,-32,.8,.8,'#fff');el(x,4.6,-32,.8,.8,'#fff')}
  el(x,0,-27,1.5,1.1,'#d47a8a');ln(x,'#3a2210',1,-2,-25,0,-24,2,-25);el(x,-7,-27,2.2,1.3,'rgba(240,120,140,.5)');el(x,7,-27,2.2,1.3,'rgba(240,120,140,.5)')}
 
 /* ---------- grandma ---------- */

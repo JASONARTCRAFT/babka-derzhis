@@ -3,7 +3,7 @@ const SCREENS=['menu','levels','farm','game','cut'];
 function show(id){SCREENS.forEach(s=>$('#'+s).hidden=s!==id)}
 function toMenu(){S=null;sel=null;drag=null;$('#ov').hidden=true;show('menu');music('menu');updMenu()}
 function updMenu(){$('#menuStat').textContent=`Побеждено зомби-котов: ${save.kills} · Мятных листиков: ${save.leaves}`;
- const n=readyLeaves(),b=$('#farmBadge');b.hidden=!n;b.textContent='+'+n;$('#bPlay').textContent=save.lvl>0?`Играть · ур. ${save.lvl+1}`:'Играть'}
+ const n=gStored(),dry=gDry(),b=$('#farmBadge');b.hidden=!n&&!dry;b.textContent=n?'+'+n:'💧';$('#bPlay').textContent=save.lvl>0?`Играть · ур. ${save.lvl+1}`:'Играть'}
 function iconKind(k){return U[k]?'u':E[k]?'e':'a'}
 function renderIcon(c,kind,key){const x=c.getContext('2d'),W=c.width,H=c.height;x.clearRect(0,0,W,H);x.save();
  if(kind=='u'){x.translate(W/2+(key=='spr'?-W*.14:key=='shock'?-W*.06:0),H*.96);const s=H/(key=='fence'?102:84);x.scale(s,s);drawUnit(x,{t:key,lv:1,ph:1,fire:key=='spr'?.5:0,hp:1,max:1,charges:8,arm:0})}
@@ -33,20 +33,23 @@ function unlockAll(){save.lvl=L.length-1;save.all=true;persist();if(!$('#levels'
 function preBattle(cb){const lv=S.lv,need=S.avail.length>lv.slots;
  const foes=S.types.map(t=>`<div class="foe"><canvas width="112" height="96" data-k="${t}"></canvas><span>${E[t].n}</span></div>`).join('');
  const deck=need?`<h3>Выбери ${lv.slots} карточек из ${S.avail.length}</h3><div class="deck">${S.avail.map(k=>`<button class="dc" data-c="${k}"><canvas width="92" height="76" data-k="${k}"></canvas><span>${U[k].n}</span></button>`).join('')}</div><p class="cnt" id="dcCnt"></p>`:'';
- const o=overlay(`<div class="tag">Уровень ${S.i+1}</div><h2>${lv.n}</h2><p>${lv.sub}</p><h3>Сегодня на улице</h3><div class="foes">${foes}</div>${deck}`,
+ const o=overlay(`<div class="tag">Уровень ${S.i+1}</div><h2>${lv.n}</h2><p>${lv.sub}</p>${Object.keys(S.bon).length?`<p class="leafline">Бонусы огорода: ${Object.keys(S.bon).map(k=>PLANTS[k].bonus).join(' · ')}</p>`:''}<h3>Сегодня на улице</h3><div class="foes">${foes}</div>${deck}`,
   [['В бой!',()=>{save.deck=S.deck.slice();persist();cb()}],['Уровни',()=>{toMenu();openLevels()},'alt']],'wide');
  if(need){const go=o.querySelector('button[data-i="0"]'),upd=()=>{$('#dcCnt').textContent=`Выбрано ${S.deck.length} из ${lv.slots}`;o.querySelectorAll('.dc').forEach(b=>b.classList.toggle('on',S.deck.includes(b.dataset.c)));go.disabled=!S.deck.length};
   o.querySelectorAll('.dc').forEach(b=>b.onclick=()=>{const k=b.dataset.c;if(S.deck.includes(k))S.deck=S.deck.filter(x=>x!=k);else if(S.deck.length<lv.slots)S.deck.push(k);else{SFX.bad();return}SFX.click();upd()});upd()}}
 
 /* ---------- reveal / settings / almanac ---------- */
 function openReveal(){if(!S.trophy)return;S.trophy=null;const i=S.i,stars=Math.max(1,3-S.mowUsed),first=!save.won[i];
- save.stars[i]=Math.max(save.stars[i]||0,stars);save.lvl=Math.max(save.lvl,Math.min(L.length-1,i+1));if(first){save.won[i]=1;save.leaves+=5}persist();SFX.reveal();
- const st=`<div class="stars">${'★'.repeat(stars)}<i>${'★'.repeat(3-stars)}</i></div>`,lf=first?'<p class="leafline">+5 мятных листиков для огорода</p>':'';
+ save.stars[i]=Math.max(save.stars[i]||0,stars);save.lvl=Math.max(save.lvl,Math.min(L.length-1,i+1));let seed=null;if(first){save.won[i]=1;save.leaves+=5;seed=SEEDREW[i]||pick(['catnip','chili','volt']);giveSeed(seed)}persist();SFX.reveal();
+ const st=`<div class="stars">${'★'.repeat(stars)}<i>${'★'.repeat(3-stars)}</i></div>`,lf=first?`<p class="leafline">+5 мятных листиков и семечко «${PLANTS[seed].n}» для огорода</p>`:'';
  if(i+1<L.length){const nw=newCards(i+1),k=nw[0],d=k&&cardDef(k);
   overlay(d?`<div class="tag">Новая находка</div><h2>${d.n}</h2>${st}<canvas class="big" width="300" height="260" data-k="${k}"></canvas><p>${d.d}</p>${nw.length>1?`<p>И ещё: ${nw.slice(1).map(x=>cardDef(x).n).join(', ')}.</p>`:''}${lf}`
    :`<div class="tag">Уровень пройден</div><h2>${L[i].n}</h2>${st}<canvas class="big" width="300" height="260" data-g="angry"></canvas><p>Дальше: «${L[i+1].n}». ${L[i+1].sub}</p>${lf}`,
-   [['Дальше',()=>beginLevel(i+1)],['Уровни',()=>{toMenu();openLevels()},'alt']])}
+   [['Дальше',()=>perkThen(i,()=>beginLevel(i+1))],['Уровни',()=>perkThen(i,()=>{toMenu();openLevels()}),'alt']])}
  else overlay(`<div class="tag">Финал</div><h2>Улица Мурлыкина спасена!</h2>${st}<canvas class="big" width="300" height="260" data-g="calm"></canvas><p>Король Пылесосов повержен. Бабка ставит чайник, коты спят кучей на диване. Побеждено зомби-котов: ${save.kills}.</p>${lf}`,[['В меню',toMenu]])}
+function perkThen(i,next){const set=PERKSETS[i];save.perkAsk=save.perkAsk||{};if(!set||save.perkAsk[i])return next();save.perkAsk[i]=1;persist();SFX.fanfare();
+ overlay(`<div class="tag">Бабкина премия</div><h2>Выбери одно улучшение</h2><p>Оно останется с тобой до конца игры.</p><div class="perks">${set.map(k=>`<div class="pk"><b>${PERKS[k].n}</b><span>${PERKS[k].d}</span></div>`).join('')}</div>`,
+  set.map(k=>[PERKS[k].n,()=>{save.perks[k]=1;persist();SFX.reveal();next()}]),'wide')}
 function openSettings(){const s=save.set,wasPlay=S&&S.phase=='play'&&!S.paused;if(wasPlay)S.paused=true;
  const o=overlay(`<h2>Настройки</h2>
  <div class="set-row"><label for="sMusOn">Музыка</label><input type="checkbox" id="sMusOn" ${s.musicOn?'checked':''}><input type="range" id="sMus" min="0" max="1" step="0.05" value="${s.music}" aria-label="Громкость музыки"></div>
@@ -68,9 +71,22 @@ function openAlmanac(){const top=L[save.lvl],have=new Set([...top.cards,...top.a
 function fitCanvas(c){const d=Math.min(2,devicePixelRatio||1),w=c.clientWidth||innerWidth,h=c.clientHeight||innerHeight;if(c.width!==Math.round(w*d)||c.height!==Math.round(h*d)){c.width=Math.round(w*d);c.height=Math.round(h*d)}const x=c.getContext('2d');x.setTransform(d,0,0,d,0,0);return{x,W:w,H:h}}
 function cover(W,H,fx=.5){const s=Math.max(W/1280,H/720);return{s,ox:(W-1280*s)*fx,oy:(H-720*s)*.5}}
 
+/* ---------- petting cats ---------- */
+const PETS={};let lastPurr=0;
+function petState(id){return PETS[id]||(PETS[id]={last:-1e9,r:0})}
+function petReact(id,kind){const p=petState(id),n=performance.now();if(n-p.last<60000){if(n-lastPurr>900){lastPurr=n;SFX.purr()}return}p.last=n;p.r=1;
+ if(kind=='sleep')SFX.meowGrumpy();else SFX.meowHappy()}
+function petTick(dt){for(const k in PETS)if(PETS[k].r>0)PETS[k].r=Math.max(0,PETS[k].r-dt/2.4)}
+function petProg(id){const r=petState(id).r;return r>0?1-r:0}
+function petBubble(x,id,cx,cy,kind){const r=petState(id).r;if(r<=0)return;const a=Math.min(1,r*4);x.globalAlpha=a;const txt=kind=='sleep'?'мрр…':'Мяу!';
+ x.font='900 22px Nunito,sans-serif';const w=x.measureText(txt).width+22;rr(x,cx-w/2,cy-32,w,32,14,'#fff');poly(x,'#fff',cx-6,cy,cx+6,cy,cx,cy+10);x.fillStyle='#3a2210';x.textAlign='center';x.textBaseline='middle';x.fillText(txt,cx,cy-16);
+ if(kind!='sleep')for(let i=0;i<3;i++){const q=(1-r+i*.2)%1;el(x,cx+30+i*12,cy-10-q*40,5,5,'#ff6f91');el(x,cx+36+i*12,cy-10-q*40,5,5,'#ff6f91');poly(x,'#ff6f91',cx+25+i*12,cy-8-q*40,cx+41+i*12,cy-8-q*40,cx+33+i*12,cy+2-q*40)}
+ x.globalAlpha=1}
 /* ---------- main menu scene ---------- */
-const MENU={t:0,ff:Array.from({length:14},(_,i)=>({x:Math.random()*1280,y:420+Math.random()*250,p:Math.random()*6}))};
-function drawMenu(dt){MENU.t+=dt;const{x,W,H}=fitCanvas($('#menuCv')),c=cover(W,H,W<720?.22:.5);x.clearRect(0,0,W,H);x.save();x.translate(c.ox,c.oy);x.scale(c.s,c.s);menuScene(x,MENU.t);x.restore()}
+const MENU={hot:[],t:0,ff:Array.from({length:14},(_,i)=>({x:Math.random()*1280,y:420+Math.random()*250,p:Math.random()*6}))};
+function drawMenu(dt){MENU.t+=dt;petTick(dt);const{x,W,H}=fitCanvas($('#menuCv')),c=cover(W,H,W<720?.22:.5);MENU.c=c;x.clearRect(0,0,W,H);x.save();x.translate(c.ox,c.oy);x.scale(c.s,c.s);menuScene(x,MENU.t);x.restore()}
+$('#menuCv').addEventListener('pointerdown',e=>{const c=MENU.c;if(!c)return;const r=$('#menuCv').getBoundingClientRect(),px=(e.clientX-r.left-c.ox)/c.s,py=(e.clientY-r.top-c.oy)/c.s;
+ [['mRoof',590,262,46,'sleep'],['mWin',480,450,48,'nice'],['mPorch',270,570,46,'nice']].forEach(([id,cx,cy,rad,k])=>{if(Math.hypot(px-cx,py-cy)<rad)petReact(id,k)})});
 function menuScene(x,t){
  x.fillStyle=lgrad(x,0,0,0,480,[[0,'#2b1d4e'],[.55,'#a24b6a'],[1,'#f3a65f']]);x.fillRect(0,0,1280,480);
  el(x,980,470,150,150,'rgba(255,207,107,.25)');el(x,980,470,105,105,'#ffcf6b');
@@ -100,56 +116,11 @@ function menuHouse(x,t){
  const win=(wx,wy,ww,wh,fill)=>{rr(x,wx-6,wy-6,ww+12,wh+12,4,'#fff');rr(x,wx,wy,ww,wh,3,'#ffe9b0');x.save();x.beginPath();x.rect(wx,wy,ww,wh);x.clip();fill();x.restore();
   poly(x,'#ef9a9a',wx,wy,wx+ww*.35,wy,wx,wy+wh*.65);poly(x,'#ef9a9a',wx+ww,wy,wx+ww*.65,wy,wx+ww,wy+wh*.65);rr(x,wx-10,wy+wh+4,ww+20,12,3,'#8d5524');[.2,.4,.6,.8].forEach(q=>el(x,wx+ww*q,wy+wh+2,7,7,q==.4?'#ffeb3b':'#e91e63'))};
  win(196,380,118,104,()=>{x.translate(255,450);x.scale(1.75,1.75);drawGranny(x,{mood:'angry',item:'pin',wave:t*3.4})});
- win(420,380,118,104,()=>{x.translate(480,490);x.scale(1.55,1.55);niceCat(x,'#9e9e9e',{ph:t,blink:1})});
+ win(420,380,118,104,()=>{x.translate(480,490);x.scale(1.55,1.55);niceCat(x,'#9e9e9e',{ph:t,blink:1,react:petProg('mWin')})});petBubble(x,'mWin',480,400,'nice');
  rr(x,322,440,86,145,6,'#5d4037');rr(x,330,448,70,137,4,'#2e7d32');el(x,365,480,14,14,'#bbdefb');ring(x,365,480,14,'#1b5e20',3);el(x,388,520,4,4,'#ffd54f');
  poly(x,'#8f2e22',300,440,430,440,446,420,284,420);rr(x,300,585,130,10,2,'#9e9e9e');rr(x,290,595,150,10,2,'#bdbdbd');
- x.save();x.translate(612,282);x.rotate(-.3);x.scale(1.4,1.4);sleepyCat(x,'#f0a04b',t*2);x.restore();
- x.save();x.translate(270,600);x.scale(1.5,1.5);niceCat(x,'#5d4037',{ph:t*1.2,blink:1});x.restore()}
-
-/* ---------- farm ---------- */
-const FARM={t:0,pts:[],c:null,bf:[{x:300,y:200,p:0},{x:900,y:260,p:2}],fly:[]};
-function potState(p,n){if(!p.p)return{st:-1,ready:0,next:0};const age=n-p.p,st=age<30000?0:age<90000?1:2;
- if(st<2)return{st,ready:0,next:(st==0?30000:90000)-age};const since=Math.max(p.p+90000,p.c||0),ready=Math.min(3,Math.floor((n-since)/40000));return{st,ready,next:ready>=3?0:40000-((n-since)%40000)}}
-function readyLeaves(){const n=Date.now();return save.pots.reduce((a,p)=>a+potState(p,n).ready,0)}
-function openFarm(){show('farm');music('garden');renderShop();drawLeafIco()}
-function drawLeafIco(){const c=$('#leafIco').getContext('2d');c.clearRect(0,0,40,40);drawLeaf(c,20,20,15,.4)}
-function renderShop(){$('#leafN').textContent=save.leaves;const l=$('#shopList');l.innerHTML='';
- Object.entries(SHOP).forEach(([k,it])=>{const own=save.shop[k],d=document.createElement('div');d.className='si'+(own?' own':'');
-  d.innerHTML=`<div><b>${it.n}</b><span>${it.d}</span></div><button class="btn sm" ${own||save.leaves<it.cost?'disabled':''}>${own?'Куплено':it.cost+' 🍃'}</button>`;
-  d.querySelector('button').onclick=()=>{if(own||save.leaves<it.cost)return;save.leaves-=it.cost;save.shop[k]=1;persist();SFX.reveal();renderShop()};l.append(d)})}
-function farmClick(i){const p=save.pots[i],n=Date.now(),s=potState(p,n);
- if(s.st<0){p.p=n;p.c=0;SFX.plant();persist();return}
- if(s.ready>0){save.leaves+=s.ready;const since=Math.max(p.p+90000,p.c||0);p.c=s.ready>=3?n:since+s.ready*40000;SFX.leaf();
-  const pt=FARM.pts[i];for(let k=0;k<s.ready;k++)FARM.fly.push({x:pt.x,y:pt.y-120,t:-k*.12});persist();renderShop()}}
-$('#farmCv').addEventListener('pointerdown',e=>{const c=FARM.c;if(!c)return;const r=$('#farmCv').getBoundingClientRect(),px=(e.clientX-r.left-c.ox)/c.s,py=(e.clientY-r.top-c.oy)/c.s;
- FARM.pts.forEach((p,i)=>{if(Math.abs(px-p.x)<75&&py>p.y-260&&py<p.y+40)farmClick(i)})});
-function drawFarm(dt){FARM.t+=dt;const{x,W,H}=fitCanvas($('#farmCv')),wide=W>720,aw=wide?W-330:W,top=70,ah=(wide?H:H*.6)-top,s=Math.min(aw/1100,ah/520),
- c={s,ox:(aw-1100*s)/2-90*s,oy:top+(ah-520*s)*.8-215*s};FARM.c=c;
- x.fillStyle=lgrad(x,0,0,0,H,[[0,'#ffd8a8'],[.55,'#ffe9c9'],[.56,'#7cb342'],[1,'#4f8f2c']]);x.fillRect(0,0,W,H);
- x.save();x.translate(c.ox,c.oy);x.scale(s,s);farmScene(x,FARM.t);x.restore()}
-function farmScene(x,t){const n=Date.now();
- x.fillStyle=lgrad(x,0,0,0,470,[[0,'#ffd8a8'],[1,'#ffe9c9']]);x.fillRect(-3000,-3000,7280,3470);
- x.strokeStyle='rgba(255,255,255,.55)';x.lineWidth=4;for(let i=-12;i<=20;i++){x.beginPath();x.moveTo(i*160,-1500);x.lineTo(i*160,400);x.stroke()}ln(x,'rgba(255,255,255,.55)',4,-2000,200,3280,200);ln(x,'rgba(255,255,255,.55)',4,-2000,0,3280,0);
- for(let i=-60;i<100;i++){rr(x,i*33,330,28,150,3,'#c08a52');poly(x,'#c08a52',i*33,330,i*33+14,316,i*33+28,330)}rr(x,-2000,360,5280,10,2,'#a8743e');rr(x,-2000,430,5280,10,2,'#a8743e');
- x.fillStyle=lgrad(x,0,470,0,900,[[0,'#7cb342'],[1,'#4f8f2c']]);x.fillRect(-3000,470,7280,3000);
- rr(x,110,565,1060,28,6,'#8d5524');rr(x,110,565,1060,6,4,'#b07440');[150,640,1130].forEach(lx=>rr(x,lx-8,590,16,90,3,'#6d4c41'));
- FARM.pts=[];
- save.pots.forEach((p,i)=>{const px=225+i*166,py=565,st=potState(p,n);FARM.pts.push({x:px,y:py});
-  poly(x,'#c4652f',px-52,py-80,px+52,py-80,px+40,py,px-40,py);rr(x,px-58,py-92,116,18,5,'#d97b42');el(x,px,py-82,48,7,'#5d4037');
-  const sw=Math.sin(t*1.4+i)*.05;x.save();x.translate(px,py-84);x.rotate(sw);
-  if(st.st<0){x.fillStyle='rgba(58,34,16,.55)';x.font='900 40px Nunito,sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('+',0,-36)}
-  else if(st.st==0){ln(x,'#558b2f',4,0,0,0,-24);drawLeaf(x,-9,-26,10,-1);drawLeaf(x,9,-26,10,1)}
-  else{const h=st.st==1?70:120;ln(x,'#558b2f',5,0,0,0,-h);for(let k=0;k<(st.st==1?4:8);k++){const yy=-14-k*(h/(st.st==1?4:8));drawLeaf(x,k%2?13:-13,yy,st.st==1?12:15,k%2?1.1:-1.1)}
-   if(st.st==2){[-22,0,22].forEach((q,k)=>{ln(x,'#558b2f',3,0,-h*.6,q,-h-14-k%2*10);for(let m=0;m<5;m++)el(x,q+(m%2?3:-3),-h-12-k%2*10-m*7,4,3.5,m%2?'#ba68c8':'#ce93d8')})}}
-  x.restore();
-  for(let k=0;k<st.ready;k++){const lx=px+(k-1)*38,ly=py-250+Math.sin(t*2+k)*8;x.globalAlpha=.55;el(x,lx,ly,30,30,'#f1ffe4');x.globalAlpha=1;drawLeaf(x,lx,ly,22,Math.sin(t+k)*.4)}
-  x.fillStyle='#3a2210';x.font='900 21px Nunito,sans-serif';x.textAlign='center';x.textBaseline='middle';
-  const tm=s=>`${Math.floor(s/60000)}:${String(Math.floor(s/1000)%60).padStart(2,'0')}`;
-  x.fillText(st.st<0?'Посадить':st.ready?`Собрать ${st.ready}`:st.st<2?`Растёт ${tm(st.next)}`:`Листик через ${tm(st.next)}`,px,py+28)});
- x.save();x.translate(90,700);x.scale(2,2);sleepyCat(x,'#f0a04b',t*2);x.restore();
- x.save();x.translate(1200,700);x.scale(1.8,1.8);niceCat(x,'#9e9e9e',{ph:t,blink:1});x.restore();
- FARM.bf.forEach((b,i)=>{b.p+=.016;const bx=b.x+Math.sin(b.p*.7)*220,by=b.y+Math.sin(b.p*1.3)*60,f=Math.abs(Math.sin(t*12+i));el(x,bx-6*f,by,8*f,6,'#ff8a65');el(x,bx+6*f,by,8*f,6,'#ff8a65');el(x,bx,by,2,6,'#4e342e')});
- FARM.fly.forEach(f=>{f.t+=.016;if(f.t<0)return;const q=ease(Math.min(1,f.t));drawLeaf(x,lerp(f.x,1180,q),lerp(f.y,30,q)-Math.sin(q*Math.PI)*120,14,q*8)});FARM.fly=FARM.fly.filter(f=>f.t<1)}
+ x.save();x.translate(612,282);x.rotate(-.3);x.scale(1.4,1.4);sleepyCat(x,'#f0a04b',t*2,petProg('mRoof'));x.restore();petBubble(x,'mRoof',590,235,'sleep');
+ x.save();x.translate(270,600);x.scale(1.5,1.5);niceCat(x,'#5d4037',{ph:t*1.2,blink:1,react:petProg('mPorch')});x.restore();petBubble(x,'mPorch',270,520,'nice')}
 
 /* ---------- intro cutscene ---------- */
 const CUT={t:0,i:0,after:null};

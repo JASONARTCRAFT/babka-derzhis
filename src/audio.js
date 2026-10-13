@@ -24,6 +24,9 @@ const SFX={
  plant(){if(!AU.ctx)return;const t=T();osc('sine',523,t,.15,.06);osc('sine',784,t+.08,.2,.05)},
  leaf(){if(!AU.ctx)return;const t=T();osc('sine',1568,t,.3,.05);osc('sine',2349,t+.06,.35,.04)},
  suck(){if(!AU.ctx)return;noise(T(),.7,.15,{f:300,f2:2400,q:2})},
+ meowHappy(){if(!AU.ctx)return;const t=T();osc('sawtooth',720,t,.22,.05,{f2:980,filter:'bandpass',ff:1300,q:2});osc('sawtooth',980,t+.2,.35,.05,{f2:620,filter:'bandpass',ff:1200,q:2})},
+ meowGrumpy(){if(!AU.ctx)return;const t=T();osc('sawtooth',380,t,.7,.05,{f2:300,filter:'bandpass',ff:700,q:2,vib:[9,12]})},
+ purr(){if(!AU.ctx)return;noise(T(),.7,.05,{type:'lowpass',f:220,q:3});osc('sine',26,T(),.7,.03)},
  click(){if(!AU.ctx)return;osc('triangle',660,T(),.06,.06)},
 };
 function voice(type,pan=0,vol=1){if(!AU.ctx)return;const t=T(),v=vol,o={pan};
