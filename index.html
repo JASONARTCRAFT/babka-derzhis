@@ -230,7 +230,7 @@ const DR={
  hk:(t,v=1)=>{osc('sawtooth',340,t,.22,.06*v,{f2:300,filter:'bandpass',ff:900,q:3,dest:AU.mus});osc('square',382,t,.22,.04*v,{f2:338,filter:'bandpass',ff:900,q:3,dest:AU.mus})}};
 
 /* ---------- music ---------- */
-const CH={C:[48,[0,4,7]],C7:[48,[0,4,7,10]],A7:[45,[0,4,7,10]],D7:[50,[0,4,7,10]],G7:[43,[0,4,7,10]],F:[41,[0,4,7]],Fm:[41,[0,3,7]],Cm:[48,[0,3,7]],Ab:[44,[0,4,7,10]],
+const CH={Dm:[50,[0,3,7]],Dm6:[50,[0,3,7,9]],Gm:[43,[0,3,7]],Bb7:[46,[0,4,7,10]],Bb:[46,[0,4,7]],C:[48,[0,4,7]],C7:[48,[0,4,7,10]],A7:[45,[0,4,7,10]],D7:[50,[0,4,7,10]],G7:[43,[0,4,7,10]],F:[41,[0,4,7]],Fm:[41,[0,3,7]],Cm:[48,[0,3,7]],Ab:[44,[0,4,7,10]],
  Cmaj7:[48,[0,4,7,11]],Am7:[45,[0,3,7,10]],Fmaj7:[41,[0,4,7,11]],G6:[43,[0,4,7,9]],Em7:[40,[0,3,7,10]],Dm7:[50,[0,3,7,10]],G7s:[43,[0,5,7,10]]};
 const SONG={
  calm:{chords:['Cmaj7','Am7','Fmaj7','G6','Em7','Am7','Dm7','G7s'],
@@ -275,8 +275,55 @@ const TRK={
   if(Lv(.85)>0&&bar%2==1&&st==14&&Math.random()<.6)DR.hk(t,Lv(.85));
   if(Lv(.7)>0&&bar%2==1&&st>=12){const nx=sg.mel[(bi+1)%8][0]||72;xylo(nx+12-(16-st),t,.06*Lv(.7))}
   return sp}}};
+
+/* ---------- main theme: sly cat-noir swing ---------- */
+function pizz(m,t,d,v){const f=mf(m);osc('triangle',f,t,Math.min(d,.5),v,{a:.004,filter:'lowpass',ff:900,dest:AU.mus});osc('sine',f,t,Math.min(d,.6),v*.9,{a:.004,dest:AU.mus});noise(t,.03,v*.25,{f:f*3,q:2,dest:AU.mus})}
+function whistle(m,t,d,v){const C=AU.ctx,f=mf(m),o=C.createOscillator(),g=C.createGain(),vb=C.createOscillator(),vg=C.createGain();
+ o.type='sine';o.frequency.setValueAtTime(f*.97,t);o.frequency.exponentialRampToValueAtTime(f,t+.05);vb.frequency.value=5.8;vg.gain.setValueAtTime(0,t);vg.gain.linearRampToValueAtTime(f*.012,t+.25);vb.connect(vg).connect(o.frequency);
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.03);g.gain.setValueAtTime(v*.85,t+Math.max(.04,d-.05));g.gain.linearRampToValueAtTime(0,t+d+.04);
+ o.connect(g).connect(AU.mus);o.start(t);o.stop(t+d+.1);vb.start(t);vb.stop(t+d+.1);noise(t,Math.min(d,.3),v*.08,{type:'highpass',f:4000,dest:AU.mus})}
+function trumpet(m,t,d,v){const C=AU.ctx,f=mf(m),o=C.createOscillator(),bp=C.createBiquadFilter(),lp=C.createBiquadFilter(),g=C.createGain(),vb=C.createOscillator(),vg=C.createGain();
+ o.type='sawtooth';o.frequency.value=f;vb.frequency.value=5.5;vg.gain.setValueAtTime(0,t);vg.gain.linearRampToValueAtTime(f*.008,t+.2);vb.connect(vg).connect(o.frequency);
+ bp.type='bandpass';bp.frequency.value=1300;bp.Q.value=2.2;lp.type='lowpass';lp.frequency.setValueAtTime(800,t);lp.frequency.linearRampToValueAtTime(2600,t+.08);
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.035);g.gain.setValueAtTime(v*.8,t+Math.max(.05,d-.05));g.gain.linearRampToValueAtTime(0,t+d+.05);
+ o.connect(bp).connect(lp).connect(g).connect(AU.mus);o.start(t);o.stop(t+d+.1);vb.start(t);vb.stop(t+d+.1)}
+function vibes(m,t,v){const f=mf(m),C=AU.ctx,g=C.createGain(),tr=C.createOscillator(),tg=C.createGain();tr.frequency.value=5;tg.gain.value=v*.35;tr.connect(tg).connect(g.gain);
+ g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.004);g.gain.exponentialRampToValueAtTime(.0001,t+1.6);
+ [[1,1],[4,.12],[10,.03]].forEach(([k,a])=>{const o=C.createOscillator(),og=C.createGain();o.frequency.value=f*k;og.gain.setValueAtTime(a,t);og.gain.exponentialRampToValueAtTime(.0001,t+(k>1?.3:1.6));o.connect(og).connect(g);o.start(t);o.stop(t+1.7)});
+ g.connect(AU.mus);tr.start(t);tr.stop(t+1.7)}
+const DR2={snap:(t,v=1)=>{noise(t,.035,.22*v,{f:2600,q:3,dest:AU.mus});osc('sine',1800,t,.02,.05*v,{dest:AU.mus})},
+ brush:(t,v=1)=>noise(t,.11,.04*v,{type:'highpass',f:3200,dest:AU.mus}),
+ ride:(t,v=1)=>{noise(t,.35,.05*v,{type:'highpass',f:6500,dest:AU.mus});osc('sine',4200,t,.25,.008*v,{dest:AU.mus})},
+ meow:(t,v=1)=>{osc('sawtooth',880,t,.55,.05*v,{f2:560,filter:'bandpass',ff:1300,q:2.5,vib:[7,18],dest:AU.mus});osc('sawtooth',1320,t,.3,.015*v,{f2:900,filter:'bandpass',ff:2400,q:3,dest:AU.mus})}};
+const THEME={bpm:118,intro:['Dm6','Dm6','Dm6','A7'],secs:[
+ {k:'A',ch:['Dm','Dm','Gm','Gm','Dm','Bb7','A7','Dm'],mel:['D5 . F5 A5 . G#5 A5 .','D6 . . C6 A5 . F5 .','G5 . Bb5 D6 . C#6 D6 .','G6 . . F6 D6 . Bb5 .','A5 . F5 D5 . F5 A5 .','Ab5 . G5 F5 D5 . Bb4 .','C#5 E5 G5 Bb5 A5 . E5 .','D5 . . . . . . .']},
+ {k:'A2',ch:['Dm','Dm','Gm','Gm','Dm','Bb7','A7','Dm'],mel:['D5 . F5 A5 . G#5 A5 .','D6 . . C6 A5 . F5 .','G5 . Bb5 D6 . C#6 D6 .','G6 . . F6 D6 . Bb5 .','A5 . F5 D5 . F5 A5 .','Ab5 . G5 F5 D5 . Bb4 .','C#5 E5 G5 Bb5 A5 G5 F5 E5','D5 . A4 . D5 . . .']},
+ {k:'B',ch:['F','F','Bb','Bb','Gm','C7','A7','A7'],mel:['A5 . C6 . A5 F5 . .','G5 A5 C6 D6 C6 . A5 .','Bb5 . D6 . Bb5 F5 . .','A5 Bb5 D6 F6 D6 . Bb5 .','G5 . Bb5 . D6 . G6 .','E6 . D6 C6 Bb5 . G5 .','A5 . C#6 E6 G6 . F6 E6','C#6 . . . A5 . . .']},
+ {k:'A3',ch:['Dm','Dm','Gm','Gm','Dm','Bb7','A7','Dm'],mel:['D5 . F5 A5 . G#5 A5 .','D6 . . C6 A5 . F5 .','G5 . Bb5 D6 . C#6 D6 .','G6 . . F6 D6 . Bb5 .','A5 . F5 D5 . F5 A5 .','Ab5 . G5 F5 D5 . Bb4 .','C#5 E5 G5 Bb5 A5 G5 F5 E5','D5 . A4 . D5 . . .']}]};
+THEME.secs.forEach(sc=>sc.mel=sc.mel.map(toks));
+function walk(cn,next,q){const[r0,iv]=CH[cn];let r=r0;while(r>47)r-=12;while(r<36)r+=12;let nr=CH[next][0];while(nr>47)nr-=12;while(nr<36)nr+=12;
+ return[r,r+iv[1],r+7,nr+(q%2?-1:1)][q]}
+TRK.theme={step(s,t){const beat=60/THEME.bpm,st=s%8,sw=st%2==0?beat*.64:beat*.36,bar=Math.floor(s/8),intro=bar<4,
+ b=intro?bar:(bar-4)%32,sec=intro?null:THEME.secs[Math.floor(b/8)],bi=intro?bar:b%8,cn=intro?THEME.intro[bar]:sec.ch[bi],
+ nx=intro?(bar<3?THEME.intro[bar+1]:'Dm'):(bi<7?sec.ch[bi+1]:THEME.secs[(Math.floor(b/8)+1)%4].ch[0]),k=sec?sec.k:'I',full=k=='A3';
+ if(st%2==0)pizz(walk(cn,nx,st/2),t+hum()*.5,beat*.9,.2+(st==0?.04:0));
+ if(st==2||st==6)DR2.snap(t,k=='B'?.7:1);
+ if(k=='B'){if(st!=1&&st!=5)DR2.ride(t,st%2?.6:1)}else if(!intro||bar>=2)DR2.brush(t,st%2?.6:1);
+ if(full&&(st==0||st==4))DR.k(t,.45);
+ if(!intro||bar>=2){if(st==0||st==3)voicing(cn,57,70).forEach((m,i)=>vibes(m,t+i*.006,st==0?.035:.028))}
+ if(k=='B'&&st==0)organ(voicing(cn,53,65)[0],t,beat*3.8,.016);
+ if(sec){const mel=sec.mel[bi],m=mel[st];if(m){let L=1;while(st+L<8&&mel[st+L]==null)L++;const d=Math.min(L*beat*.5,beat*2.2);
+   if(k=='A')whistle(m,t,d*.95,.07);
+   else if(k=='A2'){trumpet(m-12,t,d*.9,.06);if(bi>=6)xylo(m+12,t,.04)}
+   else if(k=='B'){piano(m,t,d,.5);whistle(m,t,d*.9,.03)}
+   else{whistle(m,t,d*.95,.06);trumpet(m-12,t,d*.9,.045);if(bi>=6)xylo(m+12,t,.05)}}
+  if(k!='B'&&bi==7&&st==4)DR2.meow(t,1);
+  if(bi==7&&st==7&&k=='B')DR.cr(t,.5)}
+ if(intro&&bar==3&&st==6)DR2.meow(t,.8);
+ if(!intro&&k!='B'&&(bi==1||bi==3)&&st==5&&Math.random()<.6)piano(voicing(cn,62,76)[2]||74,t,beat*.4,.35);
+ return sw}};
 function tick(){const C=AU.ctx;if(!C||!MUS.cur)return;if(MUS.next<C.currentTime-.3)MUS.next=C.currentTime+.05;
- const tr=MUS.cur=='game'?TRK.game:TRK.calm;while(MUS.next<C.currentTime+.15){const d=tr.step(MUS.step,MUS.next);MUS.next+=d;MUS.step++}}
+ const tr=MUS.cur=='game'?TRK.game:MUS.cur=='menu'?TRK.theme:TRK.calm;while(MUS.next<C.currentTime+.15){const d=tr.step(MUS.step,MUS.next);MUS.next+=d;MUS.step++}}
 function music(name,mode){if(['day','night','boss'].includes(name)){mode=name;name='game'}
  MUS.want=name;if(mode)MUS.mode=mode;if(!AU.ctx||MUS.cur===name)return;
  MUS.cur=name;MUS.step=0;MUS.next=AU.ctx.currentTime+.12;if(name=='game'){MUS.I=.05;MUS.sec=MUS.mode=='day'?'A':'B'}if(!MUS.timer)MUS.timer=setInterval(tick,25)}
