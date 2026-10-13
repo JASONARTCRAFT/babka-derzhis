@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Бабка, держись!</title>
+<style>
+body{margin:0;background:#222;color:#eee;font-family:sans-serif}
+#bar{display:flex;gap:4px;padding:4px;flex-wrap:wrap;align-items:center;background:#161616;position:sticky;top:0;left:0}
+.card{width:50px;height:54px;border:2px solid #555;border-radius:6px;background:#3a3a3a;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:24px;cursor:pointer;user-select:none}
+.card small{font-size:11px}.card.sel{border-color:#ffd54a}.card.off{opacity:.35}.card.ab{background:#2c3b52}
+#en{font-size:20px;margin:0 8px;min-width:70px}
+#wrap{overflow-x:auto}canvas{display:block}
+#menu{padding:16px;max-width:720px}button{font-size:16px;margin:4px;padding:8px 14px}
+#msg{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#000a;font-size:32px}
+li{margin:3px 0}
+</style></head><body>
+<div id="menu">
+<h1>👵 Бабка, держись!</h1>
+<div id="lvls"></div>
+<p>Выбери карту, потом клетку. Та же карта на ту же 💦 или ⚡ = улучшение (до 3 ур.). ❗ = через 4 сек отсюда выйдет кот.</p>
+<ul>
+<li>🎡 колесо с котом: +25⚡ каждые 7 сек</li>
+<li>🎾 мячемёт: бьёт по ряду</li>
+<li>💦 брызгалка: 2 кл. → струя 3 кл. → + лужа 3 кл. (медленно, проводит ток)</li>
+<li>⚡ катушка: 2 кл. → 3 кл. → треугольник (вперёд 3, вбок 2). Попала в лужу = бьёт всю лужу</li>
+<li>🗼 когтеточка: держит котов. Пылесос снимает 75%, спортсмен перепрыгивает</li>
+<li>🥒 огурец: одноразовый, кот убегает на 4 кл. назад</li>
+<li>🔴 указка: уводит котов в соседний ряд. Толстый ломает её</li>
+<li>🧶 клубок: стягивает по 1 коту из 3 рядов, 5 сек играют, одноразовый</li>
+<li>🚰 труба → лужа · 🔌 столб → ток по луже рядом · 🚕 такси −50% всем на перекрёстке · 🚛 мусоровоз — всех</li>
+<li>Коты: 🐱 обычный · 😾 толстый-ленивый · 📦 коробка (1–3 кота) · 🏃 спортсмен · 🤖 пылесос (объезжает) · 🐈 мама (делится) · 👑 вожак (ускоряет) · 🛹 скейт · 🤿 пловец</li>
+</ul></div>
+<div id="game" hidden><div id="bar"></div><div id="wrap"><canvas id="cv"></canvas></div></div>
+<div id="msg" hidden></div>
+<script>
+const C=64,COLS=24,TOP=40;
+const U={wheel:{e:'🎡',cost:50,hp:300},ball:{e:'🎾',cost:100,hp:300},spr:{e:'💦',cost:75,hp:300,up:1},coil:{e:'⚡',cost:125,hp:300,up:1},
+fence:{e:'🗼',cost:50,hp:2000},cuc:{e:'🥒',cost:25,hp:300},laser:{e:'🔴',cost:25,hp:300},yarn:{e:'🧶',cost:15,hp:300}};
+const A={pipe:{e:'🚰',cost:50},pole:{e:'🔌',cost:75},taxi:{e:'🚕',cost:150},truck:{e:'🚛',cost:400}};
+const E={cat:{e:'🐱',hp:100,sp:.25,dmg:20},fat:{e:'😾',hp:450,sp:.15,dmg:45,lazy:1},box:{e:'📦',hp:160,sp:.2,dmg:20},
+ath:{e:'🏃',hp:90,sp:.4,dmg:25},vac:{e:'🤖',hp:150,sp:.5,dmg:20},mom:{e:'🐈',hp:110,sp:.12,dmg:20},kit:{e:'🐱',hp:40,sp:.3,dmg:10},
+lead:{e:'👑',hp:380,sp:.25,dmg:25},skate:{e:'🛹',hp:100,sp:.6,dmg:20},swim:{e:'🤿',hp:130,sp:.25,dmg:20,swim:1}};
+const base=['wheel','ball','spr'];
+const L=[
+{n:'1. Двор',rows:2,cards:base,doors:[23],g:[[10,12,4,'cat'],[60,5,6,'cat']]},
+{n:'2. Толстяк',rows:3,cards:[...base,'fence'],doors:[23],g:[[10,12,4,'cat'],[55,8,4,'cat,fat'],[95,4,6,'cat,cat,fat']]},
+{n:'3. Коробки',rows:3,cards:[...base,'fence','coil'],doors:[23,14],g:[[10,10,4,'cat,box'],[55,7,6,'box,cat,fat',[0,1]],[100,3,8,'cat,box,cat,fat',[0,1]]]},
+{n:'4. Спорт и пылесосы',rows:4,cards:[...base,'fence','coil','cuc','laser','yarn'],doors:[23,15],g:[[10,9,5,'cat,ath'],[60,6,6,'vac,cat,ath,fat',[0,1]],[105,3,10,'cat,ath,vac,box,fat',[0,1]]]},
+{n:'5. Перекрёстки',rows:5,cards:[...base,'fence','coil','cuc','laser','yarn'],ab:1,doors:[23,19,12],cross:[7,15],pipes:[[1,11],[3,18]],poles:[[0,13],[4,9]],
+ g:[[10,8,6,'cat,swim,skate'],[60,6,8,'mom,cat,swim,box',[0,1]],[115,3,12,'skate,swim,fat,cat,mom,ath',[0,1,2]]]},
+{n:'6. Вся улица',rows:6,cards:[...base,'fence','coil','cuc','laser','yarn'],ab:1,doors:[23,18,12],cross:[7,15],pipes:[[1,10],[4,17],[2,20]],poles:[[0,12],[5,8],[3,19]],
+ g:[[10,7,8,'cat,lead,ath,box'],[70,5,10,'lead,swim,vac,mom,fat',[0,1,2]],[130,2.5,16,'cat,lead,skate,box,fat,ath,swim,vac',[0,1,2]]]}];
+const $=id=>document.getElementById(id),cv=$('cv'),cx=cv.getContext('2d');
+let S=null,sel=null,speed=1,paused=false;
+L.forEach((l,i)=>{const b=document.createElement('button');b.textContent=l.n;b.onclick=()=>start(i);$('lvls').appendChild(b)});
+function start(i){const lv=L[i];sel=null;$('msg').hidden=true;
+ S={lv,i,rows:lv.rows,en:150,t:0,pass:0,units:[],enemies:[],balls:[],fx:[],spawns:[],puddles:[],zaps:[],cars:[],wet:new Set(),over:0,id:1};
+ lv.g.forEach((g,gi)=>{const[t0,gap,n,types,doors=[0]]=g,ts=types.split(',');
+  for(let k=0;k<n;k++)S.spawns.push({t:t0+k*gap,type:ts[k%ts.length],c:lv.doors[doors[k%doors.length]],r:(k*(lv.rows>2?2:1)+gi+Math.floor(k/lv.rows))%lv.rows})});
+ S.spawns.sort((a,b)=>a.t-b.t);cv.width=COLS*C;cv.height=TOP+lv.rows*C;bar();$('menu').hidden=true;$('game').hidden=false}
+function bar(){const b=$('bar');b.innerHTML='<span id="en"></span>';
+ const add=(k,d,cls)=>{const el=document.createElement('div');el.className='card '+cls;el.dataset.k=k;el.dataset.c=d.cost;el.innerHTML=d.e+'<small>'+d.cost+'</small>';el.onclick=()=>{sel=sel===k?null:k;mark()};b.appendChild(el)};
+ S.lv.cards.forEach(k=>add(k,U[k],''));if(S.lv.ab)Object.keys(A).forEach(k=>add(k,A[k],'ab'));add('shovel',{e:'🧹',cost:0},'');
+ [['⏸',()=>paused=!paused],['x2',e=>{speed=speed==1?2:1;e.target.textContent='x'+(speed==1?2:1)}],['🏠',()=>{S=null;$('game').hidden=true;$('menu').hidden=false}]].forEach(([t,f])=>{const x=document.createElement('button');x.textContent=t;x.onclick=f;b.appendChild(x)});mark()}
+function mark(){document.querySelectorAll('.card').forEach(el=>{el.classList.toggle('sel',el.dataset.k===sel);el.classList.toggle('off',S.en<+el.dataset.c)})}
+const ok=r=>r>=0&&r<S.rows,wet=(r,c)=>S.wet.has(r+','+c);
+const unitAt=(r,c)=>S.units.find(u=>u.r===r&&u.c===c&&!u.dead);
+function puddle(r,c){const a=[c];for(let x=c-1;wet(r,x);x--)a.push(x);for(let x=c+1;wet(r,x);x++)a.push(x);return a}
+const inCell=(r,c0,c1)=>S.enemies.filter(e=>e.r===r&&!e.dead&&!e.flee&&e.x>=c0&&e.x<c1).sort((a,b)=>a.x-b.x);
+function fx(x,r,t){S.fx.push({x,y:r,t,life:1})}
+function mk(type,r,x){const d=E[type],e={id:S.id++,type,r,y:r,x,hp:d.hp,max:d.hp,sp:d.sp,t:0,boost:0};S.enemies.push(e);return e}
+function hit(e,dmg,k){if(e.dead)return;const d=E[e.type];
+ if(k=='w'&&d.swim)return;if(e.type=='box')dmg*=k=='b'?.5:k=='w'?1.5:1;if(e.type=='ath'&&k=='e')dmg*=2;
+ e.hp-=dmg;if(e.type=='vac'&&!e.off&&e.hp<e.max*.5){e.off=1;e.sp=.25;fx(e.x,e.r,'💥')}
+ if(e.hp<=0){e.dead=1;if(e.type=='box'){const n=1+(Math.random()*3|0),s=[e.r-1,e.r+1].filter(ok),rs=[e.r];
+  if(n>1)rs.push(s.length?s[Math.random()*s.length|0]:e.r);if(n>2)rs.push(s.find(x=>!rs.includes(x))??e.r);rs.forEach((r,i)=>mk('cat',r,e.x+i*.2));fx(e.x,e.r,n+'🐱!')}}}
+function upU(u,dt){u.cd-=dt;
+ if(u.t=='wheel'&&u.cd<=0){u.cd=7;S.en+=25;fx(u.c+.5,u.r,'+25')}
+ if(u.t=='ball'&&u.cd<=0&&S.enemies.some(e=>e.r===u.r&&e.x>u.c+.5)){u.cd=1.5;S.balls.push({x:u.c+.7,r:u.r})}
+ if(u.t=='spr'&&u.cd<=0){const es=inCell(u.r,u.c+1,u.c+1+(u.lv>1?3:2));if(es.length){u.cd=1;es.forEach(e=>hit(e,u.lv>1?14:8,'w'));u.fl=.3}}
+ if(u.t=='coil'&&u.cd<=0){const cl=[];for(let k=1;k<=(u.lv>1?3:2);k++)cl.push([u.r,u.c+k]);if(u.lv>2)[-1,1].forEach(d=>{cl.push([u.r+d,u.c+1],[u.r+d,u.c+2])});
+  const m=new Map(),z=[];cl.forEach(([r,c])=>{if(!ok(r))return;const w=wet(r,c);(w?puddle(r,c):[c]).forEach(cc=>{z.push([r,cc]);inCell(r,cc,cc+1).forEach(e=>m.set(e,Math.max(m.get(e)||0,w?30:20)))})});
+  if(m.size){u.cd=1.5;m.forEach((d,e)=>hit(e,d,'e'));S.zaps.push({cells:z,left:0,cd:0,show:.25})}}
+ if(u.t=='cuc'){const e=inCell(u.r,u.c,u.c+2)[0];if(e){e.flee=Math.min(COLS-.5,e.x+4);e.play=null;u.dead=1;fx(e.x,e.r,'🥒😱')}}
+ if(u.t=='laser')inCell(u.r,u.c+1,u.c+2).forEach(e=>{if(E[e.type].lazy||e.lz===u.id)return;const o=[u.r-1,u.r+1].filter(ok);u.n=(u.n||0)+1;e.r=o[u.n%o.length];e.lz=u.id;e.play=null;fx(e.x,e.r,'🔴')});
+ if(u.t=='yarn'){if(!u.on){const got=[];[u.r-1,u.r,u.r+1].filter(ok).forEach(r=>{const e=S.enemies.filter(e=>e.r===r&&!e.dead&&!E[e.type].lazy&&!e.flee&&!e.play&&e.x>=u.c&&e.x<u.c+2.5)[0];if(e)got.push(e)});
+  if(got.length){u.on=5;got.forEach(e=>{e.r=u.r;e.play=u})}}else if((u.on-=dt)<=0)u.dead=1}}
+function upE(e,dt){const d=E[e.type];e.y+=(e.r-e.y)*Math.min(1,dt*4);
+ if(e.flee){e.x+=1.8*dt;if(e.x>=e.flee)e.flee=0;return}
+ if(e.play){if(e.play.dead)e.play=null;else{const tx=e.play.c+1.4;if(e.x>tx)e.x-=Math.min(e.x-tx,dt);return}}
+ e.t+=dt;if(e.boost>0)e.boost-=dt;
+ if(e.type=='lead'&&(e.mt=(e.mt||0)+dt)>7){e.mt=0;S.enemies.forEach(o=>{if(Math.abs(o.x-e.x)<2.5&&Math.abs(o.r-e.r)<=1)o.boost=3});fx(e.x,e.r,'📢')}
+ if(e.type=='mom'&&!e.split&&e.t>8){e.split=1;const s=[e.r-1,e.r+1].filter(ok),all=[e.r,...s],rs=[e.r,s.length?s[Math.random()*s.length|0]:e.r,all[Math.random()*all.length|0]];rs.forEach((r,i)=>mk('kit',r,e.x+.6+i*.3));fx(e.x,e.r,'👶x3')}
+ const f=e.x-.35,u=S.units.find(u=>!u.dead&&u.r===e.r&&f>=u.c&&f<u.c+1);
+ if(u){if(e.type=='ath'&&u.t=='fence'){e.x=u.c-.05;fx(e.x,e.r,'🦘');return}
+  if(e.type=='vac'&&!e.off){if(u.t=='fence')u.hp-=u.max*.75;const o=[e.r-1,e.r+1].filter(ok).sort((a,b)=>!!unitAt(a,u.c)-!!unitAt(b,u.c));e.r=o[0];return}
+  if(e.type=='skate'&&!e.off){e.off=1;e.sp=.25;fx(e.x,e.r,'💥')}
+  if(u.t=='laser'&&d.lazy){u.dead=1;fx(e.x,e.r,'👊');return}
+  u.hp-=d.dmg*dt*(u.t=='spr'?(e.type=='ath'?2.5:d.swim?3:1):1);if(u.hp<=0)u.dead=1;return}
+ let sp=e.sp*(e.boost>0?1.8:1);if(wet(e.r,Math.floor(e.x))&&!d.swim)sp*=.5;e.x-=sp*dt;if(e.x<.7)S.over=-1}
+function step(dt){S.t+=dt;if((S.pass+=dt)>10){S.pass=0;S.en+=25}
+ while(S.spawns.length&&S.spawns[0].t<=S.t){const s=S.spawns.shift();mk(s.type,s.r,s.c+.9)}
+ S.wet=new Set();S.units.forEach(u=>{if(u.t=='spr'&&u.lv>2&&!u.dead)for(let k=1;k<=3;k++)S.wet.add(u.r+','+(u.c+k))});
+ S.puddles=S.puddles.filter(p=>(p.t-=dt)>0);S.puddles.forEach(p=>{for(let k=-1;k<=1;k++)S.wet.add(p.r+','+(p.c+k))});
+ S.units.forEach(u=>upU(u,dt));S.units=S.units.filter(u=>u.hp>0&&!u.dead);
+ S.balls.forEach(b=>{b.x+=5*dt;const e=S.enemies.find(e=>!e.dead&&e.r===b.r&&Math.abs(e.x-b.x)<.4);if(e){hit(e,20,'b');b.x=99}});S.balls=S.balls.filter(b=>b.x<COLS);
+ S.enemies.forEach(e=>e.dead||upE(e,dt));
+ S.cars.forEach(c=>{c.y+=(c.k=='truck'?4:6)*dt;S.enemies.forEach(e=>{if(!e.dead&&!c.hit.has(e)&&Math.abs(e.x-c.c-.5)<(c.k=='truck'?1.2:.8)&&Math.abs(e.y-c.y)<.6){c.hit.add(e);hit(e,c.k=='truck'?9999:e.max*.5,'c')}})});S.cars=S.cars.filter(c=>c.y<S.rows+1);
+ S.zaps.forEach(z=>{z.show-=dt;if(z.left>0&&(z.cd-=dt)<=0){z.cd=1;z.left--;z.show=.3;z.cells.forEach(([r,c])=>inCell(r,c,c+1).forEach(e=>hit(e,40,'e')))}});S.zaps=S.zaps.filter(z=>z.left>0||z.show>0);
+ S.enemies=S.enemies.filter(e=>!e.dead);S.fx.forEach(f=>f.life-=dt);S.fx=S.fx.filter(f=>f.life>0);
+ if(!S.spawns.length&&!S.enemies.length)S.over=1}
+cv.onclick=ev=>{if(!S||S.over||!sel)return;const b=cv.getBoundingClientRect(),c=Math.floor((ev.clientX-b.left)*cv.width/b.width/C),r=Math.floor(((ev.clientY-b.top)*cv.height/b.height-TOP)/C);
+ if(!ok(r)||c<1||c>=COLS)return;
+ if(sel=='shovel'){const u=unitAt(r,c);if(u)u.dead=1;return}
+ const lv=S.lv,cost=(U[sel]||A[sel]).cost;if(S.en<cost)return;
+ if(A[sel]){const at=a=>(a||[]).find(([pr,pc])=>pr===r&&pc===c);
+  if(sel=='pipe'){if(!at(lv.pipes))return;S.puddles.push({r,c,t:25})}
+  else if(sel=='pole'){if(!at(lv.poles))return;let w=null;for(let dr=-1;dr<=1&&!w;dr++)for(let dc=-2;dc<=2&&!w;dc++)if(wet(r+dr,c+dc))w=[r+dr,c+dc];
+   S.zaps.push({cells:w?puddle(...w).map(x=>[w[0],x]):[[r,c]],left:3,cd:0,show:0})}
+  else{if(!(lv.cross||[]).includes(c))return;S.cars.push({c,y:-1,k:sel,hit:new Set()})}
+  S.en-=cost;return}
+ const u=unitAt(r,c);if(u){if(u.t===sel&&U[sel].up&&u.lv<3){u.lv++;u.hp=u.max;S.en-=cost;fx(c+.5,r,'⬆'+u.lv)}return}
+ S.units.push({t:sel,r,c,hp:U[sel].hp,max:U[sel].hp,lv:1,cd:0,id:S.id++});S.en-=cost};
+function txt(t,x,y,s,a=1){cx.globalAlpha=a;cx.font=s+'px serif';cx.fillText(t,x,y);cx.globalAlpha=1}
+function hp(x,y,v){if(v>=1)return;cx.fillStyle='#000';cx.fillRect(x-20,y,40,4);cx.fillStyle=v>.5?'#6c6':'#e55';cx.fillRect(x-20,y,40*Math.max(0,v),4)}
+function draw(){const lv=S.lv;cx.textAlign='center';cx.textBaseline='middle';
+ cx.fillStyle='#7aa6cf';cx.fillRect(0,0,cv.width,TOP);
+ for(let r=0;r<S.rows;r++)for(let c=1;c<COLS;c++){cx.fillStyle=(lv.cross||[]).includes(c)?'#555':(r+c)%2?'#5a8f3c':'#4f8034';cx.fillRect(c*C,TOP+r*C,C,C);
+  if(wet(r,c)){cx.fillStyle='rgba(60,140,255,.45)';cx.fillRect(c*C,TOP+r*C,C,C)}}
+ cx.fillStyle='#8b5a3c';cx.fillRect(0,0,C,cv.height);txt('🏡',32,20,28);for(let r=0;r<S.rows;r++)txt(r%2?'🐈':'👵',32,TOP+r*C+32,30);
+ lv.doors.forEach(c=>txt('🏠',c*C+32,20,28));(lv.cross||[]).forEach(c=>txt('🚦',c*C+32,20,24));
+ (lv.pipes||[]).forEach(([r,c])=>txt('🚰',c*C+14,TOP+r*C+14,18));(lv.poles||[]).forEach(([r,c])=>txt('🔌',c*C+50,TOP+r*C+14,18));
+ S.zaps.forEach(z=>{if(z.show>0){cx.fillStyle='rgba(255,240,80,.6)';z.cells.forEach(([r,c])=>cx.fillRect(c*C,TOP+r*C,C,C))}});
+ const bl=Math.sin(S.t*10)>0;S.spawns.forEach(s=>{if(s.t-S.t<4){txt(E[s.type].e,s.c*C+32,TOP+s.r*C+32,30,.35);if(bl)txt('❗',s.c*C+50,TOP+s.r*C+12,20)}});
+ S.units.forEach(u=>{const x=u.c*C+32,y=TOP+u.r*C+32;txt(U[u.t].e,x,y,36,u.t=='yarn'&&u.on?.6:1);if(u.lv>1)txt(u.lv,x+22,y-20,16);hp(x,y+24,u.hp/u.max);
+  if(u.fl>0){u.fl-=.016;txt('💧',x+40,y,18)}});
+ S.balls.forEach(b=>txt('🎾',b.x*C,TOP+b.r*C+32,16));
+ S.enemies.forEach(e=>{const x=e.x*C,y=TOP+e.y*C+32,sz=e.type=='fat'?30:e.type=='kit'?16:24;cx.fillStyle=e.boost>0?'#c9e04a':'#6bbf59';cx.beginPath();cx.arc(x,y,sz,0,7);cx.fill();
+  const em=e.flee?'😱':(e.type=='vac'||e.type=='skate')&&e.off?'🐱':E[e.type].e;txt(em,x,y,e.type=='kit'?20:32);
+  if((e.type=='vac'||e.type=='skate'||e.type=='lead')&&!e.off)txt('🐱',x,y-22,18);if(e.type=='lead'&&e.mt>6)txt('❗',x+20,y-24,18);hp(x,y+26,e.hp/e.max)});
+ S.cars.forEach(c=>txt(c.k=='truck'?'🚛':'🚕',c.c*C+32,TOP+c.y*C+32,48));
+ S.fx.forEach(f=>txt(f.t,f.x*C,TOP+f.y*C+20-(1-f.life)*30,16,f.life));
+ $('en').textContent='⚡ '+S.en+'  🐱 '+(S.spawns.length+S.enemies.length);mark();
+ if(S.over&&$('msg').hidden){const m=$('msg');m.hidden=false;m.innerHTML=(S.over>0?'🎉 Отбились!':'😿 Коты прорвались!')+'<div><button onclick="start(S.i)">Ещё раз</button>'+(S.over>0&&L[S.i+1]?'<button onclick="start(S.i+1)">Дальше</button>':'')+'<button onclick="location.reload()">Меню</button></div>'}}
+let last=0;function loop(ts){const dt=Math.min(.05,(ts-last)/1000);last=ts;if(S&&!S.over&&!paused)for(let i=0;i<speed;i++)step(dt);if(S)draw();requestAnimationFrame(loop)}
+requestAnimationFrame(loop);
+</script></body></html>
