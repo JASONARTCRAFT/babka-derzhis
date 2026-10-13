@@ -1219,7 +1219,10 @@ function draw(){g.setTransform(dpr,0,0,dpr,0,0);g.fillStyle='#1a120b';g.fillRect
   else if(p.k=='cuke'){g.save();g.translate(p.x,p.y);g.rotate(p.life*12);rr(g,-p.size*.4,-p.size,p.size*.8,p.size*2,p.size*.4,'#43a047');g.restore()}
   else if(p.k=='basin'){g.save();g.translate(p.x,p.y);g.rotate((1-a)*9);g.fillStyle='#b0bec5';g.beginPath();g.ellipse(0,0,p.size,p.size*.7,0,Math.PI,0);g.fill();rr(g,-p.size*1.1,-2,p.size*2.2,5,2,'#8e9aa3');g.restore()}
   else el(g,p.x,p.y,p.size,p.size,p.col);g.globalAlpha=1});
- S.coins.forEach(c=>{if(c.fly)return;if(c.life<2.5&&(c.life*6|0)%2)return;const cy=c.y-C*.1+Math.sin(S.t*4+c.x)*2,pl=.6+.4*Math.sin(S.t*5+c.x);
+ S.coins.forEach(c=>{if(c.fly)return;const cy=c.y-C*.1+Math.sin(S.t*4+c.x)*2,f=clamp(c.life/9,0,1),rad=C*(c.gold?.32:.27);
+  if(!(c.auto>0)){g.lineCap='round';g.strokeStyle='rgba(26,18,11,.55)';g.lineWidth=C*.07;g.beginPath();g.arc(c.x,cy,rad,0,7);g.stroke();
+   g.strokeStyle=f>.5?'#9ccc65':f>.28?'#ffca28':'#ff5252';g.lineWidth=C*.045;g.beginPath();g.arc(c.x,cy,rad,-Math.PI/2,-Math.PI/2+f*Math.PI*2);g.stroke()}
+  if(c.life<2.5&&(c.life*6|0)%2)return;const pl=.6+.4*Math.sin(S.t*5+c.x);
   g.fillStyle=rgrad(g,c.x,cy,0,C*.55,[[0,c.gold?`rgba(255,220,80,${.75*pl})`:`rgba(255,255,255,${.7*pl})`],[1,'rgba(255,255,255,0)']]);g.fillRect(c.x-C*.6,cy-C*.6,C*1.2,C*1.2);
   for(let k=0;k<4;k++){const a=S.t*2+k*Math.PI/2+c.x;sparkle(g,c.x+Math.cos(a)*C*.3,cy+Math.sin(a)*C*.3,C*.05*pl,'#fffde7')}
   ring(g,c.x,cy,C*(c.gold?.24:.19),c.gold?'#fff59d':'#ffffff',2);el(g,c.x,c.ground+C*.05,C*.15,C*.04,'rgba(0,0,0,.25)');drawCoin(g,c.x,c.y-C*.1+Math.sin(S.t*4+c.x)*2,C*(c.gold?.2:.15),c.gold)});
