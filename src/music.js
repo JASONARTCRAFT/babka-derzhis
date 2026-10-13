@@ -83,31 +83,7 @@ const TRK={
   if(st==0)piano(r-12>=28?r-12:r,t,sp*7,.28,AU.mus);
   const m=sg.mel[bar][st];if(m){const L=noteLen(sg.mel[bar],st);piano(m+(slow?0:0),t+hum()+.01,sp*L*1.1,.5+Math.random()*.1,AU.mus);if(slow)glock(m+12,t,.03)}
   return sp}},
- game:{step(s,t){const bar=Math.floor(s/16),st=s%16;
-  if(st==0){const tg=MUS.force!=null?MUS.force:MUS.target;MUS.I+=(tg-MUS.I)*(tg>MUS.I?.45:.22);MUS.bpm=lerp(104,156,Math.pow(MUS.I,1.15));
-   if(bar%4==0){const ns=MUS.mode!='day'?'B':(MUS.I>.55?'B':'A');if(ns!=MUS.sec&&MUS.I>.45)DR.cr(t,.8);MUS.sec=ns}}
-  const I=MUS.I,sp=60/MUS.bpm/4,Lv=(th,w=.12)=>clamp((I-th)/w,0,1),sg=SONG[MUS.sec],bi=bar%8,cn=sg.chords[bi],[root]=CH[cn];
-  const bass=root-12>=31?root-12:root,low=MUS.sec=='B'&&I<.35;
-  if(st==0||st==8){const bn=st==0?bass:bass+7;piano(bn,t+hum(),sp*3,.42+I*.15);if(Lv(.2)>0)tuba(bn,t,sp*2.6,.11*Lv(.2))}
-  if(st==4||st==12){const v=voicing(cn,55,68);v.forEach((m,k)=>piano(m,t+k*.004+hum(),low?sp*.6:sp*1.6,.3+I*.12))}
-  if(I>.55&&(st==6||st==14)){voicing(cn,60,72).forEach(m=>piano(m,t,sp*.7,.22*Lv(.55)))}
-  if(st%2==0){const mel=sg.mel[bi],k=st/2,m=mel[k];if(m){const L=noteLen(mel,k)*2;
-   piano(m,t+hum(),sp*L*(low?.5:.95),.45+I*.25);
-   if(Lv(.35)>0)organ(m,t,sp*L*.92,.045*Lv(.35));
-   if(Lv(.6)>0)xylo(m+12,t,.07*Lv(.6));
-   if(I<.3&&MUS.sec=='A'&&k%2==0)glock(m+12,t,.02)}}
-  if(Lv(.5)>0&&st==0)organ(voicing(cn,52,64)[0],t,sp*15,.018*Lv(.5));
-  if(Lv(.2)>0&&st%4==2)DR.w(t,.7*Lv(.2),st==6||st==14);
-  if(Lv(.3)>0&&st%2==0)DR.h(t,.7*Lv(.3)*(st%4==2?1:.6));
-  if(Lv(.4)>0){if(st==0||st==8||(I>.7&&st==10))DR.k(t,Lv(.4));if(st==4||st==12)DR.s(t,.8*Lv(.4))}
-  if(Lv(.65)>0&&(st==6||st==14))DR.cb(t,Lv(.65));
-  if(Lv(.6)>0&&bar%4==3&&st>=12)DR.s(t,.35+.15*(st-12)*Lv(.6));
-  if(Lv(.8)>0&&bar%2==0&&st==0)DR.cr(t,.6*Lv(.8));
-  if(Lv(.75)>0&&bi==7&&st>=8)DR.tp(t,43,.4*Lv(.75));
-  if(Lv(.7)>0&&bar%4==1&&st==8)DR.sw(t,bar%8==1,Lv(.7));
-  if(Lv(.85)>0&&bar%2==1&&st==14&&Math.random()<.6)DR.hk(t,Lv(.85));
-  if(Lv(.7)>0&&bar%2==1&&st>=12){const nx=sg.mel[(bi+1)%8][0]||72;xylo(nx+12-(16-st),t,.06*Lv(.7))}
-  return sp}}};
+};
 
 /* ---------- main theme: sly cat-noir swing ---------- */
 function pizz(m,t,d,v){const f=mf(m);osc('triangle',f,t,Math.min(d,.5),v,{a:.004,filter:'lowpass',ff:900,dest:AU.mus});osc('sine',f,t,Math.min(d,.6),v*.9,{a:.004,dest:AU.mus});noise(t,.03,v*.25,{f:f*3,q:2,dest:AU.mus})}
@@ -155,6 +131,37 @@ TRK.theme={step(s,t){const beat=60/THEME.bpm,st=s%8,sw=st%2==0?beat*.64:beat*.36
  if(intro&&bar==3&&st==6)DR2.meow(t,.8);
  if(!intro&&k!='B'&&(bi==1||bi==3)&&st==5&&Math.random()<.6)piano(voicing(cn,62,76)[2]||74,t,beat*.4,.35);
  return sw}};
+
+/* ---------- battle: same noir swing, builds from "get ready" to full cartoon chase ---------- */
+const CHASE={ch:['Dm','Dm','Bb7','A7','Dm','Gm','Bb7','A7'],mel:SONG.B.mel.map(b=>b.map(m=>m==null?null:m+2))};
+TRK.game={step(s,t){const st=s%8,bar=Math.floor(s/8);
+ if(st==0){const tg=MUS.force!=null?MUS.force:MUS.target;MUS.I+=(tg-MUS.I)*(tg>MUS.I?.4:.2);MUS.bpm=lerp(106,160,Math.pow(MUS.I,1.1));
+  if(bar%4==0){const ns=MUS.mode=='boss'||MUS.I>.6?'B':'A';if(ns!=MUS.sec&&MUS.I>.45)DR.cr(t,.8);MUS.sec=ns}}
+ const I=MUS.I,Lv=(th,w=.12)=>clamp((I-th)/w,0,1),beat=60/MUS.bpm,swf=lerp(.64,.52,clamp((I-.45)/.35,0,1)),dur=st%2==0?beat*swf:beat*(1-swf);
+ const chase=MUS.sec=='B',A=THEME.secs[MUS.mode=='night'&&!chase?1:0],bi=bar%8,cn=chase?CHASE.ch[bi]:A.ch[bi],nx=chase?CHASE.ch[(bi+1)%8]:A.ch[(bi+1)%8],mel=chase?CHASE.mel[bi]:A.mel[bi];
+ const prep=I<.16;
+ if(prep){if(st==0||st==4)pizz(walk(cn,nx,st/2),t,beat*1.6,.2)}else if(st%2==0)pizz(walk(cn,nx,st/2),t+hum()*.5,beat*.9,.2+(st==0?.04:0)+I*.04);
+ if(I<.34&&st%2==0)DR.w(t,.55*(1-Lv(.22)),st==0||st==4);
+ if(st==2||st==6)DR2.snap(t,.7+I*.4);
+ if(st==0)voicing(cn,57,70).forEach((m,i)=>vibes(m,t+i*.006,prep?.03:.026));
+ if(!prep&&st==3)voicing(cn,57,70).forEach((m,i)=>vibes(m,t+i*.006,.022));
+ if(I>=.16&&I<.5)DR2.brush(t,(st%2?.6:1)*Lv(.16));
+ if(Lv(.5)>0){if(st%2==0)DR.h(t,.8*Lv(.5));if(st==0||st==4||(I>.75&&st==5))DR.k(t,.6*Lv(.5));if(st==2||st==6)DR.s(t,.7*Lv(.5))}
+ if(Lv(.55)>0&&(st==0||st==4))tuba(walk(cn,nx,st/2),t,beat*.8,.09*Lv(.55));
+ if(Lv(.45)>0&&st==0)organ(voicing(cn,53,65)[0],t,beat*3.8,.016*Lv(.45));
+ const m=mel[st];if(m&&!prep){let L=1;while(st+L<8&&mel[st+L]==null)L++;const d=Math.min(L*beat*.5,beat*2.2);
+  if(!chase){if(Lv(.2)>0)whistle(m,t,d*.95,.065*Lv(.2));if(Lv(.38)>0)trumpet(m-12,t,d*.9,.05*Lv(.38))}
+  else{trumpet(m-12,t,d*.9,.06);xylo(m+12,t,.06);if(Lv(.75)>0)organ(m,t,d*.9,.03*Lv(.75))}}
+ if(prep&&bi%4==3&&st==4)vibes(nm('A5'),t,.03);
+ if(!chase&&bi==7&&st==4&&I>=.16)DR2.meow(t,.8);
+ if(Lv(.65)>0&&(st==3||st==7))DR.cb(t,Lv(.65));
+ if(Lv(.6)>0&&bar%4==3&&st>=4)DR.s(t,.35+.12*(st-4)*Lv(.6));
+ if(Lv(.8)>0&&bar%2==0&&st==0)DR.cr(t,.55*Lv(.8));
+ if(Lv(.75)>0&&bi==7&&st>=4)DR.tp(t,38,.4*Lv(.75));
+ if(Lv(.7)>0&&bar%4==1&&st==4)DR.sw(t,bar%8==1,Lv(.7));
+ if(Lv(.85)>0&&bar%2==1&&st==7&&Math.random()<.6)DR.hk(t,Lv(.85));
+ if(Lv(.7)>0&&bar%2==1&&st>=6){const n2=(chase?CHASE.mel:A.mel)[(bi+1)%8][0]||74;xylo(n2+12-(8-st),t,.06*Lv(.7))}
+ return dur}};
 function tick(){const C=AU.ctx;if(!C||!MUS.cur)return;if(MUS.next<C.currentTime-.3)MUS.next=C.currentTime+.05;
  const tr=MUS.cur=='game'?TRK.game:MUS.cur=='menu'?TRK.theme:TRK.calm;while(MUS.next<C.currentTime+.15){const d=tr.step(MUS.step,MUS.next);MUS.next+=d;MUS.step++}}
 function music(name,mode){if(['day','night','boss'].includes(name)){mode=name;name='game'}
