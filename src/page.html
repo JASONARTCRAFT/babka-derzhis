@@ -1,0 +1,135 @@
+<title>Бабка, держись!</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@700;800;900&display=swap">
+<style>
+/* Layout: one-screen game. Painted canvases fill each screen; wooden HTML controls sit on top. */
+:root{--wood:#7a4a26;--wood-d:#55321a;--wood-dd:#33200f;--paper:#fff3d6;--paper-d:#f0d9a8;--ink:#3a2210;--leaf:#7cd65a;--leaf-d:#2f6a17;--gold:#ffcf3f;--sky:#1b1230;--sea:#2c5d8a;--blood:#b71c1c;--pink:#ffd6e0;
+--fd:"Lilita One",Impact,"Arial Black",sans-serif;--fb:Nunito,system-ui,sans-serif;color-scheme:dark}
+html,body{height:100%;margin:0;overflow:hidden}
+body{background:var(--sky);color:var(--paper);font-family:var(--fb);user-select:none;-webkit-user-select:none;-webkit-tap-highlight-color:transparent}
+button{font-family:inherit}
+.scr{position:fixed;inset:0;overflow:hidden}
+#menuCv,#farmCv,#cutCv{position:absolute;inset:0;width:100%;height:100%;display:block}
+.mtitle{position:absolute;left:0;right:0;top:max(12px,env(safe-area-inset-top,0px));text-align:center;pointer-events:none;padding:0 16px}
+h1{font:clamp(40px,8vw,84px)/1 var(--fd);color:var(--gold);margin:0 0 4px;text-shadow:0 5px 0 #7a2a10,0 10px 24px #000a;letter-spacing:1px;text-wrap:balance}
+.sub{margin:0;font-weight:900;color:#fff3d6;text-shadow:0 2px 6px #000c;font-size:clamp(14px,1.8vw,18px)}
+#planks{position:absolute;right:max(6vw,16px);top:27%;display:flex;flex-direction:column;gap:10px;align-items:stretch;padding:14px 0}
+#planks::before{content:"";position:absolute;left:50%;top:-24px;height:120vh;width:24px;margin-left:-12px;background:linear-gradient(90deg,#4a2b13,#7a4a26 45%,#3a2210);border-radius:6px;z-index:-1;box-shadow:4px 0 10px #0006}
+.plank{position:relative;font:clamp(18px,2.4vw,26px) var(--fd);color:#fff3d6;text-shadow:0 2px 0 #3a2210;padding:10px 38px;border:3px solid #3a2210;border-radius:8px;cursor:pointer;
+ background:repeating-linear-gradient(90deg,rgba(0,0,0,.06) 0 2px,transparent 2px 26px),linear-gradient(#c58d55,#8e5a2c);box-shadow:0 5px 0 #3a2210,inset 0 2px 0 #e7b780;transform:rotate(var(--r,0deg));transition:transform .12s}
+.plank:nth-child(odd){--r:-1.6deg}.plank:nth-child(even){--r:1.3deg}
+.plank:hover{transform:rotate(var(--r)) translateX(-6px) scale(1.04)}
+.plank:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.plank::before,.plank::after{content:"";position:absolute;top:50%;width:8px;height:8px;margin-top:-4px;border-radius:50%;background:#6d6d6d;box-shadow:inset -1px -1px 0 #222}
+.plank::before{left:11px}.plank::after{right:11px}
+.plank.sm{font-size:clamp(14px,1.7vw,18px);padding:6px 28px}
+.badge{position:absolute;top:-10px;right:-10px;background:var(--leaf);color:#1d3b10;font:900 13px var(--fb);border-radius:12px;padding:2px 8px;border:2px solid #1d3b10;text-shadow:none}
+.stat{position:absolute;left:16px;bottom:max(12px,env(safe-area-inset-bottom,0px));font-weight:900;color:#ffe9c4;text-shadow:0 2px 4px #000c;font-size:14px;padding-right:16px}
+@media (max-width:720px){#planks{right:auto;left:50%;transform:translateX(-50%);top:auto;bottom:max(40px,env(safe-area-inset-bottom,0px));gap:7px}#planks::before{display:none}.plank{padding:7px 30px;font-size:19px}.plank.sm{display:none}}
+/* level board */
+.board{background:radial-gradient(ellipse at 50% 0%,#5a3a5f,#1b1230 70%);overflow:auto;padding:max(14px,env(safe-area-inset-top,0px)) 16px 24px;box-sizing:border-box}
+.lvtop{display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between;max-width:980px;margin:0 auto 10px}
+.lvtop h2{font:clamp(26px,4vw,40px) var(--fd);color:var(--gold);margin:0;text-shadow:0 3px 0 #7a2a10}
+.area{max-width:980px;margin:14px auto;padding:14px 16px 16px;border-radius:18px;background:linear-gradient(#e7c58f,#c99a5e);border:4px solid var(--wood-dd);box-shadow:0 6px 0 var(--wood-dd);color:var(--ink)}
+.area.night{background:linear-gradient(#5d5a8a,#37345e);color:#e8e6ff}
+.area h2{font:26px var(--fd);margin:0}.area p{margin:2px 0 10px;font-weight:800;opacity:.85}
+.lgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:10px}
+.lvb{border-radius:12px;border:3px solid var(--wood-dd);background:linear-gradient(var(--paper),var(--paper-d));color:var(--ink);padding:10px 10px 8px;cursor:pointer;box-shadow:0 4px 0 var(--wood-dd);text-align:left;display:flex;flex-direction:column;gap:2px;min-width:0}
+.lvb b{font:30px/1 var(--fd);color:var(--wood)}.lvb .ln{font:18px var(--fd);color:var(--ink)}.lvb small{font-weight:800;font-size:12px;opacity:.8;line-height:1.25}
+.lvb .st{color:var(--gold);text-shadow:0 1px 0 var(--wood-dd);font-size:18px;letter-spacing:2px}.lvb .st i{color:#b9a27c;font-style:normal;font-size:14px;letter-spacing:0}
+.night .lvb{background:linear-gradient(#e8e4ff,#c3bdf0)}
+.lvb:disabled{filter:grayscale(1) brightness(.75);cursor:not-allowed}
+.lvb:not(:disabled):hover{transform:translateY(-2px)}
+/* buttons */
+.row{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;align-items:center;margin-top:8px}.row.col{flex-direction:column;align-items:stretch}
+.btn{font:20px var(--fd);background:linear-gradient(#9be15d,#53a32b);color:#fff;border:3px solid var(--leaf-d);border-radius:12px;padding:8px 18px;cursor:pointer;text-shadow:0 2px 0 var(--leaf-d);box-shadow:0 4px 0 var(--leaf-d)}
+.btn.alt{background:linear-gradient(#ffe08a,#f2b33d);border-color:#8a5a12;box-shadow:0 4px 0 #8a5a12;text-shadow:0 2px 0 #8a5a12}
+.btn.danger{background:linear-gradient(#ef9a9a,#c62828);border-color:#6d1414;box-shadow:0 4px 0 #6d1414;text-shadow:0 2px 0 #6d1414;font-size:16px}
+.btn.ghost{background:rgba(0,0,0,.35);border-color:#ffffff66;box-shadow:none;font-size:15px;text-shadow:none}
+.btn.sm{font-size:15px;padding:6px 12px;white-space:nowrap}
+.btn:disabled{filter:grayscale(.8);opacity:.6;cursor:not-allowed}
+.btn:not(:disabled):active,.lvb:active{transform:translateY(3px);box-shadow:none}
+.btn:focus-visible,.lvb:focus-visible,.ib:focus-visible,.dc:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+/* game bar */
+#bar{position:fixed;left:0;right:0;top:0;padding:calc(6px + env(safe-area-inset-top,0px)) 8px 6px;display:flex;align-items:center;gap:6px;background:linear-gradient(var(--wood),var(--wood-d));border-bottom:4px solid var(--wood-dd);overflow-x:auto;z-index:3;scrollbar-width:none}
+.money{flex:0 0 auto;width:66px;height:74px;border-radius:10px;background:var(--wood-dd);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset 0 2px 6px #0008}
+.money canvas{width:30px;height:30px}.money b{font:22px var(--fd);color:var(--gold);font-variant-numeric:tabular-nums}
+.money.pulse{animation:pl .25s}@keyframes pl{50%{transform:scale(1.15)}}
+.card{flex:0 0 auto;position:relative;width:66px;height:76px;border-radius:9px;background:linear-gradient(#f3fbdc,#c6e39a);border:2px solid var(--leaf-d);box-shadow:0 3px 0 var(--leaf-d);display:flex;flex-direction:column;align-items:center;color:var(--ink);cursor:grab;touch-action:none;overflow:hidden;box-sizing:border-box}
+.card canvas{width:46px;height:38px;margin-top:3px;pointer-events:none}
+.card .nm{font:800 9.5px/1.05 var(--fb);text-align:center;pointer-events:none;padding:0 2px;max-height:20px;overflow:hidden}
+.card .co{font:14px/1.1 var(--fd);color:var(--ink);pointer-events:none;margin-top:auto;margin-bottom:2px}
+.card .cdv{position:absolute;left:0;right:0;top:0;height:0;background:rgba(30,18,8,.6);pointer-events:none}
+.card.ab{background:linear-gradient(#e3f0ff,#9cc3ec);border-color:var(--sea);box-shadow:0 3px 0 var(--sea)}
+.card.sh{background:linear-gradient(#efe6da,#c9b79c);border-color:#6b5a44;box-shadow:0 3px 0 #6b5a44}
+.card.poor{filter:grayscale(.7) brightness(.75)}.card.sel{outline:3px solid var(--gold);outline-offset:1px;transform:translateY(-3px)}
+.card.no{animation:sh .3s}@keyframes sh{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.sp{flex:1 1 auto;min-width:8px}
+.ib{flex:0 0 auto;width:42px;height:42px;border-radius:50%;border:3px solid var(--wood-dd);background:var(--paper-d);color:var(--ink);font:17px var(--fd);cursor:pointer;display:grid;place-items:center;padding:0}
+#cv{position:fixed;left:0;touch-action:none;display:block}
+/* overlays */
+#ov{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(18,10,4,.72);z-index:6;padding:16px;box-sizing:border-box}
+.box{background:linear-gradient(var(--paper),var(--paper-d));color:var(--ink);border:4px solid var(--wood);border-radius:18px;padding:16px 20px;max-width:min(540px,100%);max-height:100%;overflow:auto;box-shadow:0 8px 0 var(--wood-dd);text-align:center;box-sizing:border-box}
+.box.wide{max-width:min(760px,100%)}
+.box h2{font:30px var(--fd);margin:0 0 4px;color:var(--wood);text-wrap:balance}.box h3{font:19px var(--fd);color:var(--wood);margin:12px 0 6px}
+.box .tag{font:900 12px var(--fb);letter-spacing:.12em;text-transform:uppercase;color:#a0632e}.box .tag.warn{color:var(--blood)}
+.box p{margin:6px 0 10px;font-weight:700;line-height:1.4}
+.box canvas.big{width:150px;height:130px;background:radial-gradient(circle,#fff 0,#ffe8b0 55%,transparent 70%)}
+.box canvas.big.dark{background:radial-gradient(circle,#c9b8d8 0,#6a4a7a 50%,transparent 70%)}
+.leafline{color:#2f6a17;font-weight:900}
+.stars{font-size:34px;color:var(--gold);text-shadow:0 2px 0 #8a5a12;letter-spacing:4px}.stars i{color:#cdb98f;font-style:normal}
+.foes{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.foe{display:flex;flex-direction:column;align-items:center;width:84px;font-size:11.5px;font-weight:800;line-height:1.15}
+.foe canvas{width:64px;height:55px;background:rgba(58,34,16,.1);border-radius:10px}
+.deck{display:grid;grid-template-columns:repeat(auto-fill,minmax(78px,1fr));gap:8px}
+.dc{border:2px solid var(--leaf-d);border-radius:10px;background:linear-gradient(#f3fbdc,#c6e39a);padding:4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;font:800 11px/1.1 var(--fb);color:var(--ink);opacity:.55;filter:grayscale(.6)}
+.dc canvas{width:50px;height:41px;pointer-events:none}.dc.on{opacity:1;filter:none;outline:3px solid var(--gold);box-shadow:0 3px 0 var(--leaf-d)}
+.cnt{font-weight:900}
+.set-row{display:grid;grid-template-columns:90px 28px 1fr;align-items:center;gap:10px;margin:10px 0;font-weight:900;text-align:left}
+.set-row input[type=range]{width:100%;accent-color:#53a32b}.set-row input[type=checkbox]{width:22px;height:22px;accent-color:#53a32b}
+.box.alm{text-align:left;max-width:min(820px,100%)}
+.ag{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+.ai{display:flex;gap:8px;align-items:flex-start;background:#ffffff88;border-radius:10px;padding:6px;min-width:0}
+.ai canvas{width:56px;height:48px;flex:0 0 auto}.ai div{min-width:0;font-size:12.5px;font-weight:700;line-height:1.3}.ai b{display:block;font:15px var(--fd);color:var(--wood)}.ai.lock{opacity:.55}
+/* farm */
+.ftop{position:absolute;left:16px;right:16px;top:max(12px,env(safe-area-inset-top,0px));display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ftop h2{font:clamp(26px,4vw,40px) var(--fd);color:#fff3d6;margin:0;text-shadow:0 3px 0 #7a4a26,0 6px 14px #0006;flex:1}
+.leafc{display:flex;align-items:center;gap:4px;background:rgba(47,106,23,.9);border:3px solid #1d3b10;border-radius:14px;padding:2px 12px 2px 4px}
+.leafc canvas{width:32px;height:32px}.leafc b{font:24px var(--fd);color:#e8ffd8}
+.fshop{position:absolute;right:16px;top:86px;width:min(300px,calc(100% - 32px));background:linear-gradient(var(--paper),var(--paper-d));color:var(--ink);border:4px solid var(--wood);border-radius:16px;padding:10px 12px;box-shadow:0 6px 0 var(--wood-dd);max-height:calc(100% - 110px);overflow:auto;box-sizing:border-box}
+.fshop h3{font:20px var(--fd);margin:0;color:var(--wood)}.fshop p{font-size:12.5px;font-weight:700;margin:4px 0 8px;line-height:1.35}
+.si{display:flex;gap:8px;align-items:center;justify-content:space-between;padding:6px 0;border-top:2px dashed #d9b98a}
+.si div{min-width:0}.si b{display:block;font:15px var(--fd);color:var(--wood)}.si span{font-size:12px;font-weight:700;line-height:1.25;display:block}
+.si.own b{color:#2f6a17}
+@media (max-width:720px){.fshop{top:auto;bottom:12px;max-height:38%}}
+/* cutscene */
+#cut{background:#000;z-index:8}
+#cap{position:absolute;left:50%;bottom:max(6%,env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(760px,calc(100% - 32px));box-sizing:border-box;font:800 clamp(16px,2.3vw,23px)/1.35 var(--fb);background:var(--paper);color:var(--ink);border:3px solid var(--ink);border-radius:14px;padding:10px 18px;text-align:center;box-shadow:0 6px 0 var(--ink)}
+#skip{position:absolute;right:16px;top:max(16px,env(safe-area-inset-top,0px))}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div id="menu" class="scr" hidden>
+  <canvas id="menuCv"></canvas>
+  <div class="mtitle"><h1>Бабка, держись!</h1><p class="sub">Бабка-кошатница против зомби-котов</p></div>
+  <nav id="planks" aria-label="Главное меню">
+    <button class="plank" id="bPlay">Играть</button>
+    <button class="plank" id="bLevels">Уровни</button>
+    <button class="plank" id="bFarm">Огород<span id="farmBadge" class="badge" hidden></span></button>
+    <button class="plank" id="bAlm">Альманах</button>
+    <button class="plank" id="bSet">Настройки</button>
+    <button class="plank sm" id="bIntro">Заставка</button>
+  </nav>
+  <div class="stat" id="menuStat"></div>
+</div>
+<div id="levels" class="scr board" hidden>
+  <div class="lvtop"><button class="btn alt" id="lvBack">← Меню</button><h2>Выбор уровня</h2><button class="btn" id="lvAll">Открыть все уровни</button></div>
+  <div id="lvlBody"></div>
+</div>
+<div id="farm" class="scr" hidden>
+  <canvas id="farmCv"></canvas>
+  <div class="ftop"><button class="btn alt" id="fBack">← Меню</button><h2>Мятный огород</h2><div class="leafc" title="Мятные листики"><canvas id="leafIco" width="40" height="40"></canvas><b id="leafN">0</b></div></div>
+  <div class="fshop"><h3>Бабкина лавка</h3><p>Кошачья мята растёт, даже когда тебя здесь нет. Нажми на горшок, чтобы посадить или собрать листики, и меняй их на полезные штуки.</p><div id="shopList"></div></div>
+</div>
+<div id="game" hidden><div id="bar"></div><canvas id="cv"></canvas></div>
+<div id="cut" class="scr" hidden><canvas id="cutCv"></canvas><p id="cap"></p><button id="skip" class="btn ghost">Пропустить ›</button></div>
+<div id="ov" hidden></div>
