@@ -11,7 +11,11 @@ const SFX={
  boom(){if(!AU.ctx)return;const t=T();noise(t,.7,.45,{type:'lowpass',f:900,f2:60});osc('sine',100,t,.6,.45,{f2:28})},
  crunch(){if(!AU.ctx)return;noise(T(),.12,.12,{f:500,q:1.5})},
  die(){if(!AU.ctx)return;const t=T();osc('sine',620,t,.3,.06,{f2:160});noise(t,.2,.05,{f:1200,f2:300})},
- mower(){if(!AU.ctx)return;const t=T();noise(t,1.4,.18,{type:'lowpass',f:320});osc('sawtooth',62,t,1.4,.07,{vib:[28,12]})},
+ mower(){if(!AU.ctx)return;const t=T();osc('sawtooth',40,t,.25,.12,{f2:70});noise(t,.2,.3,{type:'lowpass',f:600});noise(t+.15,3.2,.45,{type:'lowpass',f:420,a:.15});osc('sawtooth',68,t+.15,3.2,.16,{vib:[30,14],a:.12});osc('square',136,t+.15,3.2,.06,{vib:[30,20],filter:'lowpass',ff:900,a:.12});osc('sine',900,t+.3,3,.035,{f2:1500,a:.2})},
+ bite(pan){if(!AU.ctx)return;const t=T();[0,.09].forEach(d=>{noise(t+d,.07,.16,{f:650,q:1.4,pan});osc('square',150,t+d,.07,.05,{f2:85,filter:'lowpass',ff:600,pan})})},
+ scratch(pan){if(!AU.ctx)return;const t=T();for(let i=0;i<3;i++)noise(t+i*.055,.06,.12,{f:2600,f2:6200,q:3,pan})},
+ clank(pan){if(!AU.ctx)return;const t=T();osc('square',420,t,.12,.05,{f2:300,pan});noise(t,.08,.1,{f:1800,q:5,pan})},
+ haunt(pan){if(!AU.ctx)return;osc('sine',520,T(),.5,.05,{f2:380,vib:[7,30],pan})},
  horn(k){if(!AU.ctx)return;const t=T(),f=k=='truck'?175:440;osc('square',f,t,.4,.06);osc('square',f*1.26,t,.4,.05);noise(t,1,.06,{type:'lowpass',f:400})},
  bad(){if(!AU.ctx)return;osc('sawtooth',140,T(),.2,.06,{f2:80})},
  fanfare(){if(!AU.ctx)return;const t=T();[[67,0,.1],[72,.11,.1],[76,.22,.1],[79,.33,.1],[76,.46,.1],[84,.6,.9]].forEach(([m,d,l])=>{xylo(m+12,t+d,.12);organ(m,t+d,l,.05);piano(m-12,t+d,l,.5)});
