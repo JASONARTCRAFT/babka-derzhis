@@ -121,16 +121,17 @@ function mmRect(){const w=Math.max(120,Math.min(VW-270,560));return{x:12,y:VH-30
 function mmJump(px){const m=mmRect();camX=clamp((px-m.x)/m.w*WW-VW/2,0,maxCam())}
 cv.addEventListener('pointermove',e=>{ptr.x=e.clientX/viewZoom;ptr.y=(e.clientY-cvTop)/viewZoom;ptr.in=true;ptr.mouse=e.pointerType=='mouse';
  if(mmDrag){mmJump(ptr.x);return}
- if(pan){const wx=ptr.x+camX;S.coins.filter(c=>!c.fly&&Math.hypot(wx-c.x,ptr.y+camY-c.y)<magR()).forEach(c=>grabCoin(0,0,c))}});
+ if(pan&&!(e.buttons&1))pan=null;
+ if(magOn()){const wx=ptr.x+camX;S.coins.filter(c=>!c.fly&&Math.hypot(wx-c.x,ptr.y+camY-c.y)<magR()).forEach(c=>grabCoin(0,0,c))}});
 cv.addEventListener('pointerleave',()=>{if(!drag)ptr.in=false});
-cv.addEventListener('pointerdown',e=>{if(!S)return;ptr.x=e.clientX/viewZoom;ptr.y=(e.clientY-cvTop)/viewZoom;ptr.in=true;ptr.mouse=e.pointerType=='mouse';
+cv.addEventListener('pointerdown',e=>{pan=null;if(!S||e.button!==0)return;ptr.x=e.clientX/viewZoom;ptr.y=(e.clientY-cvTop)/viewZoom;ptr.in=true;ptr.mouse=e.pointerType=='mouse';
  if(S.phase=='intro'){S.it=Math.max(S.it,5.8);return}
  const m=mmRect();if(ptr.x>=m.x&&ptr.x<=m.x+m.w&&ptr.y>=m.y-4&&ptr.y<=m.y+m.h+4){mmDrag=true;mmJump(ptr.x);try{cv.setPointerCapture(e.pointerId)}catch(_){}return}
  const wx=ptr.x+camX,wy=ptr.y+camY;
  if(S.trophy&&Math.hypot(wx-S.trophy.x,wy-S.trophy.y)<C*.75){openReveal();return}
  if(grabCoin(wx,wy)){pan={sweep:1};try{cv.setPointerCapture(e.pointerId)}catch(_){}return}
  if(sel&&S.phase=='play'){tryPlace(sel,wx,wy);sel=null;return}
- pan={sweep:1};try{cv.setPointerCapture(e.pointerId)}catch(_){}});
+});
 cv.addEventListener('wheel',e=>{e.preventDefault();if(e.ctrlKey){changeZoom(e.deltaY<0?1.1:1/1.1);return}
  if(e.shiftKey||Math.abs(e.deltaX)>Math.abs(e.deltaY)||maxCamY()===0)camX=clamp(camX+(e.deltaX||e.deltaY)/viewZoom,0,maxCam());
  else camY=clamp(camY+e.deltaY/viewZoom,0,maxCamY())},{passive:false});
@@ -139,7 +140,7 @@ addEventListener('keydown',e=>{if(!S||$('#game').hidden)return;if(e.key=='ArrowR
  if(e.key=='ArrowDown')camY=clamp(camY+C*2,0,maxCamY());if(e.key=='ArrowUp')camY=clamp(camY-C*2,0,maxCamY());
  if(e.key=='+'||e.key=='=')changeZoom(1.2);if(e.key=='-')changeZoom(1/1.2);
  if(e.key==' '&&S.phase=='play'){S.paused=!S.paused;e.preventDefault()}});
-function grabCoin(wx,wy,c){c=c||S.coins.find(c=>!c.fly&&Math.hypot(wx-c.x,wy-c.y)<C*.45);if(!c)return false;
+function grabCoin(wx,wy,c){c=c||S.coins.find(c=>!c.fly&&Math.hypot(wx-c.x,wy-(c.y-C*.1+Math.sin(S.t*4+c.x)*2))<C*(c.gold?.2:.15));if(!c)return false;
  c.fly=1;c.t=0;c.sx=c.x-camX;c.sy=c.y-camY;const r=$('#money').getBoundingClientRect();c.tx=(r.left+r.width/2)/viewZoom;c.ty=(r.top+r.height/2-cvTop)/viewZoom;SFX.coin(c.gold);S.collected++;return true}
 const cellAt=(wx,wy)=>({c:Math.floor((wx-X0)/C),r:Math.floor((wy-oy-TOPH)/C)});
 const unitAt=(r,c)=>S.units.find(u=>u.r===r&&u.c===c&&!u.dead);
@@ -177,8 +178,12 @@ function spawn(s){const d=S.lv.doors[s.d],e=mk(s.type,s.r,d.c+.5,d.s=='t'?-.9:S.
  if(SPECIAL.has(s.type)){S.toasts.push({type:s.type,txt:`${E[s.type].n} выходит ${d.s=='t'?'из дома':'из подворотни'} №${d.c}`,life:5});SFX.sting();
   setTimeout(()=>voice(s.type,1,2),500);if(s.type=='boss'){music('boss');banner('Король Пылесосов!')}}}
 function dropCoin(x,y,ground,val){S.coins.push({x,y,vx:(Math.random()-.5)*C*.8,vy:-C*3.2,ground,life:9,val,gold:val>=25})}
-/* магнит: зажатая мышь собирает монетки в радиусе magR и притягивает их из радиуса magR*1.9 */
-const magR=()=>C*(save.shop.magnet?1.5:.6),magOn=()=>!!(pan&&ptr.in&&S&&(S.phase=='play'||S.phase=='won'));
+/* Магнит включается только нажатием на монету и работает до отпускания кнопки. */
+const MAGNET_UNLOCK=7;
+const magnetUpgraded=()=>!!(save.shop.magnet&&save.lvl>=MAGNET_UNLOCK);
+const magR=()=>C*(magnetUpgraded()?.6:.2),magOn=()=>!!(pan&&pan.sweep&&ptr.in&&S&&!S.paused&&$('#ov').hidden&&(S.phase=='play'||S.phase=='won'));
+addEventListener('pointercancel',()=>{pan=null});
+addEventListener('blur',()=>{pan=null});
 function enemyVoice(e){if(S.sndGap>0||!AU.ctx)return;const sx=FX(e.x)-camX,on=sx>-50&&sx<VW+50;voice(e.type,clamp(sx/VW*2-1,-1,1),(on?1:.45)*(SPECIAL.has(e.type)?2:1));S.sndGap=1.4}
 function hit(e,dmg,k){if(e.dead)return 0;const t=e.type;
  if(e.state=='enter'&&k!='car'&&k!='z')return 0;
@@ -304,7 +309,7 @@ function step(dt){S.t+=dt;if(S.phase=='play')musicMood();if(S.shake>0)S.shake-=d
  S.coins.forEach(c=>{if(c.fly){c.t+=dt*2.4;if(c.t>=1){c.done=1;S.en+=c.val;const m=$('#money');m.classList.remove('pulse');void m.offsetWidth;m.classList.add('pulse')}return}
   c.vy+=C*9*dt;c.x+=c.vx*dt;c.y+=c.vy*dt;if(c.y>=c.ground){c.y=c.ground;c.vy=-c.vy*.3;c.vx*=.5;if(Math.abs(c.vy)<C*.3)c.vy=0}
   c.life-=dt;if(c.life<=0)c.done=1});
- if(magOn()){const mx=ptr.x+camX,my=ptr.y+camY,R=magR(),pull=save.shop.magnet?7:3.5;S.coins.forEach(c=>{if(c.fly||c.done)return;const dx=mx-c.x,dy=my-c.y,d=Math.hypot(dx,dy);
+ if(magOn()){const mx=ptr.x+camX,my=ptr.y+camY,R=magR(),pull=magnetUpgraded()?7:3.5;S.coins.forEach(c=>{if(c.fly||c.done)return;const dx=mx-c.x,dy=my-c.y,d=Math.hypot(dx,dy);
   if(d<R)grabCoin(0,0,c);else if(d<R*1.9){const k=Math.min(1,pull*dt*(1.9-d/R));c.x+=dx*k;c.y+=dy*k;c.vy=0;c.vx=0;c.mag=.15}})}
  S.coins=S.coins.filter(c=>!c.done);
  S.bowls.forEach(b=>{if(b.food<=0)b.t+=dt});S.bowls=S.bowls.filter(b=>b.t<3);
@@ -504,7 +509,7 @@ function drawPv(){const p=S.pv;if(!p)return;g.font='900 14px Nunito,sans-serif';
  g.font='900 14px Nunito,sans-serif';g.fillStyle='#ffcf3f';g.fillText(p.title,x+12,y+15);g.font='800 13px Nunito,sans-serif';
  p.lines.forEach((l,i)=>{g.fillStyle=l.up?'#9ccc65':'#fff3d6';g.fillText(l.txt,x+12,y+34+i*19)});
  if(p.two){const yy=y+h-12;rr(g,x+12,yy-5,18,10,2,'rgba(143,208,255,.8)');g.fillStyle='#fff3d6';g.fillText('сейчас',x+34,yy);rr(g,x+96,yy-5,18,10,2,'rgba(255,213,79,.9)');g.fillText('после',x+118,yy)}}
-function drawMagnet(){const x=ptr.x+camX,y=ptr.y+camY,R=magR(),big=!!save.shop.magnet,col=big?'255,213,79':'143,208,255',a=big?1:.6;
+function drawMagnet(){const x=ptr.x+camX,y=ptr.y+camY,R=magR(),big=magnetUpgraded(),col=big?'255,213,79':'143,208,255',a=big?1:.6;
  g.fillStyle=rgrad(g,x,y,0,R,[[0,`rgba(${col},${.22*a})`],[.7,`rgba(${col},${.1*a})`],[1,`rgba(${col},0)`]]);g.beginPath();g.arc(x,y,R,0,7);g.fill();
  for(let i=0;i<3;i++){const q=(S.t*(big?1.6:1.1)+i/3)%1,r=R*1.9*(1-q)+R*.15*q;g.strokeStyle=`rgba(${col},${(big?.55:.35)*Math.sin(q*Math.PI)})`;g.lineWidth=big?3:2;g.setLineDash([C*.12,C*.1]);g.beginPath();g.arc(x,y,r,S.t*(big?2:1)+i,S.t*(big?2:1)+i+7);g.stroke()}g.setLineDash([]);
  ring(g,x,y,R,`rgba(${col},${.7*a})`,big?2.5:1.5);
