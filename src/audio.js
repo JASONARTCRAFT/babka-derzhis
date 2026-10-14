@@ -6,7 +6,9 @@ const SFX={
   osc('sawtooth',330,t+.2,1.05,.028,{f2:140,filter:'bandpass',ff:650,q:1.6,vib:[4,9],a:.07});
   osc('sine',165,t+.2,1.05,.012,{f2:70,vib:[4,4],a:.09})},
 
- coin(gold){if(!AU.ctx)return;const t=T();if(gold)[1046,1318,1568,2093].forEach((f,i)=>osc('sine',f,t+i*.05,.25,.07));else{osc('sine',1500,t,.08,.07);osc('sine',2000,t+.05,.15,.06)}},
+ coin(gold){if(!AU.ctx)return;const t=T(),notes=gold?[1318.51,1661.22,1975.53,2637.02]:[1318.51,1975.53];
+  notes.forEach((f,i)=>{const at=t+i*.045;osc('sine',f,at,.22,gold?.085:.1,{a:.004});osc('sine',f*2,at,.12,.018,{a:.003})});
+  osc('triangle',gold?880:660,t,.07,.035,{f2:330,a:.003})},
  place(){if(!AU.ctx)return;const t=T();osc('triangle',220,t,.14,.22,{f2:90});noise(t,.1,.08,{f:500})},
  pop(){if(!AU.ctx)return;const n=performance.now();if(n-lastPop<70)return;lastPop=n;const t=T();osc('square',420,t,.05,.03,{f2:200});noise(t,.04,.04,{f:2500})},
  thwack(){if(!AU.ctx)return;noise(T(),.06,.07,{f:900,q:2})},
