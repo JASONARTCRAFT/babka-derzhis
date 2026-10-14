@@ -1005,18 +1005,24 @@ function streetFront(rt,sw){const base=rt-sw*.6,maxH=rt-sw*.6-oy-C*.08;S.doorAt=
  S.houses.forEach((h,i)=>{const key=BUILD_KEYS[(i*3+S.i)%BUILD_KEYS.length],s=COMIC_SPRITES[key];if(!s)return;
   const slot=h.w*C,sc=Math.min(slot*.96/s.w,maxH/s.h),w=s.w*sc,spare=slot-w;
   // A zombie door inside this lot: shift the house so its painted front door sits on that column.
-  const di=S.lv.doors.findIndex(d=>d.s=='t'&&d.c>=h.c0&&d.c<h.c0+h.w);let cx=FX(h.c0+h.w/2);
-  if(di>=0){cx=clamp(FX(S.lv.doors[di].c+.5),FX(h.c0)+w/2,FX(h.c0+h.w)-w/2);S.doorAt[di]={x:cx,y:base-s.h*sc*.14,w:w*.12,h:s.h*sc*.15}}
+  const di=S.lv.doors.findIndex(d=>d.s=='t'&&d.c>=h.c0&&d.c<h.c0+h.w);let cx=FX(h.c0+h.w/2),drawKey=key;
+  if(di>=0){cx=clamp(FX(S.lv.doors[di].c+.5),FX(h.c0)+w/2,FX(h.c0+h.w)-w/2);
+   // Active house: open-door art when it exists; the door anchor comes from the manifest ("door":[x,y] in source pixels).
+   if(COMIC_SPRITES[key+'-open']?.image.naturalWidth)drawKey=key+'-open';
+   S.doorAt[di]=doorAnchor(drawKey,cx,base,sc)||{x:cx,y:base-s.h*sc*.14,w:w*.12,h:s.h*sc*.15,code:drawKey==key}}
   // Leftover width becomes a yard with a tree, so houses never float in empty lawn.
   if(spare>C*.5){const side=cx-FX(h.c0)>FX(h.c0+h.w)-cx?-1:1,tx=cx+side*(w/2+spare/4);swayFit(g,'prop-tree',tx,base+C*.04,Math.min(spare*.55,C*1.1),C*1.15,.02,i)}
-  comicFit(g,key,cx,base,w,s.h*sc);
+  comicFit(g,drawKey,cx,base,w,s.h*sc);
   const pk=hash1(i*9+S.i);if(pk<.5)comicFit(g,pk<.25?'prop-bin':'prop-crate',FX(h.c0)+C*.22,rt-sw*.12,C*.24,C*.28);
   else if(pk<.7)comicFit(g,'prop-mailbox',FX(h.c0+h.w)-C*.2,rt-sw*.1,C*.18,C*.36)});
  streetLamps(rt,sw,false)}
+// Door centre of a sprite placed with comicFit(cx,bottom) at scale sc; null if the manifest has no door.
+function doorAnchor(key,cx,bottom,sc){const s=COMIC_SPRITES[key];if(!s?.door)return null;
+ return{x:cx-s.w*sc/2+(s.door[0]-s.x)*sc,y:bottom-s.h*sc+(s.door[1]-s.y)*sc,w:s.w*sc*.1,h:s.h*sc*.12,code:false}}
 function streetLamps(rt,sw,glow){for(let c=YC+1;c<COLS;c+=4){if((S.lv.cross||[]).includes(c))continue;const x=FX(c)+C*.05,y=rt-C*.04;
  if(glow){g.fillStyle=rgrad(g,x,y-C*.95,0,C*1.1,[[0,'rgba(255,229,161,.32)'],[1,'rgba(255,229,161,0)']]);g.fillRect(x-C*1.1,y-C*2,C*2.2,C*2.4)}
  else comicFit(g,'prop-lamp',x,y,C*.24,C*1.05)}}
-function foregroundRoofs(y,h){const gx=0,xr=Math.max(WW,camX+VW)+C,doors=S.lv.doors.filter(d=>d.s=='b').map(d=>d.c),cr=S.lv.cross||[];
+function foregroundRoofs(y,h){if(COMIC_SPRITES['front-house-1']?.image.naturalWidth)return frontHouses(y,h);const gx=0,xr=Math.max(WW,camX+VW)+C,doors=S.lv.doors.filter(d=>d.s=='b').map(d=>d.c),cr=S.lv.cross||[];
  h=Math.max(h,C*.5);
  // One continuous terrace of roofs, cut by gateways (zombie doors) and crossings.
  const cuts=[...doors,...cr].sort((a,b)=>a-b);let x=gx;
@@ -1024,6 +1030,14 @@ function foregroundRoofs(y,h){const gx=0,xr=Math.max(WW,camX+VW)+C,doors=S.lv.do
  if(x<xr)roofStrip(g,x,xr,y,h,99+S.i);
  // A thin margin below in case of rounding; the camera never shows more (see minZoom).
  roofStrip(g,gx,xr,y+h,C*.6,13+S.i)}
+// Near side of the road: houses seen from above-behind, fronts (and doors) facing the road.
+function frontHouses(y,h){const xr=Math.max(WW,camX+VW)+C,bottomDoors=S.lv.doors.map((d,i)=>[d,i]).filter(([d])=>d.s=='b'),keys=[1,2,3,4].map(n=>'front-house-'+n).filter(k=>COMIC_SPRITES[k]?.image.naturalWidth);
+ const put=(key,cx,w,di)=>{const s=COMIC_SPRITES[key],sc=Math.min(w/s.w,(h+C*.05)/s.h),bt=y+h+C*.05;comicFit(g,key,cx,bt,s.w*sc,s.h*sc);
+  if(di!=null)S.doorAt[di]=doorAnchor(key,cx,bt,sc)||{x:cx,y:y+C*.15,w:s.w*sc*.12,h:C*.18,code:true}};
+ S.doorAt=S.doorAt||{};let c=-3,k=0;
+ while(FX(c)<xr){const hit=bottomDoors.find(([d])=>d.c>=c&&d.c<c+2);
+  if(hit){const [d,di]=hit,base=keys[(d.c+S.i)%keys.length],open=COMIC_SPRITES[base+'-open']?.image.naturalWidth?base+'-open':base;put(open,FX(d.c+.5),C*2,di);c=d.c+1.5}
+  else{put(keys[(k+++S.i)%keys.length],FX(c+1),C*2,null);c+=2}}}
 function districtBuildings(){}function districtProps(){}
 /* ---------- kitten thief ----------
  A small kitten runs out of a house door, grabs a coin lying on the ground and runs back.
@@ -1032,7 +1046,7 @@ const THIEF={run:2.6,flee:2,grab:.5,tap:.5};
 function setupThieves(i){S.thieves=[];S.thiefPlan=[];if(i<3)return;
  const end=S.spawns.length?S.spawns[S.spawns.length-1].t:60,R=rng(i*331+7),n=i>=7?2:1;
  for(let k=0;k<n;k++)S.thiefPlan.push({t:end*(n==1?.45:.3+k*.4)+R()*8,d:Math.floor(R()*S.lv.doors.length)})}
-function thiefDoor(di){const d=S.lv.doors[di],at=d.s=='t'&&S.doorAt&&S.doorAt[di];
+function thiefDoor(di){const d=S.lv.doors[di],at=S.doorAt&&S.doorAt[di];
  return at?{x:at.x,y:at.y+C*.1}:{x:FX(d.c+.5),y:d.s=='t'?FY(0)-C*.15:FY(S.rows)+C*.55}}
 function thiefCoin(th){const free=S.coins.filter(c=>!c.fly&&!c.done&&!c.thief);if(!free.length)return null;
  const c=free.sort((a,b)=>Math.hypot(a.x-th.x,a.ground-th.y)-Math.hypot(b.x-th.x,b.ground-th.y))[0];c.thief=th;return c}
@@ -1076,7 +1090,7 @@ function updateZoomButtons(){const label=$('#zoomLabel');if(label)label.textCont
  const minus=$('#zoomOut'),plus=$('#zoomIn');if(minus)minus.disabled=viewZoom<=minZoom()+.001;if(plus)plus.disabled=viewZoom>=4}
 function layout(){cvTop=bar.getBoundingClientRect().bottom;const height=Math.max(200,innerHeight-cvTop);const rows=S?S.rows:5;
  if(S&&!S.viewCell)S.viewCell=clamp((height-40)/(rows+2.2),40,92);
- C=S?S.viewCell:72;TOPH=C*2.1;BOTH=C*1.0;X0=C*2.5;dpr=Math.min(2,devicePixelRatio||1);
+ C=S?S.viewCell:72;TOPH=C*2.1;BOTH=COMIC_SPRITES['front-house-1']?.image.naturalWidth?C*1.5:C*1.0;X0=C*2.5;dpr=Math.min(2,devicePixelRatio||1);
  WW=X0+COLS*C+C*.3;FH=TOPH+rows*C+BOTH;oy=0;
  if(!manualZoom)viewZoom=defaultZoom();else viewZoom=Math.max(viewZoom,minZoom());
  VW=innerWidth/viewZoom;VH=height/viewZoom;
@@ -1241,7 +1255,7 @@ function txt(e,s,col){P({k:'txt',txt:s,x:FX(e.x),y:FY(e.y)+C*.1,vy:-C*.5,life:1.
 const onRow=(e,r)=>Math.abs(e.r-r)<=(e.span||0);
 const inCells=(r,a,b)=>S.enemies.filter(e=>e.state=='walk'&&!e.dead&&!e.flee&&!e.jf&&onRow(e,r)&&e.x>=a&&e.x<b).sort((p,q)=>p.x-q.x);
 function mk(type,r,x,y){const d=E[type],hm=(S.lv.hpm||1)*(S.i>=2?.9:1),e={id:S.id++,type,r,x,y:y??r,hp:d.hp*hm,max:d.hp*hm,span:d.boss?1:0,arm:d.arm?1:0,armHp:d.arm||0,sp:d.sp*(S.i>=2?.95:1),ph:Math.random()*6,t:0,soak:0,boost:0,hit:0,stun:0,rust:0,mt:0,vt:0,state:'walk',sndT:2+Math.random()*8};S.enemies.push(e);return e}
-function spawn(s){const d=S.lv.doors[s.d],at=d.s=='t'&&S.doorAt&&S.doorAt[s.d],e=mk(s.type,s.r,at?(at.x-X0)/C:d.c+.5,d.s=='t'?-1.1:S.rows-.1);e.state='enter';S.doorOpen[s.d]=1.3;S.spawned++;
+function spawn(s){const d=S.lv.doors[s.d],at=S.doorAt&&S.doorAt[s.d],e=mk(s.type,s.r,at?(at.x-X0)/C:d.c+.5,d.s=='t'?-1.1:S.rows-.1);e.state='enter';S.doorOpen[s.d]=1.3;S.spawned++;
  if(SPECIAL.has(s.type)){S.toasts.push({type:s.type,txt:`${E[s.type].n} выходит ${d.s=='t'?'из дома':'из подворотни'} №${d.c}`,life:5});SFX.sting();
   setTimeout(()=>voice(s.type,1,2),500);if(s.type=='boss'){music('boss');banner('Король Пылесосов!')}}}
 function dropCoin(x,y,ground,val){S.coins.push({x,y,vx:(Math.random()-.5)*C*.8,vy:-C*3.2,ground,life:9,val,gold:val>=25})}
@@ -1401,10 +1415,11 @@ function drawField(){drawOverheadField()}
 function drawHome(s){drawOverheadHome()}
 function drawDoors(){S.lv.doors.forEach((d,i)=>{
  const top=d.s=='t',soon=S.spawns.some(s=>s.d===i&&s.t-S.t<4),open=soon||S.doorOpen[i]>0;
- const at=top&&S.doorAt&&S.doorAt[i],y=at?at.y:top?FY(0)-C*.2:FY(S.rows)+C*.46+(BOTH-C*.46)*.42,w=at?at.w*1.6:C*.46,h=at?at.h:C*.2,x=at?at.x:FX(d.c+.5);
- // Doors live in the houses/gateways; only an opening doorway with glowing eyes is drawn on top.
+ const at=S.doorAt&&S.doorAt[i],y=at?at.y:top?FY(0)-C*.2:FY(S.rows)+C*.46+(BOTH-C*.46)*.42,w=at?at.w*1.6:C*.46,h=at?at.h:C*.2,x=at?at.x:FX(d.c+.5);
+ // Active houses: a dark doorway (until the -open art arrives), and evil eyes before a cat comes out.
+ if(!at||at.code)el(g,x,y,w*.7,h*.9,'rgba(20,16,22,.8)');
  if(open){const k=Math.min(1,(S.doorOpen[i]>0?S.doorOpen[i]:1)*2);g.globalAlpha=k;el(g,x,y,w*.7,h*.9,'rgba(20,16,22,.75)');[-1,1].forEach(q=>el(g,x+q*Math.min(C*.07,w*.22),y,C*.028,C*.028*(.4+.6*Math.abs(Math.sin(S.t*3+i))),'#c8ef7d'));g.globalAlpha=1}
- if(soon){const a=1+Math.sin(S.t*10)*.1;g.save();g.translate(x+C*.32,y-C*.15);g.scale(a,a);rr(g,-C*.1,-C*.12,C*.2,C*.24,2,'#e9c85c');g.fillStyle='#2e2527';g.font='900 '+C*.19+'px Nunito,sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('!',0,0);g.restore()}
+
  })}
 function drawBolt(x1,y1,x2,y2,a,lv){const n=7,pts=[x1,y1];for(let i=1;i<n;i++)pts.push(lerp(x1,x2,i/n)+(Math.random()-.5)*C*.22,lerp(y1,y2,i/n)+(Math.random()-.5)*C*.22);pts.push(x2,y2);
  g.globalAlpha=a*.5;ln(g,lv>1?'#ce93d8':'#fff176',C*(lv>1?.16:.11),...pts);g.globalAlpha=a;ln(g,lv>1?'#f3e5f5':'#fffde7',C*.035,...pts);

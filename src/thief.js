@@ -5,7 +5,7 @@ const THIEF={run:2.6,flee:2,grab:.5,tap:.5};
 function setupThieves(i){S.thieves=[];S.thiefPlan=[];if(i<3)return;
  const end=S.spawns.length?S.spawns[S.spawns.length-1].t:60,R=rng(i*331+7),n=i>=7?2:1;
  for(let k=0;k<n;k++)S.thiefPlan.push({t:end*(n==1?.45:.3+k*.4)+R()*8,d:Math.floor(R()*S.lv.doors.length)})}
-function thiefDoor(di){const d=S.lv.doors[di],at=d.s=='t'&&S.doorAt&&S.doorAt[di];
+function thiefDoor(di){const d=S.lv.doors[di],at=S.doorAt&&S.doorAt[di];
  return at?{x:at.x,y:at.y+C*.1}:{x:FX(d.c+.5),y:d.s=='t'?FY(0)-C*.15:FY(S.rows)+C*.55}}
 function thiefCoin(th){const free=S.coins.filter(c=>!c.fly&&!c.done&&!c.thief);if(!free.length)return null;
  const c=free.sort((a,b)=>Math.hypot(a.x-th.x,a.ground-th.y)-Math.hypot(b.x-th.x,b.ground-th.y))[0];c.thief=th;return c}

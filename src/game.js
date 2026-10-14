@@ -12,7 +12,7 @@ function updateZoomButtons(){const label=$('#zoomLabel');if(label)label.textCont
  const minus=$('#zoomOut'),plus=$('#zoomIn');if(minus)minus.disabled=viewZoom<=minZoom()+.001;if(plus)plus.disabled=viewZoom>=4}
 function layout(){cvTop=bar.getBoundingClientRect().bottom;const height=Math.max(200,innerHeight-cvTop);const rows=S?S.rows:5;
  if(S&&!S.viewCell)S.viewCell=clamp((height-40)/(rows+2.2),40,92);
- C=S?S.viewCell:72;TOPH=C*2.1;BOTH=C*1.0;X0=C*2.5;dpr=Math.min(2,devicePixelRatio||1);
+ C=S?S.viewCell:72;TOPH=C*2.1;BOTH=COMIC_SPRITES['front-house-1']?.image.naturalWidth?C*1.5:C*1.0;X0=C*2.5;dpr=Math.min(2,devicePixelRatio||1);
  WW=X0+COLS*C+C*.3;FH=TOPH+rows*C+BOTH;oy=0;
  if(!manualZoom)viewZoom=defaultZoom();else viewZoom=Math.max(viewZoom,minZoom());
  VW=innerWidth/viewZoom;VH=height/viewZoom;
@@ -177,7 +177,7 @@ function txt(e,s,col){P({k:'txt',txt:s,x:FX(e.x),y:FY(e.y)+C*.1,vy:-C*.5,life:1.
 const onRow=(e,r)=>Math.abs(e.r-r)<=(e.span||0);
 const inCells=(r,a,b)=>S.enemies.filter(e=>e.state=='walk'&&!e.dead&&!e.flee&&!e.jf&&onRow(e,r)&&e.x>=a&&e.x<b).sort((p,q)=>p.x-q.x);
 function mk(type,r,x,y){const d=E[type],hm=(S.lv.hpm||1)*(S.i>=2?.9:1),e={id:S.id++,type,r,x,y:y??r,hp:d.hp*hm,max:d.hp*hm,span:d.boss?1:0,arm:d.arm?1:0,armHp:d.arm||0,sp:d.sp*(S.i>=2?.95:1),ph:Math.random()*6,t:0,soak:0,boost:0,hit:0,stun:0,rust:0,mt:0,vt:0,state:'walk',sndT:2+Math.random()*8};S.enemies.push(e);return e}
-function spawn(s){const d=S.lv.doors[s.d],at=d.s=='t'&&S.doorAt&&S.doorAt[s.d],e=mk(s.type,s.r,at?(at.x-X0)/C:d.c+.5,d.s=='t'?-1.1:S.rows-.1);e.state='enter';S.doorOpen[s.d]=1.3;S.spawned++;
+function spawn(s){const d=S.lv.doors[s.d],at=S.doorAt&&S.doorAt[s.d],e=mk(s.type,s.r,at?(at.x-X0)/C:d.c+.5,d.s=='t'?-1.1:S.rows-.1);e.state='enter';S.doorOpen[s.d]=1.3;S.spawned++;
  if(SPECIAL.has(s.type)){S.toasts.push({type:s.type,txt:`${E[s.type].n} выходит ${d.s=='t'?'из дома':'из подворотни'} №${d.c}`,life:5});SFX.sting();
   setTimeout(()=>voice(s.type,1,2),500);if(s.type=='boss'){music('boss');banner('Король Пылесосов!')}}}
 function dropCoin(x,y,ground,val){S.coins.push({x,y,vx:(Math.random()-.5)*C*.8,vy:-C*3.2,ground,life:9,val,gold:val>=25})}
@@ -337,10 +337,11 @@ function drawField(){drawOverheadField()}
 function drawHome(s){drawOverheadHome()}
 function drawDoors(){S.lv.doors.forEach((d,i)=>{
  const top=d.s=='t',soon=S.spawns.some(s=>s.d===i&&s.t-S.t<4),open=soon||S.doorOpen[i]>0;
- const at=top&&S.doorAt&&S.doorAt[i],y=at?at.y:top?FY(0)-C*.2:FY(S.rows)+C*.46+(BOTH-C*.46)*.42,w=at?at.w*1.6:C*.46,h=at?at.h:C*.2,x=at?at.x:FX(d.c+.5);
- // Doors live in the houses/gateways; only an opening doorway with glowing eyes is drawn on top.
+ const at=S.doorAt&&S.doorAt[i],y=at?at.y:top?FY(0)-C*.2:FY(S.rows)+C*.46+(BOTH-C*.46)*.42,w=at?at.w*1.6:C*.46,h=at?at.h:C*.2,x=at?at.x:FX(d.c+.5);
+ // Active houses: a dark doorway (until the -open art arrives), and evil eyes before a cat comes out.
+ if(!at||at.code)el(g,x,y,w*.7,h*.9,'rgba(20,16,22,.8)');
  if(open){const k=Math.min(1,(S.doorOpen[i]>0?S.doorOpen[i]:1)*2);g.globalAlpha=k;el(g,x,y,w*.7,h*.9,'rgba(20,16,22,.75)');[-1,1].forEach(q=>el(g,x+q*Math.min(C*.07,w*.22),y,C*.028,C*.028*(.4+.6*Math.abs(Math.sin(S.t*3+i))),'#c8ef7d'));g.globalAlpha=1}
- if(soon){const a=1+Math.sin(S.t*10)*.1;g.save();g.translate(x+C*.32,y-C*.15);g.scale(a,a);rr(g,-C*.1,-C*.12,C*.2,C*.24,2,'#e9c85c');g.fillStyle='#2e2527';g.font='900 '+C*.19+'px Nunito,sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('!',0,0);g.restore()}
+
  })}
 function drawBolt(x1,y1,x2,y2,a,lv){const n=7,pts=[x1,y1];for(let i=1;i<n;i++)pts.push(lerp(x1,x2,i/n)+(Math.random()-.5)*C*.22,lerp(y1,y2,i/n)+(Math.random()-.5)*C*.22);pts.push(x2,y2);
  g.globalAlpha=a*.5;ln(g,lv>1?'#ce93d8':'#fff176',C*(lv>1?.16:.11),...pts);g.globalAlpha=a;ln(g,lv>1?'#f3e5f5':'#fffde7',C*.035,...pts);

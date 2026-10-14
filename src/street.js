@@ -110,18 +110,24 @@ function streetFront(rt,sw){const base=rt-sw*.6,maxH=rt-sw*.6-oy-C*.08;S.doorAt=
  S.houses.forEach((h,i)=>{const key=BUILD_KEYS[(i*3+S.i)%BUILD_KEYS.length],s=COMIC_SPRITES[key];if(!s)return;
   const slot=h.w*C,sc=Math.min(slot*.96/s.w,maxH/s.h),w=s.w*sc,spare=slot-w;
   // A zombie door inside this lot: shift the house so its painted front door sits on that column.
-  const di=S.lv.doors.findIndex(d=>d.s=='t'&&d.c>=h.c0&&d.c<h.c0+h.w);let cx=FX(h.c0+h.w/2);
-  if(di>=0){cx=clamp(FX(S.lv.doors[di].c+.5),FX(h.c0)+w/2,FX(h.c0+h.w)-w/2);S.doorAt[di]={x:cx,y:base-s.h*sc*.14,w:w*.12,h:s.h*sc*.15}}
+  const di=S.lv.doors.findIndex(d=>d.s=='t'&&d.c>=h.c0&&d.c<h.c0+h.w);let cx=FX(h.c0+h.w/2),drawKey=key;
+  if(di>=0){cx=clamp(FX(S.lv.doors[di].c+.5),FX(h.c0)+w/2,FX(h.c0+h.w)-w/2);
+   // Active house: open-door art when it exists; the door anchor comes from the manifest ("door":[x,y] in source pixels).
+   if(COMIC_SPRITES[key+'-open']?.image.naturalWidth)drawKey=key+'-open';
+   S.doorAt[di]=doorAnchor(drawKey,cx,base,sc)||{x:cx,y:base-s.h*sc*.14,w:w*.12,h:s.h*sc*.15,code:drawKey==key}}
   // Leftover width becomes a yard with a tree, so houses never float in empty lawn.
   if(spare>C*.5){const side=cx-FX(h.c0)>FX(h.c0+h.w)-cx?-1:1,tx=cx+side*(w/2+spare/4);swayFit(g,'prop-tree',tx,base+C*.04,Math.min(spare*.55,C*1.1),C*1.15,.02,i)}
-  comicFit(g,key,cx,base,w,s.h*sc);
+  comicFit(g,drawKey,cx,base,w,s.h*sc);
   const pk=hash1(i*9+S.i);if(pk<.5)comicFit(g,pk<.25?'prop-bin':'prop-crate',FX(h.c0)+C*.22,rt-sw*.12,C*.24,C*.28);
   else if(pk<.7)comicFit(g,'prop-mailbox',FX(h.c0+h.w)-C*.2,rt-sw*.1,C*.18,C*.36)});
  streetLamps(rt,sw,false)}
+// Door centre of a sprite placed with comicFit(cx,bottom) at scale sc; null if the manifest has no door.
+function doorAnchor(key,cx,bottom,sc){const s=COMIC_SPRITES[key];if(!s?.door)return null;
+ return{x:cx-s.w*sc/2+(s.door[0]-s.x)*sc,y:bottom-s.h*sc+(s.door[1]-s.y)*sc,w:s.w*sc*.1,h:s.h*sc*.12,code:false}}
 function streetLamps(rt,sw,glow){for(let c=YC+1;c<COLS;c+=4){if((S.lv.cross||[]).includes(c))continue;const x=FX(c)+C*.05,y=rt-C*.04;
  if(glow){g.fillStyle=rgrad(g,x,y-C*.95,0,C*1.1,[[0,'rgba(255,229,161,.32)'],[1,'rgba(255,229,161,0)']]);g.fillRect(x-C*1.1,y-C*2,C*2.2,C*2.4)}
  else comicFit(g,'prop-lamp',x,y,C*.24,C*1.05)}}
-function foregroundRoofs(y,h){const gx=0,xr=Math.max(WW,camX+VW)+C,doors=S.lv.doors.filter(d=>d.s=='b').map(d=>d.c),cr=S.lv.cross||[];
+function foregroundRoofs(y,h){if(COMIC_SPRITES['front-house-1']?.image.naturalWidth)return frontHouses(y,h);const gx=0,xr=Math.max(WW,camX+VW)+C,doors=S.lv.doors.filter(d=>d.s=='b').map(d=>d.c),cr=S.lv.cross||[];
  h=Math.max(h,C*.5);
  // One continuous terrace of roofs, cut by gateways (zombie doors) and crossings.
  const cuts=[...doors,...cr].sort((a,b)=>a-b);let x=gx;
@@ -129,4 +135,12 @@ function foregroundRoofs(y,h){const gx=0,xr=Math.max(WW,camX+VW)+C,doors=S.lv.do
  if(x<xr)roofStrip(g,x,xr,y,h,99+S.i);
  // A thin margin below in case of rounding; the camera never shows more (see minZoom).
  roofStrip(g,gx,xr,y+h,C*.6,13+S.i)}
+// Near side of the road: houses seen from above-behind, fronts (and doors) facing the road.
+function frontHouses(y,h){const xr=Math.max(WW,camX+VW)+C,bottomDoors=S.lv.doors.map((d,i)=>[d,i]).filter(([d])=>d.s=='b'),keys=[1,2,3,4].map(n=>'front-house-'+n).filter(k=>COMIC_SPRITES[k]?.image.naturalWidth);
+ const put=(key,cx,w,di)=>{const s=COMIC_SPRITES[key],sc=Math.min(w/s.w,(h+C*.05)/s.h),bt=y+h+C*.05;comicFit(g,key,cx,bt,s.w*sc,s.h*sc);
+  if(di!=null)S.doorAt[di]=doorAnchor(key,cx,bt,sc)||{x:cx,y:y+C*.15,w:s.w*sc*.12,h:C*.18,code:true}};
+ S.doorAt=S.doorAt||{};let c=-3,k=0;
+ while(FX(c)<xr){const hit=bottomDoors.find(([d])=>d.c>=c&&d.c<c+2);
+  if(hit){const [d,di]=hit,base=keys[(d.c+S.i)%keys.length],open=COMIC_SPRITES[base+'-open']?.image.naturalWidth?base+'-open':base;put(open,FX(d.c+.5),C*2,di);c=d.c+1.5}
+  else{put(keys[(k+++S.i)%keys.length],FX(c+1),C*2,null);c+=2}}}
 function districtBuildings(){}function districtProps(){}
