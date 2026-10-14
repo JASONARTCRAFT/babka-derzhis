@@ -189,7 +189,7 @@ function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;
  if(!$('#game').hidden&&S){
   if(S.phase=='intro'){if($('#ov').hidden)intro(dt)}else if(S.phase=='ready'){S.rt+=dt;if(S.rt>2.3)S.phase='play'}
   else if(!S.paused&&$('#ov').hidden&&(S.phase=='play'||S.phase=='won'))for(let i=0;i<S.speed;i++)step(dt);
-  if(drag&&drag.moved&&ptr.in){if(ptr.x>VW-50)camX=clamp(camX+C*8*dt,0,maxCam());if(ptr.x<50)camX=clamp(camX-C*8*dt,0,maxCam())}
+  if(drag&&drag.moved&&ptr.in){if(ptr.x>VW-50)camX=clamp(camX+C*8*dt,0,maxCam());if(ptr.x<50)camX=clamp(camX-C*8*dt,0,maxCam());if(ptr.y>VH-50)camY=clamp(camY+C*8*dt,0,maxCamY());if(ptr.y<50)camY=clamp(camY-C*8*dt,0,maxCamY())}
   draw();updBar()}
  else if(!$('#menu').hidden){drawMenu(dt);if((menuTick+=dt)>1){menuTick=0;updMenu()}}
  else if(!$('#farm').hidden)drawFarm(dt);
