@@ -1,0 +1,293 @@
+[
+  {
+    "file": "characters-friendly.png",
+    "keys": [
+      "cat-sleep",
+      "cat-sit",
+      "cat-loaf",
+      "cat-walk-side",
+      "granny-shock",
+      "granny-calm",
+      "granny-knit",
+      "granddaughter-explain",
+      "granddaughter-give"
+    ]
+  },
+  {
+    "file": "day-buildings-open.png",
+    "keys": [
+      "building-pharmacy-open",
+      "building-bakery-open",
+      "building-fish-open",
+      "building-florist-open",
+      "building-garage-open",
+      "building-kiosk-open",
+      "building-home-open",
+      "building-workshop-open"
+    ]
+  },
+  {
+    "file": "day-buildings.png",
+    "keys": [
+      "building-pharmacy",
+      "building-bakery",
+      "building-fish",
+      "building-florist",
+      "building-garage",
+      "building-kiosk",
+      "building-home",
+      "building-workshop"
+    ]
+  },
+  {
+    "file": "effects-events.png",
+    "keys": [
+      "fx-ball",
+      "fx-splash",
+      "fx-boom",
+      "fx-cucumber",
+      "event-rain",
+      "event-blackout",
+      "event-pension",
+      "event-pipe",
+      "event-neighbor",
+      "event-roadwork",
+      "puddle",
+      "roadwork-barrier"
+    ]
+  },
+  {
+    "file": "front-detail.png",
+    "keys": [
+      "front-gateway",
+      "front-gap-yard",
+      "front-prop-bench",
+      "front-prop-bin",
+      "front-prop-bike",
+      "front-prop-planter"
+    ]
+  },
+  {
+    "file": "front-family-1-day-closed.png",
+    "keys": [
+      "front-house-1",
+      "front-house-2",
+      "front-house-3",
+      "front-house-4"
+    ]
+  },
+  {
+    "file": "front-family-1-night-open.png",
+    "keys": [
+      "front-house-1-night-open",
+      "front-house-2-night-open",
+      "front-house-3-night-open",
+      "front-house-4-night-open"
+    ]
+  },
+  {
+    "file": "front-family-1-night.png",
+    "keys": [
+      "front-house-1-night",
+      "front-house-2-night",
+      "front-house-3-night",
+      "front-house-4-night"
+    ]
+  },
+  {
+    "file": "front-family-1-open.png",
+    "keys": [
+      "front-house-1-open",
+      "front-house-2-open",
+      "front-house-3-open",
+      "front-house-4-open"
+    ]
+  },
+  {
+    "file": "front-family-2-day-closed.png",
+    "keys": [
+      "front-house-5",
+      "front-house-6",
+      "front-house-7",
+      "front-house-8"
+    ]
+  },
+  {
+    "file": "front-family-2-night-open.png",
+    "keys": [
+      "front-house-5-night-open",
+      "front-house-6-night-open",
+      "front-house-7-night-open",
+      "front-house-8-night-open"
+    ]
+  },
+  {
+    "file": "front-family-2-night.png",
+    "keys": [
+      "front-house-5-night",
+      "front-house-6-night",
+      "front-house-7-night",
+      "front-house-8-night"
+    ]
+  },
+  {
+    "file": "front-family-2-open.png",
+    "keys": [
+      "front-house-5-open",
+      "front-house-6-open",
+      "front-house-7-open",
+      "front-house-8-open"
+    ]
+  },
+  {
+    "file": "garden-stages-a.png",
+    "keys": [
+      "plant-catnip-1",
+      "plant-catnip-2",
+      "plant-catnip-3",
+      "plant-chili-1",
+      "plant-chili-2",
+      "plant-chili-3",
+      "plant-volt-1",
+      "plant-volt-2",
+      "plant-volt-3"
+    ]
+  },
+  {
+    "file": "garden-stages-b.png",
+    "keys": [
+      "plant-pump-1",
+      "plant-pump-2",
+      "plant-pump-3",
+      "plant-cuke-1",
+      "plant-cuke-2",
+      "plant-cuke-3"
+    ]
+  },
+  {
+    "file": "menu-cattree.png",
+    "keys": [
+      "menu-cattree"
+    ]
+  },
+  {
+    "file": "menu-garden-props.png",
+    "keys": [
+      "menu-slab",
+      "menu-sign",
+      "menu-almanac",
+      "menu-stake-sign",
+      "blueprint-card",
+      "loot-sack",
+      "survival-badge",
+      "mower-broken",
+      "pot",
+      "can",
+      "seed-bag",
+      "leaf-mint"
+    ]
+  },
+  {
+    "file": "night-buildings-open.png",
+    "keys": [
+      "building-pharmacy-night-open",
+      "building-bakery-night-open",
+      "building-fish-night-open",
+      "building-florist-night-open",
+      "building-garage-night-open",
+      "building-kiosk-night-open",
+      "building-home-night-open",
+      "building-workshop-night-open"
+    ]
+  },
+  {
+    "file": "night-buildings.png",
+    "keys": [
+      "building-pharmacy-night",
+      "building-bakery-night",
+      "building-fish-night",
+      "building-florist-night",
+      "building-garage-night",
+      "building-kiosk-night",
+      "building-home-night",
+      "building-workshop-night"
+    ]
+  },
+  {
+    "file": "scenery.png",
+    "keys": [
+      "roof-flat-1",
+      "roof-flat-2",
+      "roof-flat-3",
+      "gateway",
+      "door-open",
+      "prop-busstop",
+      "prop-hydrant-street",
+      "prop-bike",
+      "prop-flowerbox",
+      "house-roof-clean",
+      "prop-tree-far",
+      "prop-lamp-tall"
+    ]
+  },
+  {
+    "file": "street-and-upgrades.png",
+    "keys": [
+      "bowl",
+      "hydrant",
+      "pole",
+      "taxi",
+      "truck",
+      "shovel",
+      "mower",
+      "wheel-gold",
+      "ball-launcher-2",
+      "ball-launcher-3",
+      "spr-2",
+      "shock-2"
+    ]
+  },
+  {
+    "file": "zombie-boss.png",
+    "keys": [
+      "zombie-boss"
+    ]
+  },
+  {
+    "file": "zombie-types-a.png",
+    "keys": [
+      "zombie-kit",
+      "zombie-fat",
+      "zombie-ath",
+      "zombie-mom",
+      "zombie-lead",
+      "zombie-skate",
+      "zombie-swim",
+      "zombie-basin"
+    ]
+  },
+  {
+    "file": "zombie-types-b.png",
+    "keys": [
+      "zombie-vac",
+      "zombie-box",
+      "zombie-ghost",
+      "zombie-robo",
+      "zombie-owner",
+      "basin",
+      "vac-robot",
+      "zombie-skate-board",
+      "zombie-thief"
+    ]
+  },
+  {
+    "file": "props-atlas.png",
+    "keys": [],
+    "note": "Original environment pack before static expansion"
+  },
+  {
+    "file": "buildings-atlas.png",
+    "keys": [],
+    "note": "Original environment pack before static expansion"
+  }
+]
