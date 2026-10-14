@@ -289,5 +289,48 @@
     "file": "buildings-atlas.png",
     "keys": [],
     "note": "Original environment pack before static expansion"
+  },
+  {
+    "file": "intro-home.png",
+    "keys": [
+      "intro-home"
+    ],
+    "note": "Full original PNG; no slicing/resizing. Flat comic style corrected to user references 14.10.2026."
+  },
+  {
+    "file": "intro-street.png",
+    "keys": [
+      "intro-street"
+    ],
+    "note": "Full original PNG; no slicing/resizing. Flat comic style corrected to user references 14.10.2026."
+  },
+  {
+    "file": "intro-workshop.png",
+    "keys": [
+      "intro-workshop"
+    ],
+    "note": "Full original PNG; no slicing/resizing. Flat comic style corrected to user references 14.10.2026."
+  },
+  {
+    "file": "intro-title.png",
+    "keys": [
+      "intro-title"
+    ],
+    "note": "Full original PNG; no slicing/resizing. Flat comic style corrected to user references 14.10.2026."
+  },
+  {
+    "file": "menu-logo.png",
+    "keys": [
+      "menu-logo"
+    ],
+    "note": "Full original PNG; no slicing/resizing. Flat comic style corrected to user references 14.10.2026."
+  },
+  {
+    "file": "front-gateway-pair.png",
+    "keys": [
+      "front-gateway",
+      "front-gateway-open"
+    ],
+    "note": "Full original PNG; no slicing/resizing. Flat comic style corrected to user references 14.10.2026."
   }
 ]

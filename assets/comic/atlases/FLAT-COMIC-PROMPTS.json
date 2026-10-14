@@ -1,0 +1,49 @@
+{
+  "tool": "built-in imagegen",
+  "date": "2026-10-14",
+  "jobs": [
+    {
+      "name": "intro-home",
+      "keys": [
+        "intro-home"
+      ],
+      "prompt": "Single16:9wide story BACKGROUND for 'Бабка против зомби!'. Use attached comics as strict VISUAL LANGUAGE reference: deliberately simple indie webcomic, rough uneven BLACK pen contour, broad FLAT solid color areas, almost no shading, maximum ONE hard shadowtone, imperfect handdrawn lines. Muted cream/beige/burgundy/dustypink/gray/plum/olive; flat paper-like drawing. NO painterly lighting, NO smooth gradients, NO realistic materials, NO renderedvolume, NO glossyhighlights, NO depthoffield, NO detailedornaments, NO cinematic polish. Simplicity and wonky linework like reference. Do NOT copy comic dialogue, offensivewords, watermark or characters. No text or bubbles. Whole static scene, notanimation, notatlas. Opaque background. SCENE: Grandma livingroom, simple beige wall, burgundy EMPTY armchair LEFT, mint-graysofa RIGHT with3healthyordinarycats orangegraybrown curled sleeping, 2-3simplehouseplants, squarewindow, plain rug, basketwithyarnballs. No grandma or granddaughter; those are overlays. Sparse furnishings, plainwalls, fewdrawnlines, keepclearfloorcentre."
+    },
+    {
+      "name": "intro-street",
+      "keys": [
+        "intro-street"
+      ],
+      "prompt": "Single16:9wide story BACKGROUND for 'Бабка против зомби!'. Use attached comics as strict VISUAL LANGUAGE reference: deliberately simple indie webcomic, rough uneven BLACK pen contour, broad FLAT solid color areas, almost no shading, maximum ONE hard shadowtone, imperfect handdrawn lines. Muted cream/beige/burgundy/dustypink/gray/plum/olive; flat paper-like drawing. NO painterly lighting, NO smooth gradients, NO realistic materials, NO renderedvolume, NO glossyhighlights, NO depthoffield, NO detailedornaments, NO cinematic polish. Simplicity and wonky linework like reference. Do NOT copy comic dialogue, offensivewords, watermark or characters. No text or bubbles. Whole static scene, notanimation, notatlas. Opaque background. SCENE: Evening suburban street, broad flatplumpavement foreground,3simpleboxyhomes background withflatpurple sky. Two terrified neighbors runningLEFT and3olive zombiecats comingfrom blackbasementdoorRIGHT. Zombiecats FOURpaws withsimple stitches dull yelloweyes slackjaw, flat funny drawings. No mainheroes, nogore. Simple silhouettes not detailed streetscape. Leaveclearcentralpavement."
+    },
+    {
+      "name": "intro-workshop",
+      "keys": [
+        "intro-workshop"
+      ],
+      "prompt": "Single16:9wide story BACKGROUND for 'Бабка против зомби!'. Use attached comics as strict VISUAL LANGUAGE reference: deliberately simple indie webcomic, rough uneven BLACK pen contour, broad FLAT solid color areas, almost no shading, maximum ONE hard shadowtone, imperfect handdrawn lines. Muted cream/beige/burgundy/dustypink/gray/plum/olive; flat paper-like drawing. NO painterly lighting, NO smooth gradients, NO realistic materials, NO renderedvolume, NO glossyhighlights, NO depthoffield, NO detailedornaments, NO cinematic polish. Simplicity and wonky linework like reference. Do NOT copy comic dialogue, offensivewords, watermark or characters. No text or bubbles. Whole static scene, notanimation, notatlas. Opaque background. SCENE: Catgirl workshop shed: simplebeigewoodwalls, brownworkbenchback, pegboardwith5tools, wirecoil batteries tennisballs planks andonewheelrim onbench. Purplecomputer withblank screen, crudehanddrawn engineering clutter. No people or cats or finished devices. Clearfloorforeground forsprites. Sparsegraphic shapes, nomaterialtextures."
+    },
+    {
+      "name": "intro-title",
+      "keys": [
+        "intro-title"
+      ],
+      "prompt": "Single16:9wide story BACKGROUND for 'Бабка против зомби!'. Use attached comics as strict VISUAL LANGUAGE reference: deliberately simple indie webcomic, rough uneven BLACK pen contour, broad FLAT solid color areas, almost no shading, maximum ONE hard shadowtone, imperfect handdrawn lines. Muted cream/beige/burgundy/dustypink/gray/plum/olive; flat paper-like drawing. NO painterly lighting, NO smooth gradients, NO realistic materials, NO renderedvolume, NO glossyhighlights, NO depthoffield, NO detailedornaments, NO cinematic polish. Simplicity and wonky linework like reference. Do NOT copy comic dialogue, offensivewords, watermark or characters. No text or bubbles. Whole static scene, notanimation, notatlas. Opaque background. SCENE: Simple sunsetneighborhood background for titleoverlay. Flatpeachcream sky,3simple lavenderclouds, distantfewboxyhouse silhouettes, plainwoodenfence andolive lawn foreground. SmallredroofhouseedgeLEFT, openspacecentre. No characters cats words logo. Sunset indicated bycolorblocks NO gradients or lightbeams."
+    },
+    {
+      "name": "menu-logo",
+      "keys": [
+        "menu-logo"
+      ],
+      "prompt": "Standalone TITLE LOGO on TRUE TRANSPARENT background for Russian comiccat zombiegame. EXACT Cyrillic text in THREE compact stackedlines: 'БАБКА' / 'ПРОТИВ' / 'ЗОМБИ!' . Simple roughly hand-lettered BOLD CONDENSED uppercase blackoutline like attached indie webcomic speech lettering, imperfectinkedges. 'БАБКА' creamfilled, smaller 'ПРОТИВ' dustycoralfilled, 'ЗОМБИ!' mutedolivefilled. Flat2D NO3D bevel NOgloss NOglow NOsmoothgradient. Tiny simple cat ears integratedontopofЗОМБИ line andone smallstitchdetail. Readable atsmallsize, centeredfullmarkwith10%transparentmargin, no banner no background no otherwords no watermark. Attached images STYLEreferenceonly doNOTcopydialogue or watermark."
+    },
+    {
+      "name": "front-gateway-pair",
+      "keys": [
+        "front-gateway",
+        "front-gateway-open"
+      ],
+      "prompt": "Production STATIC sprite PAIR on TRUE TRANSPARENT background, 2columns1row. Match attached indiecomic flatcolorroughblackoutline simpleformstyle, almostno shading ONE hardshadow max. Same smallsquarecity passagebuilding inTWO states: LEFT closed simplewoodendoublegate; RIGHT samegateopensINWARD leaving PUREBLACK EMPTY archpassage no eyes nocats. Sharedarchitecture: mutedcreamstonefrontwall withsemicirculararch opening, smallbroadredtile roofseenfromhighabove andENTIRE frontwallbelowroof. Straight centered camera NOyaw NOsidewall NOtilt. NOT fortresstomb, normal neighborhood pedestrian gateway. Completebuilding samepositionsize ineachcell withgeneroustransparentpadding; no ground externalshadow text. Theseare2staticstates NOTanimationframes. Preserve1:1buildingfootprint. DoNOTcopycomiccharactersdialoguewatermark."
+    }
+  ]
+}
