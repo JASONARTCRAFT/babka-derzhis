@@ -32,8 +32,8 @@ function comicUnit(ctx,u){
  comicFit(ctx,key,0,0,58,u.t=='cuc'?63:60);
  if(lv>1){rr(ctx,14,-13,16,12,3,'#ffdb67');ctx.fillStyle='#1d181d';ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.fillText(lv,22,-3)}
  if(u.t=='shock'&&u.fire>0){ln(ctx,'#ffe974',2.5,21,-45,30,-40,24,-34,34,-29)}
- if(u.t=='spr'&&u.fire>0){for(let i=0;i<3;i++)el(ctx,26+i*5,-41+i*4,1.5,2.5,'#9bdbed')}
- if(u.t=='laser'){ln(ctx,'#e8495f',1.5,23,-37,36,-37)}
+ if(u.t=='spr'&&u.fire>0){for(let i=0;i<3;i++)el(ctx,28+i*5,-46+i*3,1.5,2.5,'#9bdbed')}
+ if(u.t=='laser'){ln(ctx,'#e8495f',1.5,23,-39,34,-39)}
  if(u.t=='mine'&&!(u.arm>0)){el(ctx,14,-39,2+Math.sin(ph*5),2,'#f2cb55')}
  ctx.restore();return true}
 function comicZombie(ctx,o){

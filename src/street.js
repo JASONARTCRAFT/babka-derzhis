@@ -106,11 +106,14 @@ function lawnDecor(rt,rb){
   const x=FX(c+(h<.15?.1:.9)),y=FY(r)+C*(h<.08?.12:.95);g.globalAlpha=.85;swayFit(g,'prop-grass',x,y,C*.2,C*.12,.08,r+c);g.globalAlpha=1}
  swayFit(g,'prop-grass',X0-C*.45,rt+C*.2,C*.24,C*.14,.08,1);comicFit(g,'prop-rocks',X0-C*.1,rb-C*.02,C*.22,C*.16)}
 const BUILD_KEYS=['building-pharmacy','building-bakery','building-fish','building-florist','building-garage','building-kiosk','building-home','building-workshop'];
-function streetFront(rt,sw){const base=rt-sw*.6,maxH=rt-sw*.6-oy-C*.08;
+function streetFront(rt,sw){const base=rt-sw*.6,maxH=rt-sw*.6-oy-C*.08;S.doorAt=S.doorAt||{};
  S.houses.forEach((h,i)=>{const key=BUILD_KEYS[(i*3+S.i)%BUILD_KEYS.length],s=COMIC_SPRITES[key];if(!s)return;
-  const slot=h.w*C,cx=FX(h.c0+h.w/2),sc=Math.min(slot*.96/s.w,maxH/s.h),w=s.w*sc,spare=slot-w;
+  const slot=h.w*C,sc=Math.min(slot*.96/s.w,maxH/s.h),w=s.w*sc,spare=slot-w;
+  // A zombie door inside this lot: shift the house so its painted front door sits on that column.
+  const di=S.lv.doors.findIndex(d=>d.s=='t'&&d.c>=h.c0&&d.c<h.c0+h.w);let cx=FX(h.c0+h.w/2);
+  if(di>=0){cx=clamp(FX(S.lv.doors[di].c+.5),FX(h.c0)+w/2,FX(h.c0+h.w)-w/2);S.doorAt[di]={x:cx,y:base-s.h*sc*.14,w:w*.12,h:s.h*sc*.15}}
   // Leftover width becomes a yard with a tree, so houses never float in empty lawn.
-  if(spare>C*.5){const tx=cx+(i%2?1:-1)*(w/2+spare/4);swayFit(g,'prop-tree',tx,base+C*.04,Math.min(spare*.55,C*1.1),C*1.15,.02,i)}
+  if(spare>C*.5){const side=cx-FX(h.c0)>FX(h.c0+h.w)-cx?-1:1,tx=cx+side*(w/2+spare/4);swayFit(g,'prop-tree',tx,base+C*.04,Math.min(spare*.55,C*1.1),C*1.15,.02,i)}
   comicFit(g,key,cx,base,w,s.h*sc);
   const pk=hash1(i*9+S.i);if(pk<.5)comicFit(g,pk<.25?'prop-bin':'prop-crate',FX(h.c0)+C*.22,rt-sw*.12,C*.24,C*.28);
   else if(pk<.7)comicFit(g,'prop-mailbox',FX(h.c0+h.w)-C*.2,rt-sw*.1,C*.18,C*.36)});
@@ -124,6 +127,6 @@ function foregroundRoofs(y,h){const gx=0,xr=Math.max(WW,camX+VW)+C,doors=S.lv.do
  const cuts=[...doors,...cr].sort((a,b)=>a-b);let x=gx;
  cuts.forEach(c=>{const cx0=FX(c),cx1=FX(c+1);if(cx0>x)roofStrip(g,x,cx0,y,h,c+S.i);if(!cr.includes(c))gateway(g,cx0,y,cx1-cx0,h);x=cx1});
  if(x<xr)roofStrip(g,x,xr,y,h,99+S.i);
- // Deeper rows of roofs fill any view below the board.
- for(let k=1,yy=y+h;yy<camY+VH;k++,yy+=h)roofStrip(g,gx,xr,yy,h,k*13+S.i)}
+ // A thin margin below in case of rounding; the camera never shows more (see minZoom).
+ roofStrip(g,gx,xr,y+h,C*.6,13+S.i)}
 function districtBuildings(){}function districtProps(){}
