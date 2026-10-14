@@ -53,16 +53,14 @@ function genRoofs(i,lv){const R=rng(i*91+3),out=[],cr=lv.cross||[],gaps=new Set(
   out.push({c0:c,w,col:['#a1453a','#5d6f8f','#7a5a8a','#8a6a3a','#4f7d5b'][R()*5|0],chim:R()<.6});c+=w}return out}
 function newCards(i){if(i==0)return[];const p=L[i-1],n=L[i];return[...n.cards.filter(k=>!p.cards.includes(k)),...n.ab.filter(k=>!p.ab.includes(k)),...(n.shovel&&!p.shovel?['shovel']:[])]}
 function setupHints(i){const H=S.hints;
- if(i==0){H.push({txt:'Перетащи карточку «Колесо Мурзика» на газон. Можно и так: нажми карточку, потом клетку.',until:()=>S.units.some(u=>u.t=='wheel')},
-  {txt:'Мурзик бегает в колесе. Скоро выпадет серебряная монетка: кликни по ней, пока не пропала.',until:()=>S.collected>0},
-  {txt:'Теперь поставь «Мячемёт». Он стреляет вправо по своему ряду.',until:()=>S.units.some(u=>u.t=='ball')},
-  {txt:'Коты выходят из домов справа. Внизу карта всей улицы: рамка показывает, что ты видишь. Листай колесом мыши или тяни рамку на карте. Монетки собирай, проводя по ним зажатой мышкой.',until:()=>S.t>48},
-  {txt:'Колёс много не бывает, но газон не резиновый, а убрать поставленное пока нельзя.',until:()=>S.t>68})}
- else{newCards(i).forEach(k=>{const d=cardDef(k);H.push({txt:`Новое: ${d.n}. ${d.s}`,until:()=>S.t>16})});
-  if(i==3)H.push({txt:'Секрет: поставь Шокер прямо за Брызгалкой, и ток побежит по струе воды.',until:()=>S.t>40});
-  if(i==4)H.push({txt:'Теперь можно улучшать: перетащи ту же карточку на уже стоящую защиту. Золотое колесо даёт по 25.',until:()=>S.t>40});
-  if(i==5)H.push({txt:'Миску ставят на улице, далеко от газона. Пролистай вправо и задержи котов, пока строишься.',until:()=>S.t>40})}}
-
+ // Few short hints, only where a mechanic is not obvious.
+ if(i==0){H.push({txt:'Перетащи «Колесо» на газон.',until:()=>S.units.some(u=>u.t=='wheel')},
+  {txt:'Кликни по монете.',until:()=>S.collected>0},
+  {txt:'«Мячемёт» бьёт вправо по своему ряду.',until:()=>S.units.some(u=>u.t=='ball')||S.t>40},
+  {txt:'Колесо мыши — листать улицу.',until:()=>camX>C||S.t>30})}
+ else if(i==3)H.push({txt:'Шокер сразу за Брызгалкой бьёт током по струе.',until:()=>S.t>20});
+ else if(i==4)H.push({txt:'Перетащи карточку на ту же защиту — улучшение.',until:()=>S.t>20});
+ else if(i==5)H.push({txt:'Миска ставится на улицу.',until:()=>S.t>20})}
 /* ---------- bar ---------- */
 function buildBar(){bar.innerHTML='';const m=document.createElement('div');m.className='money';m.id='money';m.innerHTML='<canvas width="60" height="60"></canvas><b id="mon">0</b>';bar.append(m);
  drawCoin(m.querySelector('canvas').getContext('2d'),30,30,24,true);
@@ -135,8 +133,8 @@ cv.addEventListener('pointerdown',e=>{pan=null;if(!S||e.button!==0)return;ptr.x=
  if(sel&&canBuild()){tryPlace(sel,wx,wy);sel=null;return}
 });
 cv.addEventListener('wheel',e=>{e.preventDefault();if(e.ctrlKey){changeZoom(e.deltaY<0?1.1:1/1.1);return}
- if(e.shiftKey||Math.abs(e.deltaX)>Math.abs(e.deltaY)||maxCamY()===0)camX=clamp(camX+(e.deltaX||e.deltaY)/viewZoom,0,maxCam());
- else camY=clamp(camY+e.deltaY/viewZoom,0,maxCamY())},{passive:false});
+ if(e.shiftKey&&maxCamY()>0)camY=clamp(camY+(e.deltaY||e.deltaX)/viewZoom,0,maxCamY());
+ else camX=clamp(camX+(Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY)/viewZoom,0,maxCam())},{passive:false});
 addEventListener('keydown',e=>{if(!S||$('#game').hidden)return;if(e.key=='ArrowRight')camX=clamp(camX+C*2,0,maxCam());if(e.key=='ArrowLeft')camX=clamp(camX-C*2,0,maxCam());
  if(['ArrowRight','ArrowLeft','ArrowUp','ArrowDown','+','=','-'].includes(e.key))e.preventDefault();
  if(e.key=='ArrowDown')camY=clamp(camY+C*2,0,maxCamY());if(e.key=='ArrowUp')camY=clamp(camY-C*2,0,maxCamY());
@@ -186,7 +184,7 @@ const magnetUpgraded=()=>!!(save.shop.magnet&&save.lvl>=MAGNET_UNLOCK);
 const magR=()=>C*(magnetUpgraded()?.6:.2),magOn=()=>!!(pan&&pan.sweep&&ptr.in&&S&&!S.paused&&$('#ov').hidden&&(S.phase=='play'||S.phase=='won'));
 addEventListener('pointercancel',()=>{pan=null});
 addEventListener('blur',()=>{pan=null});
-function enemyVoice(e){if(S.sndGap>0||!AU.ctx)return;const sx=FX(e.x)-camX,on=sx>-50&&sx<VW+50;voice(e.type,clamp(sx/VW*2-1,-1,1),(on?1:.45)*(SPECIAL.has(e.type)?2:1));S.sndGap=1.4}
+function enemyVoice(e){if(S.sndGap>0||!AU.ctx)return;const sx=FX(e.x)-camX,on=sx>-50&&sx<VW+50;voice(e.type,clamp(sx/VW*2-1,-1,1),(on?1:.45)*(SPECIAL.has(e.type)?2:1));S.sndGap=9}
 function hit(e,dmg,k){if(e.dead)return 0;const t=e.type;
  if(e.state=='enter'&&k!='car'&&k!='z')return 0;
  if(t=='ghost'&&k!='e'&&k!='z')return 0;
@@ -246,7 +244,7 @@ function upU(u,dt){u.ph+=dt;if(u.pop!=null&&u.pop<1)u.pop+=dt;u.cd-=dt;if(u.fire
     P({k:'ring',x:cx,y:fy-C*.3,life:.5,size:C*1.4,col:'#ffca28'});S.shake=.5;SFX.boom();P({k:'txt',txt:'БАБАХ!',x:cx,y:fy-C,vy:-C*.6,life:1.2,col:'#ffca28'})}}}}
 function upE(e,dt){const d=E[e.type],t=e.type;e.ph+=dt*(e.eat?6:e.sp*22+(e.x>YC?2:0));e.eat=0;
  for(const k of['hit','soak','boost','scared','stun','rust'])if(e[k]>0)e[k]-=dt;
- if((e.sndT-=dt)<=0){e.sndT=7+Math.random()*9;enemyVoice(e)}
+ if((e.sndT-=dt)<=0){e.sndT=30+Math.random()*40;enemyVoice(e)}
  if(e.state=='enter'){const dy=e.r-e.y,st=1.4*dt;if(Math.abs(dy)<=st){e.y=e.r;e.state='walk'}else e.y+=Math.sign(dy)*st;return}
  e.y+=(e.r-e.y)*Math.min(1,dt*5);
  if(e.hop>0){e.hop-=dt;return}
@@ -480,8 +478,7 @@ function drawHUD(){const AR=46,uy=y=>y*UK;
  if(hov&&!drag&&!sel&&canBuild()){const d=cardDef(hov),st=stats(hov,1).map(([n,v])=>`${n}: ${v}`).join(' · ');g.font='800 12px Nunito,sans-serif';const ls=[d.n,...wrap(d.d||d.s,Math.min(400,UW-60)),...(st?[st]:[])],w=Math.min(440,UW-30),h=ls.length*17+14,x=(UW-w)/2,y=8;
   rr(g,x,y+3,w,h,11,'rgba(58,34,16,.6)');rr(g,x,y,w,h,11,A[hov]?'#e3f0ff':'#fff3d6');g.textAlign='center';g.textBaseline='top';ls.forEach((l,i)=>{g.font=i==0?'900 14px Nunito,sans-serif':'800 12px Nunito,sans-serif';g.fillStyle=i==0?'#7a3d10':i==ls.length-1&&st?'#2e7d32':'#3a2210';g.fillText(l,UW/2,y+7+i*17)})}
  else if(S.phase=='play'&&S.hints.length){const t=S.hints[0].txt;g.font='800 13px Nunito,sans-serif';const ls=wrap(t,Math.min(420,UW-60)),w=Math.min(460,UW-30),h=ls.length*18+14,x=(UW-w)/2,y=8;
-  rr(g,x,y+3,w,h,11,'rgba(58,34,16,.6)');rr(g,x,y,w,h,11,'#fff3d6');g.fillStyle='#3a2210';g.textAlign='center';g.textBaseline='top';ls.forEach((l,i)=>g.fillText(l,UW/2,y+8+i*18));
-  helperPortrait(x-6,y,h)}
+  rr(g,x,y+3,w,h,11,'rgba(58,34,16,.6)');rr(g,x,y,w,h,11,'#fff3d6');g.fillStyle='#3a2210';g.textAlign='center';g.textBaseline='top';ls.forEach((l,i)=>g.fillText(l,UW/2,y+8+i*18))}
  const boss=S.enemies.find(e=>e.span);if(boss&&S.phase=='play'){const w=Math.min(480,UW-40),x=(UW-w)/2,y=S.hints.length?84:12;rr(g,x-6,y-4,w+12,32,11,'rgba(40,10,40,.9)');
   rr(g,x,y+13,w,11,6,'#3a1a3a');rr(g,x,y+13,w*Math.max(0,boss.hp/boss.max),11,6,'#ab47bc');g.fillStyle='#f3e5f5';g.font='900 12px Nunito,sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(E.boss.n+' · '+Math.ceil(boss.hp),UW/2,y+5)}
  drawPv();

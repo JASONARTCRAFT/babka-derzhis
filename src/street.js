@@ -19,7 +19,7 @@ function skylineLayer(ctx,viewX,top,width,height,unit,par,col,win,ink,hmax,seed,
   else if(kind<.32){ctx.beginPath();ctx.moveTo(bx-1,base-bh);ctx.lineTo(bx+bw/2,base-bh-unit*.2);ctx.lineTo(bx+bw+1,base-bh);ctx.fill()}
   ctx.strokeStyle=ink;ctx.lineWidth=1.2;ctx.strokeRect(bx,base-bh,bw,bh);
   const ww=unit*.06,wh=unit*.08,gx=unit*.13,gy=unit*.16;
-  for(let y=base-bh+gy*.7;y<base-gy*.6;y+=gy)for(let x=bx+gx*.55;x<bx+bw-ww-2;x+=gx){const lit=hash1(x*.13+y*.71+seed);
+  let row=0;for(let y=base-bh+gy*.7;y<base-gy*.6;y+=gy,row++)for(let col=0,x=bx+gx*.55;x<bx+bw-ww-2;x+=gx,col++){const lit=hash1(i*13.7+row*7.31+col*3.97+seed);
    if(night?lit<.45:lit<.75){ctx.globalAlpha=night?.85:.45;ctx.fillStyle=win;ctx.fillRect(x,y,ww,wh)}}
   ctx.globalAlpha=1}}
 function districtParallax(ctx,viewX,viewY,width,height,unit,time,night=false){
@@ -57,6 +57,12 @@ function roofStrip(ctx,x0,x1,y,h,seed){const ink='#241e25';
   else{rr(ctx,px,py,C*.26,C*.2,2,'#9aa3a6');ctx.strokeStyle=ink;ctx.lineWidth=1.5;ctx.strokeRect(px,py,C*.26,C*.2);for(let k=0;k<3;k++)ln(ctx,'#5e676a',1,px+C*.04,py+C*(.05+k*.05),px+C*.22,py+C*(.05+k*.05))}
   x+=w;i++}
  ctx.restore();ln(ctx,'#2b2328',2.5,x0,y,x1,y)}
+// Back yards: ground, a neighbour fence and trees; the far city starts above it.
+function backYards(x0,x1,y,h){comicGround(g,'lawn-tile',x0,y,x1-x0,h,C*3,'#879544');g.fillStyle='rgba(40,52,24,.18)';g.fillRect(x0,y,x1-x0,h);
+ const fy=y+h*.32,k=C*.32;rr(g,x0,fy-C*.2,x1-x0,C*.06,0,'#9c7a55');rr(g,x0,fy-C*.06,x1-x0,C*.06,0,'#9c7a55');
+ for(let x=Math.floor(x0/k)*k;x<x1;x+=k){rr(g,x,fy-C*.3,C*.07,C*.36,1,'#b48d63');ln(g,'rgba(36,30,37,.45)',1,x,fy-C*.3,x,fy+C*.06)}
+ ln(g,'rgba(36,30,37,.4)',1.5,x0,fy+C*.06,x1,fy+C*.06);
+ const ts=C*1.35;for(let i=Math.floor(x0/ts);i<x1/ts;i++){if(hash1(i*2.3+S.i)<.35)continue;swayFit(g,'prop-tree',i*ts+hash1(i)*ts*.5,fy+C*.12,C*.9,C*.95,.012,i)}}
 function gateway(ctx,x,y,w,h){rr(ctx,x,y,w,h,0,'#3a3036');rr(ctx,x+w*.12,y,w*.76,h,0,'#221b20');
  ctx.fillStyle='rgba(255,230,160,.06)';ctx.fillRect(x+w*.12,y,w*.76,h*.35);ln(ctx,'#14100f',2,x,y,x+w,y)}
 function drawOverheadField(){
@@ -76,16 +82,17 @@ function drawOverheadField(){
   if(h<.16)comicFit(g,'prop-manhole',FX(c+.5),FY(r)+C*.68,C*.36,C*.26);
   else if(h<.34){g.fillStyle='rgba(40,34,44,.18)';g.beginPath();g.ellipse(FX(c+.4),FY(r)+C*.6,C*.22,C*.09,.3,0,7);g.fill()}
   else if(h<.5){for(let k=0;k<3;k++)el(g,FX(c+hash1(c+k)),FY(r)+C*hash1(c*3+k),C*.035,C*.02,['#c98a45','#a6763c','#d3a052'][k])}}
- // Sky with the distant city above the top sidewalk.
- districtParallax(g,camX,oy,VW,rt-sw-oy,C,districtTime(),night);
+ // Sky with the distant city, then a strip of back yards so nothing stands in the air.
+ const yb=rt-sw-C*.85;districtParallax(g,camX,oy,VW,yb-oy,C,districtTime(),night);
+ backYards(0,xr,yb,rt-sw-yb);
  // Sidewalks along the street.
- paveBand(g,gx,xr,rt-sw,sw,true);paveBand(g,gx,xr,rb,sw,false);
+ paveBand(g,gx,xr,rt-sw,sw,true);paveBand(g,gx,xr,rb,C*.46,false);
  // Babka's garden is fenced by hedges; the street side has none.
  comicHedge(g,X0-C*.35,rt-sw*1.05,gx-X0+C*.35,sw*1.05);
  comicHedge(g,X0-C*.35,rb+C*.04,gx-X0+C*.35,C*.42);
  lawnDecor(rt,rb);
  streetFront(rt,sw);
- foregroundRoofs(rb+sw,FH-S.rows*C-TOPH-sw);
+ foregroundRoofs(rb+C*.46,FH-S.rows*C-TOPH-C*.46);
  cr.forEach(c=>{comicGround(g,'road-tile',FX(c),oy,C,FH+C*4,C*3,'#777078');for(let y=rt+C*.1;y<rb;y+=C*.28)rr(g,FX(c)+C*.12,y,C*.76,C*.13,0,'#eee2ca')});
  drawHome();
  (S.lv.pipes||[]).forEach(([r,c])=>{g.save();g.translate(FX(c+.22),FY(r)+C*.9);g.scale(C/72*.8,C/72*.8);drawHydrant(g);g.restore()});
@@ -111,7 +118,7 @@ function streetFront(rt,sw){const base=rt-sw*.6,maxH=rt-sw*.6-oy-C*.08;
 function streetLamps(rt,sw,glow){for(let c=YC+1;c<COLS;c+=4){if((S.lv.cross||[]).includes(c))continue;const x=FX(c)+C*.05,y=rt-C*.04;
  if(glow){g.fillStyle=rgrad(g,x,y-C*.95,0,C*1.1,[[0,'rgba(255,229,161,.32)'],[1,'rgba(255,229,161,0)']]);g.fillRect(x-C*1.1,y-C*2,C*2.2,C*2.4)}
  else comicFit(g,'prop-lamp',x,y,C*.24,C*1.05)}}
-function foregroundRoofs(y,h){const gx=FX(YC),xr=Math.max(WW,camX+VW)+C,doors=S.lv.doors.filter(d=>d.s=='b').map(d=>d.c),cr=S.lv.cross||[];
+function foregroundRoofs(y,h){const gx=0,xr=Math.max(WW,camX+VW)+C,doors=S.lv.doors.filter(d=>d.s=='b').map(d=>d.c),cr=S.lv.cross||[];
  h=Math.max(h,C*.5);
  // One continuous terrace of roofs, cut by gateways (zombie doors) and crossings.
  const cuts=[...doors,...cr].sort((a,b)=>a-b);let x=gx;

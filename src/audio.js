@@ -25,9 +25,9 @@ const SFX={
  thwack:()=>stockPlay('wood',.22),splash:()=>stockPlay('cloth',.15,.8),
  zap:lv=>stockPlay('zap',lv>1?.24:.17),clang:pan=>stockPlay('metal',.27,1,pan),
  boom:()=>stockPlay('boom',.35,1,0,2),crunch:()=>stockPlay('glass',.17,.85),
- die:()=>stockPlay('meow',.11,.92,0,.8),mower:()=>stockPlay('creak',.22,.6,0,2),
+ die:()=>{if(Math.random()<.2&&(AU.lastMeow||0)<performance.now()-6000){AU.lastMeow=performance.now();stockPlay('meow',.08,.92,0,.8)}else stockPlay('cloth',.12,1.1)},mower:()=>stockPlay('creak',.22,.6,0,2),
  bite:pan=>stockPlay('wood',.13,.85,pan,.28),scratch:pan=>stockPlay('scratch',.13,1.1,pan,.35),
- clank:pan=>stockPlay('metal',.17,.85,pan),haunt:pan=>stockPlay('meow',.09,.55,pan),
+ clank:pan=>stockPlay('metal',.17,.85,pan),haunt:pan=>stockPlay('glass',.06,.6,pan,.3),
  horn:()=>stockPlay('alarm',.2,.8),bad:()=>stockPlay('error',.17),
  fanfare:()=>stockPlay('up',.25,.9),reveal:()=>stockPlay('confirm',.25),
  ominous:()=>stockPlay('meow',.14,.58),lose:()=>stockPlay('down',.24,.8),
@@ -36,7 +36,8 @@ const SFX={
  suck:()=>stockPlay('creak',.2,1.25),meowHappy:()=>stockPlay('meow',.22,1.15),
  meowGrumpy:()=>stockPlay('meow',.18,.7),purr:()=>stockPlay('meow',.07,.6,0,1),
  zombieStart:()=>stockPlay('meow',.12,.6),};
-function voice(type,pan=0,vol=1){const rate={kit:1.4,fat:.6,ath:1.15,mom:1.05,lead:.65,ghost:.55,owner:.7,boss:.48}[type]||.8;
+// Meows are rare on purpose: one cat voice at most every ~8 s across the whole game.
+function voice(type,pan=0,vol=1){const now=performance.now();if(now-(AU.lastMeow||0)<8000)return;AU.lastMeow=now;const rate={kit:1.4,fat:.6,ath:1.15,mom:1.05,lead:.65,ghost:.55,owner:.7,boss:.48}[type]||.8;
  if(type=='robo'||type=='basin')stockPlay('metal',Math.min(.24,.12*vol),type=='robo'?.85:1,pan);
  else if(type=='vac'||type=='skate')stockPlay('creak',Math.min(.18,.1*vol),.8,pan);
  else stockPlay('meow',Math.min(.2,.11*vol),rate,pan)}
