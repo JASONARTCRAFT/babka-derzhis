@@ -1,6 +1,11 @@
 /* ---------- sfx ---------- */
 let lastPop=0;
 const SFX={
+ zombieStart(){if(!AU.ctx)return;const t=T();
+  osc('sawtooth',185,t,.22,.025,{f2:330,filter:'bandpass',ff:650,q:1.6,a:.08});
+  osc('sawtooth',330,t+.2,1.05,.028,{f2:140,filter:'bandpass',ff:650,q:1.6,vib:[4,9],a:.07});
+  osc('sine',165,t+.2,1.05,.012,{f2:70,vib:[4,4],a:.09})},
+
  coin(gold){if(!AU.ctx)return;const t=T();if(gold)[1046,1318,1568,2093].forEach((f,i)=>osc('sine',f,t+i*.05,.25,.07));else{osc('sine',1500,t,.08,.07);osc('sine',2000,t+.05,.15,.06)}},
  place(){if(!AU.ctx)return;const t=T();osc('triangle',220,t,.14,.22,{f2:90});noise(t,.1,.08,{f:500})},
  pop(){if(!AU.ctx)return;const n=performance.now();if(n-lastPop<70)return;lastPop=n;const t=T();osc('square',420,t,.05,.03,{f2:200});noise(t,.04,.04,{f:2500})},
