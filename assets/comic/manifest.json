@@ -96,5 +96,33 @@
     "y": 10,
     "w": 324,
     "h": 494
+  },
+  "house-roof": {
+    "file": "house-roof.webp",
+    "x": 129,
+    "y": 8,
+    "w": 280,
+    "h": 725
+  },
+  "lawn-tile": {
+    "file": "lawn-tile.webp",
+    "x": 0,
+    "y": 0,
+    "w": 768,
+    "h": 768
+  },
+  "road-tile": {
+    "file": "road-tile.webp",
+    "x": 0,
+    "y": 0,
+    "w": 768,
+    "h": 768
+  },
+  "hedge": {
+    "file": "hedge.webp",
+    "x": 3,
+    "y": 76,
+    "w": 761,
+    "h": 115
   }
 }

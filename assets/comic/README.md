@@ -1,18 +1,18 @@
 # Бабка против зомби! — комиксный пак v1
-14 изолированных ассетов созданы встроенным ImageGen по выбранному зелёному зомби-варианту.
+18 изолированных ассетов созданы встроенным ImageGen по выбранному зелёному зомби-варианту.
 png/ — исходные PNG с прозрачностью.
 webp/ — оптимизированные игровые версии (до 512 пикселей).
 manifest.json — границы непрозрачной области для правильного масштаба и привязки.
 
 Состав: бабка, внучка-кошкодевочка, базовый зомби-кот, мячемёт, колесо Мурзика,
 брызгалка, шокер, когтеточка, огурец на пружине, лазерная указка, клубок,
-килька-сюрприз, серебряная и золотая монеты.
+килька-сюрприз, серебряная и золотая монеты; крыша дома, газон, дорога и изгородь.
 
 В игре подключены бабка, основные зомби, все 9 защитных устройств и обе монеты.
 Размеры и дополнительные аксессуары базовых зомби различаются по типам.
 Робот, призрак, кот в коробке, хозяин и босс сохраняют специализированную
-отрисовку кодом. Фоны и огород также пока рисуются кодом.
-Внучка — отдельный готовый спрайт; нового игрового действия для неё не добавлено.
+отрисовку кодом. Дом слева теперь виден сверху; газон, улица и живая изгородь используют новые ассеты. Огород пока рисуется кодом.
+Внучка появилась в меню и в заставке: вместе с котами она собирает все девять устройств.
 Шевеление и отдача анимируются кодом; отдельные покадровые анимации не включены.
 
 Графика встроена в index.html, поэтому запуск скачанного HTML сохраняется.
@@ -55,4 +55,5 @@ SUBJECT: A squat mint-green SARDINE TIN with partly peeled metal lid, one little
 ### coin-gold
 Use case: stylized-concept. Create ONE isolated production sprite for the game 'Бабка против зомби!'. Attached image is the approved STYLE REFERENCE. Match its chunky flat hand-drawn comic style: thick irregular black ink outlines, muted mint/olive/plum/coral/cream palette, flat cel shading, simple shapes, minimal texture, cozy homemade junk devices. TRUE TRANSPARENT BACKGROUND. No text, no frame, no floor, no shadows outside sprite, no UI, no other objects, no watermark. Full object centered with 8% transparent margin, object covers 84% of image, nothing clipped. Side view with a little top visible, game device occupies a square cell, clean readable silhouette at 96px.
 SUBJECT: One circular GOLD PAW COIN, near-front three-quarter view, thick black contour, mustard gold rim and pale yellow golden face, dark warm gold large central paw-print symbol. Just one coin, NO device, NO floor shadow, no text.
+
 
