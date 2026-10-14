@@ -325,7 +325,7 @@ function step(dt){S.t+=dt;if(S.phase=='play')musicMood();if(S.shake>0)S.shake-=d
  S.rings.forEach(r=>r.t+=dt);S.rings=S.rings.filter(r=>r.t<.8);S.toasts.forEach(t=>t.life-=dt);S.toasts=S.toasts.filter(t=>t.life>0);
  if(S.banner&&(S.banner.life-=dt)<=0)S.banner=null;
  while(S.hints.length&&S.hints[0].until())S.hints.shift();
- if(S.phase=='play'&&!S.spawns.length&&!S.enemies.length&&!(S.thieves||[]).length&&!(S.thiefPlan||[]).length){S.phase='won';stopMusic();SFX.fanfare();banner('Улица отбита!');
+ if(S.phase=='play'&&!S.spawns.length&&!S.enemies.length&&!(S.thieves||[]).length){S.phase='won';stopMusic();SFX.fanfare();banner('Улица отбита!');
   const p=S.last||{x:FX(5),y:FY(0)+C};S.trophy={x:p.x,y:p.y-C*.3,t:0};S.coins.forEach(c=>{if(!c.fly)grabCoin(0,0,c)})}
  if(S.trophy){S.trophy.t+=dt;if(S.trophy.t<1.2)camX=lerp(camX,clamp(S.trophy.x-VW/2,0,maxCam()),dt*4);camY=lerp(camY,clamp(S.trophy.y-VH/2,0,maxCamY()),dt*4)}}
 function intro(dt){S.it+=dt;setMusicIntensity(.03);const M=maxCam(),t=S.it;
