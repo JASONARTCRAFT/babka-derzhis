@@ -5,7 +5,8 @@ function toMenu(){S=null;sel=null;drag=null;$('#ov').hidden=true;show('menu');mu
 function updMenu(){$('#menuStat').textContent=`Побеждено зомби-котов: ${save.kills} · Мятных листиков: ${save.leaves}`;
  const n=gStored(),dry=gDry(),b=$('#farmBadge');b.hidden=!n&&!dry;b.textContent=n?'+'+n:'💧';$('#bPlay').textContent=save.lvl>0?`Играть · ур. ${save.lvl+1}`:'Играть'}
 function iconKind(k){return U[k]?'u':E[k]?'e':'a'}
-function renderIcon(c,kind,key){const x=c.getContext('2d'),W=c.width,H=c.height;x.clearRect(0,0,W,H);x.save();
+function renderIcon(c,kind,key){const sprite=kind=='u'?(key=='ball'?'ball-launcher':key):kind=='e'&& !['robo','owner','boss','box','ghost'].includes(key)?'zombie-cat':null;
+ if(sprite&&COMIC_SPRITES[sprite]?.image.naturalWidth){const x=c.getContext('2d');x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,c.width,c.height);comicFit(x,sprite,c.width/2,c.height*.94,c.width*.9,c.height*.88);return;}const x=c.getContext('2d'),W=c.width,H=c.height;x.clearRect(0,0,W,H);x.save();
  if(kind=='u'){x.translate(W/2+(key=='spr'?-W*.14:key=='shock'?-W*.06:0),H*.96);const s=H/(key=='fence'?102:84);x.scale(s,s);drawUnit(x,{t:key,lv:1,ph:1,fire:key=='spr'?.5:0,hp:1,max:1,charges:8,arm:0})}
  else if(kind=='e'){x.translate(W/2+W*.05,H*.95);const s=H/(key=='fat'?95:key=='kit'?50:key=='owner'?118:key=='boss'?150:78);x.scale(s,s);if(key=='boss')x.translate(12,0);drawCat(x,{type:key,ph:.8,arm:E[key].arm?1:0})}
  else{x.translate(W/2,H*.94);const s=H/80;x.scale(s,s);

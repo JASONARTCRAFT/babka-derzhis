@@ -1,0 +1,100 @@
+{
+  "granny": {
+    "file": "granny.webp",
+    "x": 51,
+    "y": 6,
+    "w": 410,
+    "h": 499
+  },
+  "zombie-cat": {
+    "file": "zombie-cat.webp",
+    "x": 12,
+    "y": 47,
+    "w": 495,
+    "h": 333
+  },
+  "ball-launcher": {
+    "file": "ball-launcher.webp",
+    "x": 42,
+    "y": 75,
+    "w": 453,
+    "h": 392
+  },
+  "coin-silver": {
+    "file": "coin-silver.webp",
+    "x": 61,
+    "y": 56,
+    "w": 391,
+    "h": 401
+  },
+  "wheel": {
+    "file": "wheel.webp",
+    "x": 15,
+    "y": 41,
+    "w": 484,
+    "h": 435
+  },
+  "spr": {
+    "file": "spr.webp",
+    "x": 44,
+    "y": 67,
+    "w": 435,
+    "h": 400
+  },
+  "shock": {
+    "file": "shock.webp",
+    "x": 44,
+    "y": 96,
+    "w": 446,
+    "h": 344
+  },
+  "fence": {
+    "file": "fence.webp",
+    "x": 9,
+    "y": 98,
+    "w": 494,
+    "h": 365
+  },
+  "cuc": {
+    "file": "cuc.webp",
+    "x": 161,
+    "y": 38,
+    "w": 227,
+    "h": 447
+  },
+  "laser": {
+    "file": "laser.webp",
+    "x": 57,
+    "y": 110,
+    "w": 412,
+    "h": 354
+  },
+  "yarn": {
+    "file": "yarn.webp",
+    "x": 26,
+    "y": 84,
+    "w": 467,
+    "h": 376
+  },
+  "mine": {
+    "file": "mine.webp",
+    "x": 38,
+    "y": 66,
+    "w": 436,
+    "h": 402
+  },
+  "coin-gold": {
+    "file": "coin-gold.webp",
+    "x": 56,
+    "y": 53,
+    "w": 408,
+    "h": 414
+  },
+  "granddaughter": {
+    "file": "granddaughter.webp",
+    "x": 61,
+    "y": 10,
+    "w": 324,
+    "h": 494
+  }
+}

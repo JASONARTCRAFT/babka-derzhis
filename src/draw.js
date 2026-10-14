@@ -1,5 +1,5 @@
 /* ---------- drawing: everything in local units, origin at feet, cell = 72 ---------- */
-function drawUnit(x,u){const t=u.t,lv=u.lv||1,ph=u.ph||0,f=u.fire||0;
+function drawUnit(x,u){if(comicUnit(x,u))return;const t=u.t,lv=u.lv||1,ph=u.ph||0,f=u.fire||0;
  el(x,0,0,24,6,'rgba(0,0,0,.25)');if(u.hurt>0)x.globalAlpha=.7;
  if(t=='wheel')drawWheel(x,lv,ph);else if(t=='ball')drawBallGun(x,lv,f,ph);else if(t=='spr')drawSpr(x,lv,f,ph);
  else if(t=='shock')drawShock(x,lv,f,ph);else if(t=='fence')drawFence(x,u);else if(t=='cuc')drawCuc(x,ph);
@@ -83,7 +83,7 @@ function drawCar(x,k){const L=k=='truck'?118:74;rr(x,-23,-L/2,46,L,10,k=='truck'
  else{rr(x,-19,-4,38,16,4,'#bbdefb');for(let i=0;i<4;i++)rr(x,-21+i*10.5,-L/2+12,5,5,0,'#222');rr(x,-19,-L/2+4,38,6,3,'#bbdefb');rr(x,-8,-12,16,6,2,'#222')}
  el(x,-14,L/2-3,6,3,'#fff59d');el(x,14,L/2-3,6,3,'#fff59d')}
 function drawShovel(x){ln(x,'#8d6e63',5,-16,-56,6,-16);poly(x,'#b0bec5',0,-20,16,-6,8,6,-6,-8);ln(x,'#6d4c41',5,-20,-60,-12,-52)}
-function drawCoin(x,cx,cy,r,gold){const a=gold?['#b07800','#e0a100','#ffd54f','#fff8e1']:['#6d7a83','#9aa7b0','#dfe6ea','#ffffff'];
+function drawCoin(x,cx,cy,r,gold){if(comicSprite(x,gold?'coin-gold':'coin-silver',cx-r,cy-r,r*2,r*2))return;const a=gold?['#b07800','#e0a100','#ffd54f','#fff8e1']:['#6d7a83','#9aa7b0','#dfe6ea','#ffffff'];
  el(x,cx,cy+r*.12,r,r,a[0]);el(x,cx,cy,r,r,a[1]);el(x,cx,cy,r*.8,r*.8,a[2]);
  el(x,cx,cy+r*.18,r*.27,r*.22,a[1]);[-.32,-.11,.11,.32].forEach((q,i)=>el(x,cx+q*r,cy-r*.22-(i==1||i==2?r*.1:0),r*.1,r*.12,a[1]));el(x,cx-r*.35,cy-r*.4,r*.2,r*.12,a[3])}
 function drawLeaf(x,cx,cy,r,rot=0){x.save();x.translate(cx,cy);x.rotate(rot);x.fillStyle='#7cd65a';x.beginPath();x.moveTo(0,-r);x.quadraticCurveTo(r*.9,-r*.2,0,r);x.quadraticCurveTo(-r*.9,-r*.2,0,-r);x.fill();ln(x,'#3e8a28',r*.12,0,-r*.8,0,r*.85);x.restore()}
@@ -112,7 +112,7 @@ function drawCat(x,o){const t=o.type;x.save();
  if(o.flip)x.scale(-1,1);
  if(t=='box')boxCat(x,o);else if(t=='owner')ownerCat(x,o);else if(t=='boss')bossCat(x,o);else if(t=='ghost')ghostCat(x,o);else baseCat(x,o);
  x.restore()}
-function baseCat(x,o){const t=o.type,P=PAL[t]||PAL.cat,hp=o.hpf??1,ph=o.ph||0;
+function baseCat(x,o){if(comicZombie(x,o))return;const t=o.type,P=PAL[t]||PAL.cat,hp=o.hpf??1,ph=o.ph||0;
  let fur=P[0],dk=P[1],bl=P[2];if(o.rust>0&&t=='robo'){fur='#b98a6a';dk='#8a5a3c'}if(o.hit>0){fur='#ffffff';bl='#ffffff'}
  const still=o.eat||o.dying,st=still?0:Math.sin(ph),bob=o.eat?Math.abs(Math.sin(ph*2))*3:Math.abs(Math.cos(ph))*2.5;
  const sc=t=='fat'?1.32:t=='kit'?.62:t=='mom'?1.06:t=='robo'?1.12:t=='basin'?1.05:t=='lead'?1.08:1;
@@ -249,7 +249,7 @@ function niceCat(x,col,o={}){const ph=o.ph||0,re=o.react||0;el(x,0,0,16,4,'rgba(
  el(x,0,-27,1.5,1.1,'#d47a8a');ln(x,'#3a2210',1,-2,-25,0,-24,2,-25);el(x,-7,-27,2.2,1.3,'rgba(240,120,140,.5)');el(x,7,-27,2.2,1.3,'rgba(240,120,140,.5)')}
 
 /* ---------- grandma ---------- */
-function drawGranny(x,o={}){const mood=o.mood||'angry',w=o.wave||0,item=o.item||'pin';
+function drawGranny(x,o={}){if(COMIC_SPRITES.granny?.image.naturalWidth){x.save();x.translate(0,Math.sin(o.wave||0)*.9);comicFit(x,'granny',0,52,68,84);x.restore();return;}const mood=o.mood||'angry',w=o.wave||0,item=o.item||'pin';
  el(x,0,34,30,20,'#6a1b9a');poly(x,'#8e24aa',-28,26,28,26,0,52);for(let i=0;i<5;i++)ln(x,'#ce93d8',1.2,-24+i*12,28,-20+i*10,46);
  el(x,0,24,10,5,'#f3e5f5');
  el(x,0,-2,20,22,'#d84315');
