@@ -124,5 +124,201 @@
     "y": 76,
     "w": 761,
     "h": 115
+  },
+  "prop-bin": {
+    "file": "prop-bin.webp",
+    "x": 71,
+    "y": 72,
+    "w": 260,
+    "h": 291
+  },
+  "prop-car": {
+    "file": "prop-car.webp",
+    "x": 42,
+    "y": 23,
+    "w": 299,
+    "h": 361
+  },
+  "prop-grass": {
+    "file": "prop-grass.webp",
+    "x": 73,
+    "y": 114,
+    "w": 272,
+    "h": 246
+  },
+  "prop-rocks": {
+    "file": "prop-rocks.webp",
+    "x": 85,
+    "y": 144,
+    "w": 218,
+    "h": 177
+  },
+  "prop-lamp": {
+    "file": "prop-lamp.webp",
+    "x": 121,
+    "y": 15,
+    "w": 155,
+    "h": 358
+  },
+  "prop-bench": {
+    "file": "prop-bench.webp",
+    "x": 29,
+    "y": 0,
+    "w": 327,
+    "h": 321
+  },
+  "prop-mailbox": {
+    "file": "prop-mailbox.webp",
+    "x": 128,
+    "y": 58,
+    "w": 191,
+    "h": 326
+  },
+  "prop-crate": {
+    "file": "prop-crate.webp",
+    "x": 72,
+    "y": 108,
+    "w": 243,
+    "h": 237
+  },
+  "prop-trash": {
+    "file": "prop-trash.webp",
+    "x": 75,
+    "y": 77,
+    "w": 261,
+    "h": 253
+  },
+  "prop-manhole": {
+    "file": "prop-manhole.webp",
+    "x": 52,
+    "y": 38,
+    "w": 278,
+    "h": 282
+  },
+  "prop-tree": {
+    "file": "prop-tree.webp",
+    "x": 19,
+    "y": 0,
+    "w": 353,
+    "h": 355
+  },
+  "prop-cloud": {
+    "file": "prop-cloud.webp",
+    "x": 29,
+    "y": 77,
+    "w": 322,
+    "h": 223
+  },
+  "building-pharmacy": {
+    "file": "building-pharmacy.webp",
+    "x": 18,
+    "y": 34,
+    "w": 345,
+    "h": 346
+  },
+  "building-bakery": {
+    "file": "building-bakery.webp",
+    "x": 33,
+    "y": 37,
+    "w": 330,
+    "h": 346
+  },
+  "building-fish": {
+    "file": "building-fish.webp",
+    "x": 33,
+    "y": 36,
+    "w": 326,
+    "h": 343
+  },
+  "building-florist": {
+    "file": "building-florist.webp",
+    "x": 30,
+    "y": 33,
+    "w": 324,
+    "h": 350
+  },
+  "building-garage": {
+    "file": "building-garage.webp",
+    "x": 28,
+    "y": 33,
+    "w": 345,
+    "h": 303
+  },
+  "building-kiosk": {
+    "file": "building-kiosk.webp",
+    "x": 76,
+    "y": 0,
+    "w": 254,
+    "h": 339
+  },
+  "building-home": {
+    "file": "building-home.webp",
+    "x": 17,
+    "y": 13,
+    "w": 334,
+    "h": 334
+  },
+  "building-workshop": {
+    "file": "building-workshop.webp",
+    "x": 27,
+    "y": 0,
+    "w": 333,
+    "h": 346
+  },
+  "wheel-run-0": {
+    "file": "wheel-run-0.webp",
+    "x": 0,
+    "y": 13,
+    "w": 512,
+    "h": 479
+  },
+  "wheel-run-1": {
+    "file": "wheel-run-1.webp",
+    "x": 0,
+    "y": 13,
+    "w": 512,
+    "h": 479
+  },
+  "wheel-run-2": {
+    "file": "wheel-run-2.webp",
+    "x": 0,
+    "y": 13,
+    "w": 512,
+    "h": 479
+  },
+  "wheel-run-3": {
+    "file": "wheel-run-3.webp",
+    "x": 0,
+    "y": 13,
+    "w": 512,
+    "h": 479
+  },
+  "zombie-walk-0": {
+    "file": "zombie-walk-0.webp",
+    "x": 0,
+    "y": 64,
+    "w": 512,
+    "h": 388
+  },
+  "zombie-walk-1": {
+    "file": "zombie-walk-1.webp",
+    "x": 0,
+    "y": 64,
+    "w": 512,
+    "h": 388
+  },
+  "zombie-walk-2": {
+    "file": "zombie-walk-2.webp",
+    "x": 0,
+    "y": 64,
+    "w": 512,
+    "h": 388
+  },
+  "zombie-walk-3": {
+    "file": "zombie-walk-3.webp",
+    "x": 0,
+    "y": 64,
+    "w": 512,
+    "h": 388
   }
 }

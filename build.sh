@@ -4,7 +4,7 @@ cd "$(dirname "$0")"
 {
   cat src/page.html
   echo '<script>'
-  cat src/assets.js src/core.js src/music.js src/audio.js src/data.js src/draw.js src/game.js src/farm.js src/screens.js
+  cat src/assets.js src/core.js src/music.js src/audio.js src/data.js src/draw.js src/street.js src/game.js src/farm.js src/menu.js src/screens.js
   echo '</script>'
 } > index.html
 echo "index.html: $(wc -c < index.html) bytes"

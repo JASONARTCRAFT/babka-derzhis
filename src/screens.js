@@ -15,6 +15,7 @@ function renderIcon(c,kind,key){const sprite=kind=='u'?(key=='ball'?'ball-launch
  x.restore()}
 function overlay(html,btns,cls=''){const o=$('#ov');o.innerHTML=`<div class="box ${cls}">${html}<div class="row">${btns.map((b,i)=>`<button class="btn ${b[2]||''}" data-i="${i}">${b[0]}</button>`).join('')}</div></div>`;o.hidden=false;
  o.querySelectorAll('canvas[data-k]').forEach(c=>renderIcon(c,iconKind(c.dataset.k),c.dataset.k));
+ o.querySelectorAll('canvas[data-gd]').forEach(c=>{const x=c.getContext('2d');comicFit(x,'granddaughter',c.width/2,c.height*.98,c.width*.95,c.height*.95)});
  o.querySelectorAll('canvas[data-g]').forEach(c=>{const x=c.getContext('2d');x.translate(c.width/2,c.height*.42);x.scale(2.4,2.4);drawGranny(x,{mood:c.dataset.g,item:'pin',wave:1})});
  o.querySelectorAll('button[data-i]').forEach(b=>b.onclick=()=>{SFX.click();o.hidden=true;btns[b.dataset.i][1]()});o.querySelector('button[data-i]')?.focus();return o}
 
@@ -44,23 +45,24 @@ function openReveal(){if(!S.trophy)return;S.trophy=null;const i=S.i,stars=Math.m
  save.stars[i]=Math.max(save.stars[i]||0,stars);save.lvl=Math.max(save.lvl,Math.min(L.length-1,i+1));let seed=null;if(first){save.won[i]=1;save.leaves+=5;seed=SEEDREW[i]||pick(['catnip','chili','volt']);giveSeed(seed)}persist();SFX.reveal();
  const st=`<div class="stars">${'★'.repeat(stars)}<i>${'★'.repeat(3-stars)}</i></div>`,lf=first?`<p class="leafline">+5 мятных листиков и семечко «${PLANTS[seed].n}» для огорода</p>`:'';
  if(i+1<L.length){const nw=newCards(i+1),k=nw[0],d=k&&cardDef(k);
-  overlay(d?`<div class="tag">Новая находка</div><h2>${d.n}</h2>${st}<canvas class="big" width="300" height="260" data-k="${k}"></canvas><p>${d.d}</p>${nw.length>1?`<p>И ещё: ${nw.slice(1).map(x=>cardDef(x).n).join(', ')}.</p>`:''}${lf}`
+  overlay(d?`<div class="tag">Награда за уровень</div><h2>${d.n}</h2>${st}<div class="gift"><canvas class="gd" width="180" height="270" data-gd="1"></canvas><div class="say"><p class="bubble">Бабуль, смотри, что я собрала! Держи — «${d.n}».</p><canvas class="big" width="300" height="260" data-k="${k}"></canvas></div></div><p>${d.d}</p>${nw.length>1?`<p>И ещё: ${nw.slice(1).map(x=>cardDef(x).n).join(', ')}.</p>`:''}${lf}`
    :`<div class="tag">Уровень пройден</div><h2>${L[i].n}</h2>${st}<canvas class="big" width="300" height="260" data-g="angry"></canvas><p>Дальше: «${L[i+1].n}». ${L[i+1].sub}</p>${lf}`,
    [['Дальше',()=>perkThen(i,()=>beginLevel(i+1))],['Уровни',()=>perkThen(i,()=>{toMenu();openLevels()}),'alt']])}
  else overlay(`<div class="tag">Финал</div><h2>Улица Мурлыкина спасена!</h2>${st}<canvas class="big" width="300" height="260" data-g="calm"></canvas><p>Король Пылесосов повержен. Бабка ставит чайник, коты спят кучей на диване. Побеждено зомби-котов: ${save.kills}.</p>${lf}`,[['В меню',toMenu]])}
 function perkThen(i,next){const set=PERKSETS[i];save.perkAsk=save.perkAsk||{};if(!set||save.perkAsk[i])return next();save.perkAsk[i]=1;persist();SFX.fanfare();
  overlay(`<div class="tag">Бабкина премия</div><h2>Выбери одно улучшение</h2><p>Оно останется с тобой до конца игры.</p><div class="perks">${set.map(k=>`<div class="pk"><b>${PERKS[k].n}</b><span>${PERKS[k].d}</span></div>`).join('')}</div>`,
   set.map(k=>[PERKS[k].n,()=>{save.perks[k]=1;persist();SFX.reveal();next()}]),'wide')}
-function openSettings(){const s=save.set,wasPlay=S&&S.phase=='play'&&!S.paused;if(wasPlay)S.paused=true;
+function openSettings(){const s=save.set,wasPlay=S&&S.phase=='play'&&!S.paused;if(wasPlay){S.paused=true;S.resumeAfterSettings=true}
  const o=overlay(`<h2>Настройки</h2>
  <div class="set-row"><label for="sMusOn">Музыка</label><input type="checkbox" id="sMusOn" ${s.musicOn?'checked':''}><input type="range" id="sMus" min="0" max="1" step="0.05" value="${s.music}" aria-label="Громкость музыки"></div>
  <div class="set-row"><label for="sSfxOn">Звуки</label><input type="checkbox" id="sSfxOn" ${s.sfxOn?'checked':''}><input type="range" id="sSfx" min="0" max="1" step="0.05" value="${s.sfx}" aria-label="Громкость звуков"></div>
- <div class="row col"><button class="btn alt" id="sAll">${save.lvl>=L.length-1?'Все уровни открыты':'Открыть все уровни'}</button><button class="btn alt" id="sIntro">Посмотреть заставку</button><button class="btn danger" id="sReset">Сбросить прогресс</button></div>`,
-  [['Готово',()=>{if(wasPlay&&S)S.paused=false}]]);
+ <div class="row col"><button class="btn alt" id="sAll">${save.lvl>=L.length-1?'Все уровни открыты':'Открыть все уровни'}</button><button class="btn alt" id="sIntro">Посмотреть заставку</button><button class="btn alt" id="sCredits">Звуки и авторы</button><button class="btn danger" id="sReset">Сбросить прогресс</button></div>`,
+  [['Готово',()=>{if(S&&(wasPlay||S.resumeAfterSettings)){S.paused=false;S.resumeAfterSettings=false}}]]);
  const upd=()=>{s.musicOn=$('#sMusOn').checked;s.sfxOn=$('#sSfxOn').checked;s.music=+$('#sMus').value;s.sfx=+$('#sSfx').value;applyVol();persist()};
  ['#sMusOn','#sSfxOn','#sMus','#sSfx'].forEach(q=>$(q).addEventListener('input',upd));
  $('#sAll').onclick=()=>{unlockAll();$('#sAll').textContent='Все уровни открыты';SFX.reveal()};
  $('#sIntro').onclick=()=>{o.hidden=true;S=null;playCut(toMenu)};
+ $('#sCredits').onclick=showAudioCredits;
  let armed=false;$('#sReset').onclick=()=>{if(!armed){armed=true;$('#sReset').textContent='Точно сбросить? Нажми ещё раз';return}
   const set=save.set;save=JSON.parse(JSON.stringify(DEF));save.set=set;persist();$('#sReset').textContent='Прогресс сброшен';if(!$('#menu').hidden)updMenu()}}
 function openAlmanac(){const top=L[save.lvl],have=new Set([...top.cards,...top.ab,...(top.shovel?['shovel']:[]),...(save.shop.mine?['mine']:[])]);
@@ -83,27 +85,6 @@ function petBubble(x,id,cx,cy,kind){const r=petState(id).r;if(r<=0)return;const 
  x.font='900 22px Nunito,sans-serif';const w=x.measureText(txt).width+22;rr(x,cx-w/2,cy-32,w,32,14,'#fff');poly(x,'#fff',cx-6,cy,cx+6,cy,cx,cy+10);x.fillStyle='#3a2210';x.textAlign='center';x.textBaseline='middle';x.fillText(txt,cx,cy-16);
  if(kind!='sleep')for(let i=0;i<3;i++){const q=(1-r+i*.2)%1;el(x,cx+30+i*12,cy-10-q*40,5,5,'#ff6f91');el(x,cx+36+i*12,cy-10-q*40,5,5,'#ff6f91');poly(x,'#ff6f91',cx+25+i*12,cy-8-q*40,cx+41+i*12,cy-8-q*40,cx+33+i*12,cy+2-q*40)}
  x.globalAlpha=1}
-/* ---------- main menu scene ---------- */
-const MENU={hot:[],t:0,ff:Array.from({length:14},(_,i)=>({x:Math.random()*1280,y:420+Math.random()*250,p:Math.random()*6}))};
-function drawMenu(dt){MENU.t+=dt;petTick(dt);const{x,W,H}=fitCanvas($('#menuCv')),c=cover(W,H,W<720?.22:.5);MENU.c=c;x.clearRect(0,0,W,H);x.save();x.translate(c.ox,c.oy);x.scale(c.s,c.s);menuScene(x,MENU.t);x.restore()}
-$('#menuCv').addEventListener('pointerdown',e=>{const c=MENU.c;if(!c)return;const r=$('#menuCv').getBoundingClientRect(),px=(e.clientX-r.left-c.ox)/c.s,py=(e.clientY-r.top-c.oy)/c.s;
- [['mRoof',260,315,46,'sleep'],['mWin',580,600,48,'nice'],['mPorch',380,600,46,'nice']].forEach(([id,cx,cy,rad,k])=>{if(Math.hypot(px-cx,py-cy)<rad)petReact(id,k)})});
-function menuScene(x,t){
- comicGround(x,'lawn-tile',0,0,1280,720,320,'#879544');
- comicGround(x,'road-tile',1130,0,150,720,320,'#777078');
- rr(x,1065,0,65,720,0,'#cfc3a7');for(let y=0;y<720;y+=72)ln(x,'#a49a86',2,1065,y,1130,y);
- // A cropped roof along the left edge, looking down into the garden.
- overheadRoof(x,-60,110,390,590);
- comicHedge(x,330,105,820,70);comicHedge(x,330,645,820,70);
- for(let r=0;r<4;r++)for(let c=0;c<6;c++){x.fillStyle=(r+c)%2?'rgba(255,245,185,.07)':'rgba(32,42,22,.065)';x.fillRect(350+c*116,190+r*110,116,110)}
- rr(x,295,520,210,60,3,'#d2c6ac');
- x.save();x.translate(375,420);x.scale(2.7,2.7);drawGranny(x,{wave:t});x.restore();
- comicFit(x,'granddaughter',535,560,125,220);
- [['wheel',690,390],['ball',840,390],['spr',690,565],['shock',840,565]].forEach(([k,cx,cy])=>{x.save();x.translate(cx,cy);x.scale(2,2);drawUnit(x,{t:k,lv:1,ph:t,fire:0,hp:1,max:1});x.restore()});
- x.save();x.translate(260,315);x.scale(1.6,1.6);sleepyCat(x,'#f0a04b',t,petProg('mRoof'));x.restore();petBubble(x,'mRoof',260,250,'sleep');
- x.save();x.translate(580,625);x.scale(1.7,1.7);niceCat(x,'#9e9e9e',{ph:t,blink:1,react:petProg('mWin')});x.restore();petBubble(x,'mWin',580,550,'nice');
- x.save();x.translate(380,625);x.scale(1.7,1.7);niceCat(x,'#5d4037',{ph:t,blink:1,react:petProg('mPorch')});x.restore();petBubble(x,'mPorch',380,550,'nice');
-}
 /* ---------- intro cutscene ---------- */
 const CUT={t:0,i:0,after:null};
 const SCENES=[
@@ -179,7 +160,9 @@ $('#lvBack').onclick=()=>{SFX.click();toMenu()};$('#lvAll').onclick=()=>{SFX.cli
 let last=performance.now(),menuTick=0;
 function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;
  if(!$('#game').hidden&&S){
-  if(S.phase=='intro'){if($('#ov').hidden)intro(dt)}else if(S.phase=='ready'){S.rt+=dt;if(S.rt>2.3){S.phase='play';SFX.zombieStart()}}
+  if(S.feedback)S.feedback.life-=dt;
+  if(S.phase=='prepare'){for(const k in S.cool)S.cool[k]=Math.max(0,S.cool[k]-dt);S.units.forEach(u=>{u.ph+=dt;if(u.pop!=null&&u.pop<1)u.pop+=dt})}
+  else if(S.phase=='intro'){if($('#ov').hidden)intro(dt)}else if(S.phase=='ready'){S.rt+=dt;if(S.rt>2.3){S.phase='play';SFX.zombieStart()}}
   else if(!S.paused&&$('#ov').hidden&&(S.phase=='play'||S.phase=='won'))for(let i=0;i<S.speed;i++)step(dt);
   if(drag&&drag.moved&&ptr.in){if(ptr.x>VW-50)camX=clamp(camX+C*8*dt,0,maxCam());if(ptr.x<50)camX=clamp(camX-C*8*dt,0,maxCam());if(ptr.y>VH-50)camY=clamp(camY+C*8*dt,0,maxCamY());if(ptr.y<50)camY=clamp(camY-C*8*dt,0,maxCamY())}
   draw();updBar()}

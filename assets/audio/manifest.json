@@ -1,0 +1,154 @@
+[
+  {
+    "name": "click",
+    "pack": "ui",
+    "file": "click.ogg",
+    "source": "https://kenney.nl/assets/interface-sounds",
+    "license": "CC0",
+    "sourceFile": "click_003.ogg"
+  },
+  {
+    "name": "hover",
+    "pack": "ui",
+    "file": "hover.ogg",
+    "source": "https://kenney.nl/assets/interface-sounds",
+    "license": "CC0",
+    "sourceFile": "switch_001.ogg"
+  },
+  {
+    "name": "confirm",
+    "pack": "ui",
+    "file": "confirm.ogg",
+    "source": "https://kenney.nl/assets/interface-sounds",
+    "license": "CC0",
+    "sourceFile": "confirmation_002.ogg"
+  },
+  {
+    "name": "error",
+    "pack": "ui",
+    "file": "error.ogg",
+    "source": "https://kenney.nl/assets/interface-sounds",
+    "license": "CC0",
+    "sourceFile": "error_003.ogg"
+  },
+  {
+    "name": "drop",
+    "pack": "ui",
+    "file": "drop.ogg",
+    "source": "https://kenney.nl/assets/interface-sounds",
+    "license": "CC0",
+    "sourceFile": "drop_001.ogg"
+  },
+  {
+    "name": "coin",
+    "pack": "rpg-audio",
+    "file": "coin.ogg",
+    "source": "https://kenney.nl/assets/rpg-audio",
+    "license": "CC0",
+    "sourceFile": "handleCoins.ogg"
+  },
+  {
+    "name": "wood",
+    "pack": "impact",
+    "file": "wood.ogg",
+    "source": "https://kenney.nl/assets/impact-sounds",
+    "license": "CC0",
+    "sourceFile": "impactWood_medium_000.ogg"
+  },
+  {
+    "name": "metal",
+    "pack": "impact",
+    "file": "metal.ogg",
+    "source": "https://kenney.nl/assets/impact-sounds",
+    "license": "CC0",
+    "sourceFile": "impactMetal_medium_000.ogg"
+  },
+  {
+    "name": "glass",
+    "pack": "impact",
+    "file": "glass.ogg",
+    "source": "https://kenney.nl/assets/impact-sounds",
+    "license": "CC0",
+    "sourceFile": "impactGlass_light_001.ogg"
+  },
+  {
+    "name": "scratch",
+    "pack": "rpg-audio",
+    "file": "scratch.ogg",
+    "source": "https://kenney.nl/assets/rpg-audio",
+    "license": "CC0",
+    "sourceFile": "knifeSlice.ogg"
+  },
+  {
+    "name": "cloth",
+    "pack": "rpg-audio",
+    "file": "cloth.ogg",
+    "source": "https://kenney.nl/assets/rpg-audio",
+    "license": "CC0",
+    "sourceFile": "cloth1.ogg"
+  },
+  {
+    "name": "creak",
+    "pack": "rpg-audio",
+    "file": "creak.ogg",
+    "source": "https://kenney.nl/assets/rpg-audio",
+    "license": "CC0",
+    "sourceFile": "creak1.ogg"
+  },
+  {
+    "name": "zap",
+    "pack": "digital-audio",
+    "file": "zap.ogg",
+    "source": "https://kenney.nl/assets/digital-audio",
+    "license": "CC0",
+    "sourceFile": "zap1.ogg"
+  },
+  {
+    "name": "laser",
+    "pack": "digital-audio",
+    "file": "laser.ogg",
+    "source": "https://kenney.nl/assets/digital-audio",
+    "license": "CC0",
+    "sourceFile": "laser3.ogg"
+  },
+  {
+    "name": "up",
+    "pack": "digital-audio",
+    "file": "up.ogg",
+    "source": "https://kenney.nl/assets/digital-audio",
+    "license": "CC0",
+    "sourceFile": "powerUp7.ogg"
+  },
+  {
+    "name": "down",
+    "pack": "digital-audio",
+    "file": "down.ogg",
+    "source": "https://kenney.nl/assets/digital-audio",
+    "license": "CC0",
+    "sourceFile": "lowDown.ogg"
+  },
+  {
+    "name": "alarm",
+    "pack": "digital-audio",
+    "file": "alarm.ogg",
+    "source": "https://kenney.nl/assets/digital-audio",
+    "license": "CC0",
+    "sourceFile": "threeTone1.ogg"
+  },
+  {
+    "name": "meow",
+    "source": "https://freesound.org/people/tuberatanka/sounds/110011/",
+    "author": "tuberatanka",
+    "license": "CC0",
+    "file": "meow.mp3",
+    "sourceFile": "cat-meow.mp3"
+  },
+  {
+    "name": "boom",
+    "source": "https://soundbible.com/538-Blast.html",
+    "author": "Mike Koenig",
+    "license": "CC BY 3.0",
+    "file": "boom.mp3",
+    "sourceFile": "blast.mp3"
+  }
+]

@@ -86,6 +86,8 @@ function drawShovel(x){ln(x,'#8d6e63',5,-16,-56,6,-16);poly(x,'#b0bec5',0,-20,16
 function drawCoin(x,cx,cy,r,gold){if(comicSprite(x,gold?'coin-gold':'coin-silver',cx-r,cy-r,r*2,r*2))return;const a=gold?['#b07800','#e0a100','#ffd54f','#fff8e1']:['#6d7a83','#9aa7b0','#dfe6ea','#ffffff'];
  el(x,cx,cy+r*.12,r,r,a[0]);el(x,cx,cy,r,r,a[1]);el(x,cx,cy,r*.8,r*.8,a[2]);
  el(x,cx,cy+r*.18,r*.27,r*.22,a[1]);[-.32,-.11,.11,.32].forEach((q,i)=>el(x,cx+q*r,cy-r*.22-(i==1||i==2?r*.1:0),r*.1,r*.12,a[1]));el(x,cx-r*.35,cy-r*.4,r*.2,r*.12,a[3])}
+// Coins stay flat and still (no spin); only the bob in the world gives them life.
+function coinSpin(x,cx,cy,r,gold){drawCoin(x,cx,cy,r,gold)}
 function drawLeaf(x,cx,cy,r,rot=0){x.save();x.translate(cx,cy);x.rotate(rot);x.fillStyle='#7cd65a';x.beginPath();x.moveTo(0,-r);x.quadraticCurveTo(r*.9,-r*.2,0,r);x.quadraticCurveTo(-r*.9,-r*.2,0,-r);x.fill();ln(x,'#3e8a28',r*.12,0,-r*.8,0,r*.85);x.restore()}
 function drawMower(x,go,ph){el(x,0,0,24,5,'rgba(0,0,0,.25)');
  ln(x,'#424242',3,-12,-16,-30,-48);ln(x,'#424242',3,-6,-16,-24,-48);ln(x,'#212121',5,-34,-49,-20,-49);
@@ -249,7 +251,7 @@ function niceCat(x,col,o={}){const ph=o.ph||0,re=o.react||0;el(x,0,0,16,4,'rgba(
  el(x,0,-27,1.5,1.1,'#d47a8a');ln(x,'#3a2210',1,-2,-25,0,-24,2,-25);el(x,-7,-27,2.2,1.3,'rgba(240,120,140,.5)');el(x,7,-27,2.2,1.3,'rgba(240,120,140,.5)')}
 
 /* ---------- grandma ---------- */
-function drawGranny(x,o={}){if(COMIC_SPRITES.granny?.image.naturalWidth){x.save();x.translate(0,Math.sin(o.wave||0)*.9);comicFit(x,'granny',0,52,68,84);x.restore();return;}const mood=o.mood||'angry',w=o.wave||0,item=o.item||'pin';
+function drawGranny(x,o={}){if(COMIC_SPRITES.granny?.image.naturalWidth){x.save();const bw=RM?0:Math.sin((o.wave||0)*.8);x.translate(0,52);x.scale(1-bw*.012,1+bw*.022);x.translate(0,-52);comicFit(x,'granny',0,52,68,84);x.restore();return;}const mood=o.mood||'angry',w=o.wave||0,item=o.item||'pin';
  el(x,0,34,30,20,'#6a1b9a');poly(x,'#8e24aa',-28,26,28,26,0,52);for(let i=0;i<5;i++)ln(x,'#ce93d8',1.2,-24+i*12,28,-20+i*10,46);
  el(x,0,24,10,5,'#f3e5f5');
  el(x,0,-2,20,22,'#d84315');
