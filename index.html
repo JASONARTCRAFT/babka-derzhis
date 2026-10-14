@@ -1005,10 +1005,11 @@ function streetFront(rt,sw){const base=rt-sw*.6,maxH=rt-sw*.6-oy-C*.08;S.doorAt=
  S.houses.forEach((h,i)=>{const key=BUILD_KEYS[(i*3+S.i)%BUILD_KEYS.length],s=COMIC_SPRITES[key];if(!s)return;
   const slot=h.w*C,sc=Math.min(slot*.96/s.w,maxH/s.h),w=s.w*sc,spare=slot-w;
   // A zombie door inside this lot: shift the house so its painted front door sits on that column.
-  const di=S.lv.doors.findIndex(d=>d.s=='t'&&d.c>=h.c0&&d.c<h.c0+h.w);let cx=FX(h.c0+h.w/2),drawKey=key;
+  const di=S.lv.doors.findIndex(d=>d.s=='t'&&d.c>=h.c0&&d.c<h.c0+h.w),nk=key+'-night',has=k=>COMIC_SPRITES[k]?.image.naturalWidth;
+  let cx=FX(h.c0+h.w/2),drawKey=S.lv.night&&has(nk)?nk:key;
   if(di>=0){cx=clamp(FX(S.lv.doors[di].c+.5),FX(h.c0)+w/2,FX(h.c0+h.w)-w/2);
    // Active house: open-door art when it exists; the door anchor comes from the manifest ("door":[x,y] in source pixels).
-   if(COMIC_SPRITES[key+'-open']?.image.naturalWidth)drawKey=key+'-open';
+   if(has(drawKey+'-open'))drawKey+='-open';
    S.doorAt[di]=doorAnchor(drawKey,cx,base,sc)||{x:cx,y:base-s.h*sc*.14,w:w*.12,h:s.h*sc*.15,code:drawKey==key}}
   // Leftover width becomes a yard with a tree, so houses never float in empty lawn.
   if(spare>C*.5){const side=cx-FX(h.c0)>FX(h.c0+h.w)-cx?-1:1,tx=cx+side*(w/2+spare/4);swayFit(g,'prop-tree',tx,base+C*.04,Math.min(spare*.55,C*1.1),C*1.15,.02,i)}
