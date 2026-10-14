@@ -63,7 +63,7 @@ function openGShop(){const g=G(),c=g.can;
   ['canMax','Лейка побольше',`Поливов до перезарядки: ${c.max} → ${c.max+1}.`,c.max>=4?null:12*(c.max-1)],
   ['canCd','Колодец поглубже',`Лейка наполняется за ${canCd()/MIN} мин → ${canCd()/MIN-5} мин.`,(g.cdLv||0)>=3?null:10*((g.cdLv||0)+1)],
   ...Object.entries(PLANTS).filter(([k,p])=>!p.soon&&g.known[k]).map(([k,p])=>['seed:'+k,'Семена: '+p.n,p.bonus+'.',p.price]),
-  ...Object.entries(SHOP).map(([k,it])=>['up:'+k,it.n,it.d,save.shop[k]?null:it.cost]),
+  ...Object.entries(SHOP).map(([k,it])=>['up:'+k,it.n,it.d,k=='magnet'&&save.lvl<MAGNET_UNLOCK?-1:save.shop[k]?null:it.cost]),
   ['lock1','???','Откроется после новых миссий.',-1],['lock2','???','Бабка ещё не решила, продавать ли это.',-1],['lock3','???','Говорят, привезли из-за границы.',-1]];
  const o=overlay(`<h2>Бабкина лавка</h2><p>Всё за мятные листики. У тебя: <b>${save.leaves}</b> 🍃</p><div class="shop">${items.map(([id,n,d,p])=>`<div class="si ${p<0?'lock':''}"><div><b>${n}</b><span>${d}</span></div><button class="btn sm" data-buy="${id}" ${p==null||p<0||save.leaves<p?'disabled':''}>${p<0?'🔒':p==null?'Есть':p+' 🍃'}</button></div>`).join('')}</div>`,[['Закрыть',()=>{renderTools();renderBonus()}]],'wide');
  o.querySelectorAll('[data-buy]').forEach(b=>b.onclick=()=>{const id=b.dataset.buy,it=items.find(i=>i[0]===id),p=it[3];if(p==null||p<0||save.leaves<p)return;save.leaves-=p;
