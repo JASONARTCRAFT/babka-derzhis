@@ -1,0 +1,360 @@
+{
+  "tool": "built-in imagegen",
+  "static": [
+    {
+      "name": "characters-friendly",
+      "cols": 3,
+      "rows": 3,
+      "keys": [
+        "cat-sleep",
+        "cat-sit",
+        "cat-loaf",
+        "cat-walk-side",
+        "granny-shock",
+        "granny-calm",
+        "granny-knit",
+        "granddaughter-explain",
+        "granddaughter-give"
+      ],
+      "prompt": "Use case: stylized-concept. Production STATIC sprite atlas for the browser game 'Бабка против зомби!'. Flat 2D hand-drawn comic style matching the references: thick slightly irregular BLACK ink outlines, bold simplified silhouettes, minimal flat cel shadows, muted mint/olive/plum/coral/cream palette. TRUE transparent background. STRICT equal-cell grid with one complete isolated subject in each cell; generous transparent padding in EVERY cell, no overlap, no floor shadows, no scene, no labels/numbers or borders. Each sprite must be readable at 96px. These are DIFFERENT static assets, NOT animation frames. NO motion sequences, no duplicate run poses. Maintain consistent anatomy and design. EXACT grid 3 columns x 3 rows. Subjects read left-to-right, top-to-bottom: 1 orange HEALTHY cat curled sleeping, overhead-side view; 2 gray healthy cat sitting happily 3/4 tail wrapped around feet; 3 dark brown healthy loaf-shaped cat resting on grass (no actual grass/background); 4 cream healthy cat in ONE side walking pose facing RIGHT, NOT animation. 5 the SAME stout elderly grandma as reference, shocked face, shifted spectacles, purple floral kerchief/magenta cardigan/cream apron, full body; 6 SAME grandma content with a cup of tea, full body; 7 SAME grandma seated in a compact burgundy armchair KNITTING, yarn and needles, whole chair isolated. 8 the SAME ADULT granddaughter catgirl as reference, bust/waist-up, raised index finger, open explaining mouth, burgundy hair, gray cat ears, yellow eyes, magenta hoodie. 9 SAME adult granddaughter full body, extending BOTH EMPTY hands forward together to give an item, gray tail, plum jeans and sneakers. No tools in her hands. Keep grandma and granddaughter identity faithful.",
+      "refs": [
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\zombie-style-tests\\03-green-zombie.png",
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\png\\granny.png",
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\png\\granddaughter.png"
+      ],
+      "transparent": true
+    },
+    {
+      "name": "zombie-types-a",
+      "cols": 4,
+      "rows": 2,
+      "keys": [
+        "zombie-kit",
+        "zombie-fat",
+        "zombie-ath",
+        "zombie-mom",
+        "zombie-lead",
+        "zombie-skate",
+        "zombie-swim",
+        "zombie-basin"
+      ],
+      "prompt": "Use case: stylized-concept. Production STATIC sprite atlas for the browser game 'Бабка против зомби!'. Flat 2D hand-drawn comic style matching the references: thick slightly irregular BLACK ink outlines, bold simplified silhouettes, minimal flat cel shadows, muted mint/olive/plum/coral/cream palette. TRUE transparent background. STRICT equal-cell grid with one complete isolated subject in each cell; generous transparent padding in EVERY cell, no overlap, no floor shadows, no scene, no labels/numbers or borders. Each sprite must be readable at 96px. These are DIFFERENT static assets, NOT animation frames. NO motion sequences, no duplicate run poses. Maintain consistent anatomy and design. EXACT grid 4 columns x 2 rows. Subjects read left-to-right, top-to-bottom: ALL are unmistakable undead ZOMBIE CATS based on reference, sickly olive-gray fur, asymmetrical cloudy yellow eyes, purple under-eye shadows, slack jaws, stitched patches, FOUR PAWS facing LEFT, ONE static stance. 1 tiny naughty zombie kitten with torn ear; 2 very round FAT zombie with a napkin tied around neck; 3 athletic parkour zombie, red sneakers and blue headband; 4 mother zombie wearing a small apron and two bows; 5 dark alley leader, cap, facial scar and one closed missing eye, no gore; 6 zombie skater in blue helmet, feet ready for skateboard but NO skateboard; 7 swimmer zombie with goggles, snorkel and green flippers; 8 zombie with an upside-down metal washbasin as a helmet. Clearly different body silhouettes and accessories, all feet on common baseline.",
+      "refs": [
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\png\\zombie-cat.png"
+      ],
+      "transparent": true
+    },
+    {
+      "name": "zombie-types-b",
+      "cols": 3,
+      "rows": 3,
+      "keys": [
+        "zombie-vac",
+        "zombie-box",
+        "zombie-ghost",
+        "zombie-robo",
+        "zombie-owner",
+        "basin",
+        "vac-robot",
+        "zombie-skate-board",
+        "zombie-thief"
+      ],
+      "prompt": "Use case: stylized-concept. Production STATIC sprite atlas for the browser game 'Бабка против зомби!'. Flat 2D hand-drawn comic style matching the references: thick slightly irregular BLACK ink outlines, bold simplified silhouettes, minimal flat cel shadows, muted mint/olive/plum/coral/cream palette. TRUE transparent background. STRICT equal-cell grid with one complete isolated subject in each cell; generous transparent padding in EVERY cell, no overlap, no floor shadows, no scene, no labels/numbers or borders. Each sprite must be readable at 96px. These are DIFFERENT static assets, NOT animation frames. NO motion sequences, no duplicate run poses. Maintain consistent anatomy and design. EXACT grid 3 columns x 3 rows. Subjects read left-to-right, top-to-bottom: 1 stitched olive zombie cat facing LEFT riding a small mint-gray robot vacuum, complete cat + vacuum; 2 squat battered cardboard cat box, only glowing yellow eyes peeking through dark slit, simple blank shipping label, NO words; 3 pale blue ghost zombie CAT facing LEFT, transparent wispy tail, white-yellow eyes, glow contained within silhouette; 4 tin robot CAT facing LEFT, angular mint/gray scrap-metal plates, one RED eye visor; 5 human neighbor in muted plum bathrobe with olive ZOMBIE CAT sitting on his head and steering his ears, full body human walking LEFT, no gore; 6 the washbasin HELMET ALONE, upside-down metal basin matching previous zombie helmet, 3/4 view; 7 robot VACUUM ALONE, matching the one under cat, squat mint-gray disk; 8 skateboard ALONE, coral deck with four dark wheels, side view; 9 skinny fast zombie THIEF cat facing LEFT, black eye-mask like a raccoon burglar, empty canvas shoulder sack, ONE stretched running pose (STATIC, no second frame), sinister cloudy yellow eyes, olive-gray fur and stitches.",
+      "refs": [
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\png\\zombie-cat.png"
+      ],
+      "transparent": true
+    },
+    {
+      "name": "street-and-upgrades",
+      "cols": 4,
+      "rows": 3,
+      "keys": [
+        "bowl",
+        "hydrant",
+        "pole",
+        "taxi",
+        "truck",
+        "shovel",
+        "mower",
+        "wheel-gold",
+        "ball-launcher-2",
+        "ball-launcher-3",
+        "spr-2",
+        "shock-2"
+      ],
+      "prompt": "Use case: stylized-concept. Production STATIC sprite atlas for the browser game 'Бабка против зомби!'. Flat 2D hand-drawn comic style matching the references: thick slightly irregular BLACK ink outlines, bold simplified silhouettes, minimal flat cel shadows, muted mint/olive/plum/coral/cream palette. TRUE transparent background. STRICT equal-cell grid with one complete isolated subject in each cell; generous transparent padding in EVERY cell, no overlap, no floor shadows, no scene, no labels/numbers or borders. Each sprite must be readable at 96px. These are DIFFERENT static assets, NOT animation frames. NO motion sequences, no duplicate run poses. Maintain consistent anatomy and design. EXACT grid 4 columns x 3 rows. Subjects read left-to-right, top-to-bottom: 1 pink food bowl with cat kibble overhead-side; 2 RED fire hydrant; 3 tall wooden street utility lamp pole with sagging wires, proportion 1:3, cream light; 4 yellow taxi with checker stripe, overhead, nose points DOWN; 5 green garbage truck, overhead nose DOWN, long 1:2.5; 6 garden shovel isolated icon; 7 compact RED lawnmower side view facing RIGHT with handle behind; 8 GOLD wooden running wheel with healthy orange cat and mint dynamo, STATIC single sprite; 9 twin-barrel mint tennis-ball launcher facing RIGHT, two visible barrels and balls; 10 upgraded GOLD triple-barrel tennis launcher facing RIGHT, three clearly visible barrels; 11 deluxe mint water sprinkler with extra coiled hose; 12 upgraded electric shock turret with THREE cream/coral batteries and small Tesla coil. Keep family identity of attached original wheel/launcher/devices, not weapon realism.",
+      "refs": [
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\zombie-style-tests\\03-green-zombie.png",
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\png\\wheel.png",
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\png\\ball-launcher.png"
+      ],
+      "transparent": true
+    },
+    {
+      "name": "effects-events",
+      "cols": 4,
+      "rows": 3,
+      "keys": [
+        "fx-ball",
+        "fx-splash",
+        "fx-boom",
+        "fx-cucumber",
+        "event-rain",
+        "event-blackout",
+        "event-pension",
+        "event-pipe",
+        "event-neighbor",
+        "event-roadwork",
+        "puddle",
+        "roadwork-barrier"
+      ],
+      "refs": [
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\png\\zombie-cat.png"
+      ],
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Production STATIC sprite atlas for the browser game 'Бабка против зомби!'. Flat 2D hand-drawn comic style matching the references: thick slightly irregular BLACK ink outlines, bold simplified silhouettes, minimal flat cel shadows, muted mint/olive/plum/coral/cream palette. TRUE transparent background. STRICT equal-cell grid with one complete isolated subject in each cell; generous transparent padding in EVERY cell, no overlap, no floor shadows, no scene, no labels/numbers or borders. Each sprite must be readable at 96px. These are DIFFERENT static assets, NOT animation frames. NO motion sequences, no duplicate run poses. Maintain consistent anatomy and design. EXACT 4 columns x 3 rows. Subjects in strict reading order, one per cell: tennis ball; blue water splash; coral comic explosion NO letters; flying cucumber; rain cloud icon; power outage broken bulb icon; pension coins in envelope icon; bursting water pipe icon; angry neighbor face icon; roadwork shovel and cone icon; overhead blue puddle; coral cream roadwork barrier."
+    },
+    {
+      "name": "scenery",
+      "cols": 4,
+      "rows": 3,
+      "keys": [
+        "roof-flat-1",
+        "roof-flat-2",
+        "roof-flat-3",
+        "gateway",
+        "door-open",
+        "prop-busstop",
+        "prop-hydrant-street",
+        "prop-bike",
+        "prop-flowerbox",
+        "house-roof-clean",
+        "prop-tree-far",
+        "prop-lamp-tall"
+      ],
+      "refs": [
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\png\\zombie-cat.png"
+      ],
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Production STATIC sprite atlas for the browser game 'Бабка против зомби!'. Flat 2D hand-drawn comic style matching the references: thick slightly irregular BLACK ink outlines, bold simplified silhouettes, minimal flat cel shadows, muted mint/olive/plum/coral/cream palette. TRUE transparent background. STRICT equal-cell grid with one complete isolated subject in each cell; generous transparent padding in EVERY cell, no overlap, no floor shadows, no scene, no labels/numbers or borders. Each sprite must be readable at 96px. These are DIFFERENT static assets, NOT animation frames. NO motion sequences, no duplicate run poses. Maintain consistent anatomy and design. EXACT 4 columns x 3 rows. Subjects in strict reading order, one per cell: flat rectangular city roof overhead plum vents; flat rectangular city roof overhead coral chimneys; flat rectangular city roof overhead mint tanks; dark stone gateway arch for zombie exit topview; open dark wooden door glowing green eyes in darkness; compact bus stop shelter; old red street hydrant; parked mint bicycle; rectangular flowerbox; ONLY coral tiled sloped house ROOF overhead without walls or ground; simplified tall olive tree silhouette for distance; extremely tall wooden lamp pole proportion1:4. Buildings and roofs are overhead or top-down 3/4 game map perspective, NOT frontal views."
+    },
+    {
+      "name": "menu-garden-props",
+      "cols": 4,
+      "rows": 3,
+      "keys": [
+        "menu-slab",
+        "menu-sign",
+        "menu-almanac",
+        "menu-stake-sign",
+        "blueprint-card",
+        "loot-sack",
+        "survival-badge",
+        "mower-broken",
+        "pot",
+        "can",
+        "seed-bag",
+        "leaf-mint"
+      ],
+      "refs": [
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\png\\zombie-cat.png"
+      ],
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Production STATIC sprite atlas for the browser game 'Бабка против зомби!'. Flat 2D hand-drawn comic style matching the references: thick slightly irregular BLACK ink outlines, bold simplified silhouettes, minimal flat cel shadows, muted mint/olive/plum/coral/cream palette. TRUE transparent background. STRICT equal-cell grid with one complete isolated subject in each cell; generous transparent padding in EVERY cell, no overlap, no floor shadows, no scene, no labels/numbers or borders. Each sprite must be readable at 96px. These are DIFFERENT static assets, NOT animation frames. NO motion sequences, no duplicate run poses. Maintain consistent anatomy and design. EXACT 4 columns x 3 rows. Subjects in strict reading order, one per cell: wide empty wood platform with plum felt top; blank hanging wooden sign ropes; thick comic almanac book blank cover; blank sign on wooden stake; folded blue blueprint paper white mechanical schematic NO letters; loot canvas sack with visible gold coin; moon and claw survival badge; broken red lawnmower bent handle detached wheel exposed hood NO smoke; terracotta flowerpot; mint watering can; blank seed packet with leaf picture; single mint catnip leaf."
+    },
+    {
+      "name": "garden-stages-a",
+      "cols": 3,
+      "rows": 3,
+      "keys": [
+        "plant-catnip-1",
+        "plant-catnip-2",
+        "plant-catnip-3",
+        "plant-chili-1",
+        "plant-chili-2",
+        "plant-chili-3",
+        "plant-volt-1",
+        "plant-volt-2",
+        "plant-volt-3"
+      ],
+      "refs": [
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\png\\zombie-cat.png"
+      ],
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Production STATIC sprite atlas for the browser game 'Бабка против зомби!'. Flat 2D hand-drawn comic style matching the references: thick slightly irregular BLACK ink outlines, bold simplified silhouettes, minimal flat cel shadows, muted mint/olive/plum/coral/cream palette. TRUE transparent background. STRICT equal-cell grid with one complete isolated subject in each cell; generous transparent padding in EVERY cell, no overlap, no floor shadows, no scene, no labels/numbers or borders. Each sprite must be readable at 96px. These are DIFFERENT static assets, NOT animation frames. NO motion sequences, no duplicate run poses. Maintain consistent anatomy and design. EXACT 3 columns x 3 rows. Subjects in strict reading order, one per cell: catnip tiny sprout; catnip young leafy plant; catnip mature lush plant; chili tiny sprout; chili young plant with small green pepper; chili mature plant with red peppers; electric plant tiny mint sprout with small yellow spark; electric plant young mint stalk yellow bulb bud; electric plant mature mint branching stalk three yellow bulb fruits. EACH grows from identical small terracotta pot, each STATIC distinct growth-stage illustration, NOT animation frames."
+    },
+    {
+      "name": "garden-stages-b",
+      "cols": 3,
+      "rows": 2,
+      "keys": [
+        "plant-pump-1",
+        "plant-pump-2",
+        "plant-pump-3",
+        "plant-cuke-1",
+        "plant-cuke-2",
+        "plant-cuke-3"
+      ],
+      "refs": [
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\png\\zombie-cat.png"
+      ],
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Production STATIC sprite atlas for the browser game 'Бабка против зомби!'. Flat 2D hand-drawn comic style matching the references: thick slightly irregular BLACK ink outlines, bold simplified silhouettes, minimal flat cel shadows, muted mint/olive/plum/coral/cream palette. TRUE transparent background. STRICT equal-cell grid with one complete isolated subject in each cell; generous transparent padding in EVERY cell, no overlap, no floor shadows, no scene, no labels/numbers or borders. Each sprite must be readable at 96px. These are DIFFERENT static assets, NOT animation frames. NO motion sequences, no duplicate run poses. Maintain consistent anatomy and design. EXACT 3 columns x 2 rows. Subjects in strict reading order, one per cell: pumpkin tiny sprout; pumpkin young vine with little orange fruit; mature pumpkin vine with large orange pumpkin; cucumber tiny sprout; cucumber young vine with small green cucumber; mature cucumber vine with multiple cucumbers and yellow flowers. EACH grows from identical small terracotta pot, STATIC growth-stage illustrations NOT animation frames. CRITICAL: absolutely NO background glow, NO shadow, NO haze or colored backdrop. All pixels outside leaves/pots have alpha zero. Clean isolated stickers."
+    },
+    {
+      "name": "night-buildings",
+      "cols": 4,
+      "rows": 2,
+      "keys": [
+        "building-pharmacy-night",
+        "building-bakery-night",
+        "building-fish-night",
+        "building-florist-night",
+        "building-garage-night",
+        "building-kiosk-night",
+        "building-home-night",
+        "building-workshop-night"
+      ],
+      "refs": [
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\atlases\\buildings-atlas.png"
+      ],
+      "transparent": true,
+      "prompt": "Edit the reference building atlas into NIGHTTIME versions of the SAME eight buildings. Preserve EXACT 4columns x2rows grid, SAME shapes/perspective, roofs, signs, doors, props and architecture. Only change lighting to muted dusk blue-purple shadows with warm yellow illuminated WINDOWS and restrained lamps. Transparent background, NO ground, no environment, no sky, no halo outside silhouettes, each complete house isolated within equal cell. Flat comic black outlines same as original. Order pharmacy,bakery,fish shop,florist,garage,kiosk,home,workshop. NO new text."
+    },
+    {
+      "name": "zombie-boss",
+      "cols": 1,
+      "rows": 1,
+      "keys": [
+        "zombie-boss"
+      ],
+      "refs": [
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\png\\zombie-cat.png"
+      ],
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Production STATIC sprite atlas for the browser game 'Бабка против зомби!'. Flat 2D hand-drawn comic style matching the references: thick slightly irregular BLACK ink outlines, bold simplified silhouettes, minimal flat cel shadows, muted mint/olive/plum/coral/cream palette. TRUE transparent background. STRICT equal-cell grid with one complete isolated subject in each cell; generous transparent padding in EVERY cell, no overlap, no floor shadows, no scene, no labels/numbers or borders. Each sprite must be readable at 96px. These are DIFFERENT static assets, NOT animation frames. NO motion sequences, no duplicate run poses. Maintain consistent anatomy and design. SINGLE important large boss sprite, NOT atlas. Enormous obese olive undead cat facing LEFT with yellow cloudy eyes, torn ear, stitches, gold crooked crown and burgundy royal cape, riding GIANT battered mint-gray robot vacuum with wheels and visible suction nozzle front LEFT. Full body whole vehicle, wide 3:2 silhouette, feet/paws bottom, imposing humorous villain, no gore. Generous 8% transparent margin all sides."
+    },
+    {
+      "name": "menu-cattree",
+      "cols": 1,
+      "rows": 1,
+      "keys": [
+        "menu-cattree"
+      ],
+      "refs": [
+        "C:\\Users\\FF User\\Documents\\Codex\\2026-10-13\\2027-2\\outputs\\babka-comic-pack\\png\\granny.png"
+      ],
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Production STATIC sprite atlas for the browser game 'Бабка против зомби!'. Flat 2D hand-drawn comic style matching the references: thick slightly irregular BLACK ink outlines, bold simplified silhouettes, minimal flat cel shadows, muted mint/olive/plum/coral/cream palette. TRUE transparent background. STRICT equal-cell grid with one complete isolated subject in each cell; generous transparent padding in EVERY cell, no overlap, no floor shadows, no scene, no labels/numbers or borders. Each sprite must be readable at 96px. These are DIFFERENT static assets, NOT animation frames. NO motion sequences, no duplicate run poses. Maintain consistent anatomy and design. SINGLE isolated tall cat scratching tree structure for menu, shape like a whimsical gravestone but NOT actual cemetery: thick cream sisal rope posts, deep burgundy felt and warm wood, broad cat-house base with round dark entrance, several upright posts end at different heights. NO horizontal platforms/slabs at top, those supplied separately by code. Whole structure with8%padding, portrait 900x1100 proportions. No cats, no floor, no text, no glow."
+    },
+    {
+      "name": "night-buildings-open",
+      "cols": 4,
+      "rows": 2,
+      "keys": [
+        "building-pharmacy-night-open",
+        "building-bakery-night-open",
+        "building-fish-night-open",
+        "building-florist-night-open",
+        "building-garage-night-open",
+        "building-kiosk-night-open",
+        "building-home-night-open",
+        "building-workshop-night-open"
+      ],
+      "refs": [
+        "C:\\Users\\FF User\\.codex\\generated_images\\01a138c6-533d-7843-8c19-131409a4f473\\exec-d6ba5772-8ce9-4981-9795-1c4da9075bab.png"
+      ],
+      "transparent": true,
+      "prompt": "Edit ONLY door openings in this EXACT 4x2 atlas of8nightbuildings. Preserve all dimensions, placement, roof geometry, props, window lighting pixel-aligned. Pharmacy/bakery/fish/florist/home/workshop: front door swung inward, empty PURE BLACK doorway no eyes no cats. Garage roll-up shutter raised HALF WAY, pureblack slot underneath. Kiosk CENTRAL storefront window broken edges with shards black interior. Additionally bakery and home have ONE broken side window with black interior. Everything outside these openings unchanged. True transparent background, no sky, no background, no halo. Each full house occupies original equal grid cell."
+    },
+    {
+      "name": "day-buildings",
+      "cols": 4,
+      "rows": 2,
+      "keys": [
+        "building-pharmacy",
+        "building-bakery",
+        "building-fish",
+        "building-florist",
+        "building-garage",
+        "building-kiosk",
+        "building-home",
+        "building-workshop"
+      ],
+      "refs": [
+        "C:\\Users\\FF User\\.codex\\generated_images\\01a138c6-533d-7843-8c19-131409a4f473\\exec-d6ba5772-8ce9-4981-9795-1c4da9075bab.png"
+      ],
+      "transparent": true,
+      "prompt": "Edit this EXACT atlas4columns2rows into DAYLIGHT versions of same8buildings, closed doors. Preserve identical house shapes, grid positions, architectural details, roof colors family, props, signs. Remove all warm emitted window light and lamp glow. Windows cool blue reflections, roofs brighter original mint coral slate plum mustard, cream walls daylight. Flat comic style true transparent background, NO backdrop, NO halo. Order pharmacy bakery fish florist garage kiosk home workshop. Same size."
+    },
+    {
+      "name": "day-buildings-open",
+      "cols": 4,
+      "rows": 2,
+      "keys": [
+        "building-pharmacy-open",
+        "building-bakery-open",
+        "building-fish-open",
+        "building-florist-open",
+        "building-garage-open",
+        "building-kiosk-open",
+        "building-home-open",
+        "building-workshop-open"
+      ],
+      "refs": [
+        "C:\\Users\\FF User\\.codex\\generated_images\\01a138c6-533d-7843-8c19-131409a4f473\\exec-b47a36a6-538c-4dad-a55b-08c34206870f.png"
+      ],
+      "transparent": true,
+      "prompt": "Edit ONLY door openings in this EXACT 4x2 atlas of8daytimebuildings. Preserve all dimensions, placement, roof geometry, props, daylight window reflections pixel-aligned. Pharmacy/bakery/fish/florist/home/workshop: front door swung inward, empty PURE BLACK doorway no eyes no cats. Garage roll-up shutter raised HALF WAY, pureblack slot underneath. Kiosk CENTRAL storefront window broken edges with shards black interior. Additionally bakery and home have ONE broken side window with black interior. Everything outside these openings unchanged. True transparent background, no sky, no background, no halo. Each full house occupies original equal grid cell."
+    },
+    {
+      "name": "front-detail",
+      "cols": 3,
+      "rows": 2,
+      "keys": [
+        "front-gateway",
+        "front-gap-yard",
+        "front-prop-bench",
+        "front-prop-bin",
+        "front-prop-bike",
+        "front-prop-planter"
+      ],
+      "refs": [
+        "C:\\Users\\FF User\\.codex\\generated_images\\01a138c6-533d-7843-8c19-131409a4f473\\exec-616d2860-7e97-428a-9971-4a3f2ff7d4eb.png"
+      ],
+      "transparent": true,
+      "prompt": "Use case: stylized-concept. Production STATIC sprite atlas for the browser game 'Бабка против зомби!'. Flat 2D hand-drawn comic style matching the references: thick slightly irregular BLACK ink outlines, bold simplified silhouettes, minimal flat cel shadows, muted mint/olive/plum/coral/cream palette. TRUE transparent background. STRICT equal-cell grid with one complete isolated subject in each cell; generous transparent padding in EVERY cell, no overlap, no floor shadows, no scene, no labels/numbers or borders. Each sprite must be readable at 96px. These are DIFFERENT static assets, NOT animation frames. NO motion sequences, no duplicate run poses. Maintain consistent anatomy and design. EXACT3columns2rows. All subjects steep overhead topdown map perspective matching reference. Reading order:1compact square stone house archway overhead with closed wooden gate on narrow frontwall alongbottomedge, roof occupies80%;2narrow backyard strip overhead with trashbin and laundry clothesline between2 low sidewalls, width halfheight;3wooden bench topdown, back atTOP;4street trashbin topdown;5mint bicycle parked overhead/slight3/4;6rectangular flowerplanter overhead. NO cats no text no groundoutside objects."
+    }
+  ],
+  "front": [
+    {
+      "name": "day-open",
+      "prompt": "Edit attached FOUR CITY BUILDINGS atlas. STRICT preserve exact camera, frontal symmetry, roof geometry, entire visible facade, door locations, grid2x2, each silhouette's size and position. No rotation or sidewalls, no cropped doors. Same4 buildings: grocery, residence, bicycle workshop, garage. Keep flat black-outline comic style. TRUE transparent background no ground no external haze. DAYTIME unchanged. ONLY open each entrance: grocery green door, residential blue door, workshop green door all swung INWARD leaving EMPTY PURE BLACK doorway. Full lintel and doorstep visible. Garage gray shutter raised HALFWAY with broad PURE BLACK slot underneath. NO eyes cats figures or lit interiors in openings. Other windows/roofs/props unchanged."
+    },
+    {
+      "name": "night-closed",
+      "prompt": "Edit attached FOUR CITY BUILDINGS atlas. STRICT preserve exact camera, frontal symmetry, roof geometry, entire visible facade, door locations, grid2x2, each silhouette's size and position. No rotation or sidewalls, no cropped doors. Same4 buildings: grocery, residence, bicycle workshop, garage. Keep flat black-outline comic style. TRUE transparent background no ground no external haze. NIGHTTIME with CLOSED doors matching base. Roofs muted dark blue-purple tint keeping red/slate/mint/plum color identities readable. Walls cool dusk shadows. Residential windows warm yellow lit, shop display and workshop window softly warm lit, small facade lamps softly lit. Lights contained inside silhouettes; NO glow across transparent background. Garage shutter CLOSED, grocery/residential/workshop doors CLOSED. No sky moon text or new objects."
+    },
+    {
+      "name": "night-open",
+      "prompt": "Edit ONLY the entrance doors of attached NIGHTTIME2x2cityhouse atlas. Exact same4buildings samecamera samegrid samepositions samefullfacades roofs windows lighting props and transparentbackground. Grocery shop green door, residence blue door, workshop green door swing INWARD leaving EMPTY PURE BLACK doorway. Garage shutter rollup HALF WAY leaving broad BLACK EMPTY slot beneath. All four entrances clearly open, no eyes no cats no people and no interior glow inside doorways. Warm lit WINDOWS stay exactly same, night roof colors same. Door shape and lintel and threshold fully visible. No other changes, no external glow/background. Retain straight symmetrical roof perspective."
+    },
+    {
+      "name": "extra-unique",
+      "prompt": "REDESIGN attached4shop atlas, currently repetitive roofs. Preserve ONLY the selected camera/style: centered straight frontal high-angle looking DOWN, broad roofs visible with full frontwall and full entrance below, horizontalbaseline NOyaw diagonaltilt or sidewalls. Make FOUR CLEARLY DIFFERENT ARCHITECTURAL SILHOUETTES in strict2x2equalcells: TOPLEFT PHARMACY modern squat creambrick building with FLAT RECTANGULAR mint-gray roof, raised parapet, one smallsquare HVAC vent NOchimney, redcross sign, glassdoor at right, wide cleanwindow. TOPRIGHT BAKERY cozy asymmetrical older coralbrick cottage with steep RED GABLED pitched roof (two slopingplanes readablefromabove), small dormer window and ONE brickovenchimney at FAR RIGHT, woodenfrontdoor at left, breadwindow at right, short creamplum awning. BOTTOMLEFT FISH SHOP long low weatherboard seaside kiosk with BLUE SINGLE-SLOPE corrugatedmetal roof, three angled panels and modestridgevent NO chimney, fishpictogram sign, centeredbluedoor and distinct broadlow displaywindow, crates atside. BOTTOMRIGHT FLORIST glasshouse shop with curved/translucent conservatory GLASS ROOF supported by darkgreen ribs, visibleleafyplants underneath, low creambrickbase, rectangular narrowmint entrance atleft and tallglasswindows withbouquets, hangingflowerbaskets; NO chimney. Distinct roofshapes, widths, facade proportions, door positions, buildingmaterial; MUST NOT share samehippedtile roof andsamechimney. Eachbuilding recognizable by silhouette before looking atsign. Same mutedmintoliveplumcoralcream comicpalette thickblackoutline simplifiedcelshadows. AllDAYTIME CLOSED entrances. No words no cats no groundshadow no glow. True transparentoutsideobjects with8%padding EACHcell, wholewallsdoorsinside. Keep samecameraelevationasreference."
+    },
+    {
+      "name": "day-open-unique",
+      "prompt": "Edit attached4uniquecityshop atlas. Preserve exact2x2grid, houseposition, shape, highanglefront camera, fullwalls anddoorways, roofarchitecture: flatroof pharmacy, gabled bakery dormerchimney, single-slope corrugatedroof fishshop, curved glass conservatory florist. No new objects or text, transparentbackground NOground noexternalglow. DAYLIGHT unchanged. ONLY OPEN all4entrance doors inward leaving PUREBLACK EMPTY doorway, no eyes or cats. Pharmacy entrance atRIGHT ofhouse; bakery LEFT; fish LEFT; floristLEFT. Keep windowdisplays intact, entirewalls anddoorsteps visible. Do not change anythingoutsideentrances."
+    },
+    {
+      "name": "night-closed-unique",
+      "prompt": "Edit attached4uniquecityshop atlas. Preserve exact2x2grid, houseposition, shape, highanglefront camera, fullwalls anddoorways, roofarchitecture: flatroof pharmacy, gabled bakery dormerchimney, single-slope corrugatedroof fishshop, curved glass conservatory florist. No new objects or text, transparentbackground NOground noexternalglow. NIGHTTIME all4entrances CLOSED. Cool dusk-purple muted roofs/walls preservingcolorfamilies, warmly yellow illuminated shopwindows and bakerydormerwindow, restrainedwarmlamps. Glass floristroof warmsoft interiorlight underglass. No lightbeyond silhouettes, no haze. Samegeometry/cameraand everydoorlocation."
+    },
+    {
+      "name": "extra-night-open",
+      "prompt": "Edit ONLY entrance doors of attached2x2NIGHT atlas4distinctcityshops. Exactunchanged4roofarchitecture positionsgrid shapes camera fullfacades warmwindows lamps andtransparentbackground. PharmacydooratRIGHT, bakerydoorLEFT, fishshopdoorLEFT, floristdoorLEFT all open INWARD leaving PURE BLACK EMPTYdoorway no eyes no cats no people no interiorlight inopenings. Keep lintels doorframes fullthresholds andeverythingelseidentical. Retain closed litdisplaywindows and nightcolors. Nochangesoutsideentrances."
+    }
+  ]
+}
