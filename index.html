@@ -770,7 +770,7 @@ const cv=$('#cv'),g=cv.getContext('2d'),bar=$('#bar');
 let S=null,VW=0,VH=0,dpr=1,C=64,TOPH=48,BOTH=48,X0=120,oy=0,FH=0,WW=0,camX=0,cvTop=88;
 const FX=c=>X0+c*C,FY=r=>oy+TOPH+r*C,maxCam=()=>Math.max(0,WW-VW),okR=r=>!!S&&r>=0&&r<S.rows;
 function layout(){cvTop=bar.getBoundingClientRect().bottom;VW=innerWidth;VH=Math.max(200,innerHeight-cvTop);const rows=S?S.rows:5;
- C=clamp((VH-40)/(rows+1.5),40,92);TOPH=BOTH=C*.75;X0=C*2.5;dpr=Math.min(2,devicePixelRatio||1);
+ C=clamp((VH-40)/(rows+1.5),40,Math.max(92,VH/4.5));TOPH=BOTH=C*.75;X0=C*2.5;dpr=Math.min(2,devicePixelRatio||1);
  cv.style.top=cvTop+'px';cv.width=VW*dpr;cv.height=VH*dpr;cv.style.width=VW+'px';cv.style.height=VH+'px';
  WW=X0+COLS*C+C*.3;FH=TOPH+rows*C+BOTH;oy=Math.max(0,(VH-34-FH)/2);camX=clamp(camX,0,maxCam())}
 addEventListener('resize',()=>{if(S)layout()});
