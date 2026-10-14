@@ -105,7 +105,8 @@ function lawnDecor(rt,rb){
  for(let r=0;r<S.rows;r++)for(let c=0;c<YC;c++){const h=hash1(r*31+c*7+S.i*3);if(h>.3)continue;
   const x=FX(c+(h<.15?.1:.9)),y=FY(r)+C*(h<.08?.12:.95);g.globalAlpha=.85;swayFit(g,'prop-grass',x,y,C*.2,C*.12,.08,r+c);g.globalAlpha=1}
  swayFit(g,'prop-grass',X0-C*.45,rt+C*.2,C*.24,C*.14,.08,1);comicFit(g,'prop-rocks',X0-C*.1,rb-C*.02,C*.22,C*.16)}
-const BUILD_KEYS=['building-pharmacy','building-bakery','building-fish','building-florist','building-garage','building-kiosk','building-home','building-workshop'];
+// New flat-front houses (front-house-1..8) on both sides of the road; the old pitched-roof shops are retired.
+const BUILD_KEYS=[1,2,3,4,5,6,7,8].map(n=>'front-house-'+n);
 function streetFront(rt,sw){const base=rt-sw*.6,maxH=rt-sw*.6-oy-C*.08;S.doorAt=S.doorAt||{};
  S.houses.forEach((h,i)=>{const key=BUILD_KEYS[(i*3+S.i)%BUILD_KEYS.length],s=COMIC_SPRITES[key];if(!s)return;
   const slot=h.w*C,sc=Math.min(slot*.96/s.w,maxH/s.h),w=s.w*sc,spare=slot-w;
@@ -136,12 +137,20 @@ function foregroundRoofs(y,h){if(COMIC_SPRITES['front-house-1']?.image.naturalWi
  if(x<xr)roofStrip(g,x,xr,y,h,99+S.i);
  // A thin margin below in case of rounding; the camera never shows more (see minZoom).
  roofStrip(g,gx,xr,y+h,C*.6,13+S.i)}
-// Near side of the road: houses seen from above-behind, fronts (and doors) facing the road.
-function frontHouses(y,h){const xr=Math.max(WW,camX+VW)+C,bottomDoors=S.lv.doors.map((d,i)=>[d,i]).filter(([d])=>d.s=='b'),keys=[1,2,3,4].map(n=>'front-house-'+n).filter(k=>COMIC_SPRITES[k]?.image.naturalWidth);
- const put=(key,cx,w,di)=>{const s=COMIC_SPRITES[key],sc=Math.min(w/s.w,(h+C*.05)/s.h),bt=y+h+C*.05;comicFit(g,key,cx,bt,s.w*sc,s.h*sc);
-  if(di!=null)S.doorAt[di]=doorAnchor(key,cx,bt,sc)||{x:cx,y:y+C*.15,w:s.w*sc*.12,h:C*.18,code:true}};
- S.doorAt=S.doorAt||{};let c=-3,k=0;
- while(FX(c)<xr){const hit=bottomDoors.find(([d])=>d.c>=c&&d.c<c+2);
-  if(hit){const [d,di]=hit,base=keys[(d.c+S.i)%keys.length],open=COMIC_SPRITES[base+'-open']?.image.naturalWidth?base+'-open':base;put(open,FX(d.c+.5),C*2,di);c=d.c+1.5}
-  else{put(keys[(k+++S.i)%keys.length],FX(c+1),C*2,null);c+=2}}}
+// Near side of the road: a row of houses (front-house-1..8), open where cats come out, yards between them.
+function frontHouses(y,h){const xr=Math.max(WW,camX+VW)+C,night=S.lv.night,doors=S.lv.doors.map((d,i)=>[d,i]).filter(([d])=>d.s=='b');
+ const keys=[1,2,3,4,5,6,7,8].map(n=>'front-house-'+n).filter(hasSprite),bt=y+h+C*.04;S.doorAt=S.doorAt||{};
+ const variant=(k,open)=>{let v=k+(night&&hasSprite(k+'-night')?'-night':'');if(open&&hasSprite(v+'-open'))v+='-open';return v};
+ // Near-side houses are turned 180° so their fronts (and doors) face the road.
+ const top0=y+C*.02,put=(key,cx,w,di)=>{const s=COMIC_SPRITES[key],sc=Math.min(w/s.w,(h+C*.04)/s.h);
+  g.save();g.translate(cx,top0);g.rotate(Math.PI);comicFit(g,key,0,0,s.w*sc,s.h*sc);g.restore();
+  if(di!=null){const lx=s.door?-s.w*sc/2+(s.door[0]-s.x)*sc:0,ly=s.door?-s.h*sc+(s.door[1]-s.y)*sc:-C*.3;
+   S.doorAt[di]={x:cx-lx,y:top0-ly,w:s.w*sc*.1,h:s.h*sc*.12,code:!s.door}}};
+ // Open houses sit exactly on their door columns; the gaps between them are packed with closed houses, leftovers with yards.
+ const W=C*2,opens=doors.map(([d,di])=>({cx:FX(d.c+.5),di})).sort((a,b)=>a.cx-b.cx),fill=(a,b,seed)=>{let n=Math.floor((b-a)/W),x=a+((b-a)-n*W)/2;
+  for(let q=a;q<x-1;q+=C*.5)comicFit(g,'front-gap-yard',q+C*.25,bt,C*.5,h+C*.04);
+  for(let q=x+n*W;q<b-1;q+=C*.5)comicFit(g,'front-gap-yard',q+C*.25,bt,C*.5,h+C*.04);
+  for(let k=0;k<n;k++){const hx=x+k*W+W/2,idx=Math.floor(hx/W);put(variant(keys[(idx*3+S.i)%keys.length],false),hx,W*.98,null);
+   const pk=hash1(idx*7.7+S.i);if(hx>FX(YC)&&pk<.4)comicFit(g,['front-prop-bench','front-prop-bin','front-prop-bike','front-prop-planter'][Math.floor(pk*10)%4],hx,y-C*.02,C*.5,C*.36)}};
+ let x=0;opens.forEach((o,k)=>{fill(x,o.cx-W/2,k);put(variant(keys[(Math.floor(o.cx/W)*3+S.i+1)%keys.length],true),o.cx,W*.98,o.di);x=o.cx+W/2});fill(x,xr,99)}
 function districtBuildings(){}function districtProps(){}

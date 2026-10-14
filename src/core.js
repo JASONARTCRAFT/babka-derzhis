@@ -13,7 +13,7 @@ function rgrad(x,cx,cy,r0,r1,st){const g=x.createRadialGradient(cx,cy,r0,cx,cy,r
 const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ---------- save ---------- */
-const DEF={lvl:0,stars:[],seen:{},kills:0,leaves:0,shop:{},garden:{pots:[{slot:0,p:null},{slot:1,p:null}],seeds:{catnip:1},known:{catnip:1},can:{uses:2,max:2,until:0},fert:1,cdLv:0},intro:false,won:{},perks:{},deck:null,all:false,
+const DEF={lvl:0,stars:[],seen:{},kills:0,leaves:0,shop:{},garden:{pots:[{slot:0,p:null},{slot:1,p:null}],seeds:{catnip:1},known:{catnip:1},can:{uses:2,max:2,until:0},fert:1,cdLv:0},intro:false,won:{},perks:{},bp:{},deck:null,all:false,
  set:{music:.6,sfx:.8,musicOn:true,sfxOn:true}};
 let save=JSON.parse(JSON.stringify(DEF));
 try{const d=JSON.parse(localStorage.getItem('babka-v3'));if(d){Object.assign(save,d);save.set=Object.assign({},DEF.set,d.set||{})}}catch(e){}

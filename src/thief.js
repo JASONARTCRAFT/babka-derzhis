@@ -30,8 +30,9 @@ function tapThief(wx,wy){if(!S.thieves)return false;
 function thiefItems(items){if(!S.thieves)return;const s=C/72;
  S.thieves.forEach(th=>items.push([th.y,()=>{const run=th.state!='grab',fr=RM||!run?0:(Math.floor(th.ph*3)%2)*2,bob=run&&!RM?Math.abs(Math.sin(th.ph*6))*C*.03:0;
   g.save();g.translate(th.x,th.y-bob);g.scale(s*(th.dir>0?-.55:.55),s*.55);
-  el(g,0,0,20,4,'rgba(0,0,0,.25)');if(th.hit>0)th.hit-=1/60;g.filter=th.hit>0?'brightness(1.8)':'brightness(.85) saturate(.75) hue-rotate(160deg)';
-  comicFit(g,'zombie-walk-'+fr,0,0,58,42);g.filter='none';
-  rr(g,-27,-34,22,6,2,'#1c1719');el(g,-22,-31,2,2,'#f2cf60');el(g,-12,-31,2,2,'#f2cf60');
+  el(g,0,0,20,4,'rgba(0,0,0,.25)');if(th.hit>0)th.hit-=1/60;
+  if(hasSprite('kitten-thief')){if(th.hit>0)g.filter='brightness(1.8)';const st=run&&!RM?Math.abs(Math.sin(th.ph*6)):0;g.scale(1-st*.03,1+st*.05);comicFit(g,'kitten-thief',0,0,70,38);g.filter='none'}
+  else{g.filter=th.hit>0?'brightness(1.8)':'brightness(.85) saturate(.75) hue-rotate(160deg)';comicFit(g,'zombie-walk-'+fr,0,0,58,42);g.filter='none';
+  rr(g,-27,-34,22,6,2,'#1c1719');el(g,-22,-31,2,2,'#f2cf60');el(g,-12,-31,2,2,'#f2cf60')}
   g.restore();
   if(th.loot){g.save();g.translate(th.x,th.y-C*.45-bob);drawCoin(g,0,0,C*(th.loot.gold?.12:.1),th.loot.gold);g.restore()}}]))}

@@ -5,7 +5,8 @@ function toMenu(){S=null;sel=null;drag=null;$('#ov').hidden=true;show('menu');mu
 function updMenu(){$('#menuStat').textContent=`Побеждено зомби-котов: ${save.kills} · Мятных листиков: ${save.leaves}`;
  const n=gStored(),dry=gDry(),b=$('#farmBadge');b.hidden=!n&&!dry;b.textContent=n?'+'+n:'💧';$('#bPlay').textContent=save.lvl>0?`Играть · ур. ${save.lvl+1}`:'Играть'}
 function iconKind(k){return U[k]?'u':E[k]?'e':'a'}
-function renderIcon(c,kind,key){const sprite=kind=='u'?(key=='ball'?'ball-launcher':key):kind=='e'&& !['robo','owner','boss','box','ghost'].includes(key)?'zombie-cat':null;
+const ICON_ART={pipe:'hydrant',pole:'pole',bowl:'bowl',taxi:'taxi',truck:'truck',shovel:'shovel'};
+function renderIcon(c,kind,key){const sprite=kind=='u'?unitKey(key,1):kind=='e'?(hasSprite('zombie-'+key)?'zombie-'+key:!['robo','owner','boss','box','ghost'].includes(key)?'zombie-cat':null):hasSprite(ICON_ART[key])?ICON_ART[key]:null;
  if(sprite&&COMIC_SPRITES[sprite]?.image.naturalWidth){const x=c.getContext('2d');x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,c.width,c.height);comicFit(x,sprite,c.width/2,c.height*.94,c.width*.9,c.height*.88);return;}const x=c.getContext('2d'),W=c.width,H=c.height;x.clearRect(0,0,W,H);x.save();
  if(kind=='u'){x.translate(W/2+(key=='spr'?-W*.14:key=='shock'?-W*.06:0),H*.96);const s=H/(key=='fence'?102:84);x.scale(s,s);drawUnit(x,{t:key,lv:1,ph:1,fire:key=='spr'?.5:0,hp:1,max:1,charges:8,arm:0})}
  else if(kind=='e'){x.translate(W/2+W*.05,H*.95);const s=H/(key=='fat'?95:key=='kit'?50:key=='owner'?118:key=='boss'?150:78);x.scale(s,s);if(key=='boss')x.translate(12,0);drawCat(x,{type:key,ph:.8,arm:E[key].arm?1:0})}
@@ -15,7 +16,7 @@ function renderIcon(c,kind,key){const sprite=kind=='u'?(key=='ball'?'ball-launch
  x.restore()}
 function overlay(html,btns,cls=''){const o=$('#ov');o.innerHTML=`<div class="box ${cls}">${html}<div class="row">${btns.map((b,i)=>`<button class="btn ${b[2]||''}" data-i="${i}">${b[0]}</button>`).join('')}</div></div>`;o.hidden=false;
  o.querySelectorAll('canvas[data-k]').forEach(c=>renderIcon(c,iconKind(c.dataset.k),c.dataset.k));
- o.querySelectorAll('canvas[data-gd]').forEach(c=>{const x=c.getContext('2d');comicFit(x,'granddaughter',c.width/2,c.height*.98,c.width*.95,c.height*.95)});
+ o.querySelectorAll('canvas[data-gd]').forEach(c=>{const x=c.getContext('2d');comicFit(x,hasSprite('granddaughter-give')?'granddaughter-give':'granddaughter',c.width/2,c.height*.98,c.width*.95,c.height*.95)});
  o.querySelectorAll('canvas[data-g]').forEach(c=>{const x=c.getContext('2d');x.translate(c.width/2,c.height*.42);x.scale(2.4,2.4);drawGranny(x,{mood:c.dataset.g,item:'pin',wave:1})});
  o.querySelectorAll('button[data-i]').forEach(b=>b.onclick=()=>{SFX.click();o.hidden=true;btns[b.dataset.i][1]()});o.querySelector('button[data-i]')?.focus();return o}
 
@@ -49,7 +50,7 @@ function openReveal(){if(!S.trophy)return;S.trophy=null;const i=S.i,stars=Math.m
    :`<div class="tag">Уровень пройден</div><h2>${L[i].n}</h2>${st}<canvas class="big" width="300" height="260" data-g="angry"></canvas><p>Дальше: «${L[i+1].n}». ${L[i+1].sub}</p>${lf}`,
    [['Дальше',()=>perkThen(i,()=>beginLevel(i+1))],['Уровни',()=>perkThen(i,()=>{toMenu();openLevels()}),'alt']])}
  else overlay(`<div class="tag">Финал</div><h2>Улица Мурлыкина спасена!</h2>${st}<canvas class="big" width="300" height="260" data-g="calm"></canvas><p>Король Пылесосов повержен. Бабка ставит чайник, коты спят кучей на диване. Побеждено зомби-котов: ${save.kills}.</p>${lf}`,[['В меню',toMenu]])}
-function perkThen(i,next){const set=PERKSETS[i];save.perkAsk=save.perkAsk||{};if(!set||save.perkAsk[i])return next();save.perkAsk[i]=1;persist();SFX.fanfare();
+function perkThen(i,nextAfter){const next=()=>bpThen(i,nextAfter),set=PERKSETS[i];save.perkAsk=save.perkAsk||{};if(!set||save.perkAsk[i])return next();save.perkAsk[i]=1;persist();SFX.fanfare();
  overlay(`<div class="tag">Бабкина премия</div><h2>Выбери одно улучшение</h2><p>Оно останется с тобой до конца игры.</p><div class="perks">${set.map(k=>`<div class="pk"><b>${PERKS[k].n}</b><span>${PERKS[k].d}</span></div>`).join('')}</div>`,
   set.map(k=>[PERKS[k].n,()=>{save.perks[k]=1;persist();SFX.reveal();next()}]),'wide')}
 function openSettings(){const s=save.set,wasPlay=S&&S.phase=='play'&&!S.paused;if(wasPlay){S.paused=true;S.resumeAfterSettings=true}
@@ -155,7 +156,7 @@ function sceneTitle(x,t){x.fillStyle=lgrad(x,0,0,0,720,[[0,'#2b1d4e'],[.6,'#a24b
 /* ---------- wiring & main loop ---------- */
 $('#bPlay').onclick=()=>{SFX.click();if(!save.intro)playCut(()=>beginLevel(save.lvl));else beginLevel(save.lvl)};
 $('#bLevels').onclick=()=>{SFX.click();openLevels()};$('#bFarm').onclick=()=>{SFX.click();openFarm()};
-$('#bAlm').onclick=()=>{SFX.click();openAlmanac()};$('#bSet').onclick=()=>{SFX.click();openSettings()};$('#bIntro').onclick=()=>{SFX.click();playCut(toMenu)};
+$('#bAlm').onclick=()=>{SFX.click();openAlmanac()};$('#bSurv').onclick=()=>{if(save.lvl<SURV_UNLOCK){SFX.bad();return}SFX.click();beginSurvival()};$('#bSet').onclick=()=>{SFX.click();openSettings()};$('#bIntro').onclick=()=>{SFX.click();playCut(toMenu)};
 $('#lvBack').onclick=()=>{SFX.click();toMenu()};$('#lvAll').onclick=()=>{SFX.click();unlockAll();SFX.reveal()};$('#fBack').onclick=()=>{SFX.click();toMenu()};
 let last=performance.now(),menuTick=0;
 function loop(now){const dt=Math.min(.05,(now-last)/1000);last=now;

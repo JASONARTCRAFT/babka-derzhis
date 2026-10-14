@@ -155,10 +155,10 @@
   },
   "prop-lamp": {
     "file": "prop-lamp.webp",
-    "x": 24,
-    "y": 24,
-    "w": 366,
-    "h": 434
+    "x": 180,
+    "y": 65,
+    "w": 151,
+    "h": 381
   },
   "prop-bench": {
     "file": "prop-bench.webp",
@@ -208,94 +208,6 @@
     "y": 77,
     "w": 322,
     "h": 223
-  },
-  "building-pharmacy": {
-    "file": "building-pharmacy.webp",
-    "x": 35,
-    "y": 45,
-    "w": 447,
-    "h": 443,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-bakery": {
-    "file": "building-bakery.webp",
-    "x": 52,
-    "y": 47,
-    "w": 426,
-    "h": 441,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-fish": {
-    "file": "building-fish.webp",
-    "x": 48,
-    "y": 43,
-    "w": 427,
-    "h": 445,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-florist": {
-    "file": "building-florist.webp",
-    "x": 52,
-    "y": 43,
-    "w": 417,
-    "h": 445,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-garage": {
-    "file": "building-garage.webp",
-    "x": 44,
-    "y": 24,
-    "w": 442,
-    "h": 416,
-    "door": [
-      256,
-      409
-    ]
-  },
-  "building-kiosk": {
-    "file": "building-kiosk.webp",
-    "x": 25,
-    "y": 24,
-    "w": 407,
-    "h": 422,
-    "door": [
-      256,
-      367
-    ]
-  },
-  "building-home": {
-    "file": "building-home.webp",
-    "x": 39,
-    "y": 24,
-    "w": 421,
-    "h": 428,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-workshop": {
-    "file": "building-workshop.webp",
-    "x": 48,
-    "y": 24,
-    "w": 424,
-    "h": 430,
-    "door": [
-      256,
-      418
-    ]
   },
   "wheel-run-0": {
     "file": "wheel-run-0.webp",
@@ -355,1304 +267,1040 @@
   },
   "cat-sleep": {
     "file": "cat-sleep.webp",
-    "x": 46,
-    "y": 124,
-    "w": 423,
-    "h": 316
+    "x": 65,
+    "y": 114,
+    "w": 381,
+    "h": 284
   },
   "cat-sit": {
     "file": "cat-sit.webp",
-    "x": 95,
-    "y": 37,
-    "w": 355,
-    "h": 451
+    "x": 96,
+    "y": 67,
+    "w": 319,
+    "h": 377
   },
   "cat-loaf": {
     "file": "cat-loaf.webp",
-    "x": 51,
-    "y": 159,
-    "w": 417,
-    "h": 329
+    "x": 69,
+    "y": 131,
+    "w": 375,
+    "h": 249
   },
   "cat-walk-side": {
     "file": "cat-walk-side.webp",
-    "x": 79,
-    "y": 36,
-    "w": 409,
-    "h": 452
+    "x": 60,
+    "y": 80,
+    "w": 391,
+    "h": 350
   },
   "granny-shock": {
     "file": "granny-shock.webp",
-    "x": 24,
-    "y": 24,
-    "w": 394,
-    "h": 464
+    "x": 102,
+    "y": 51,
+    "w": 307,
+    "h": 410
   },
   "granny-calm": {
     "file": "granny-calm.webp",
-    "x": 76,
-    "y": 24,
-    "w": 369,
-    "h": 464
+    "x": 90,
+    "y": 48,
+    "w": 331,
+    "h": 416
   },
   "granny-knit": {
     "file": "granny-knit.webp",
-    "x": 55,
-    "y": 24,
-    "w": 433,
-    "h": 423
+    "x": 60,
+    "y": 65,
+    "w": 392,
+    "h": 381
   },
   "granddaughter-explain": {
     "file": "granddaughter-explain.webp",
-    "x": 24,
-    "y": 24,
-    "w": 443,
-    "h": 440
+    "x": 75,
+    "y": 56,
+    "w": 361,
+    "h": 399
   },
   "granddaughter-give": {
     "file": "granddaughter-give.webp",
-    "x": 50,
-    "y": 24,
-    "w": 413,
-    "h": 453
+    "x": 70,
+    "y": 47,
+    "w": 372,
+    "h": 417
   },
   "zombie-kit": {
     "file": "zombie-kit.webp",
-    "x": 58,
-    "y": 230,
-    "w": 430,
-    "h": 258
+    "x": 72,
+    "y": 125,
+    "w": 369,
+    "h": 261
   },
   "zombie-fat": {
     "file": "zombie-fat.webp",
-    "x": 24,
-    "y": 97,
-    "w": 464,
-    "h": 390
+    "x": 27,
+    "y": 60,
+    "w": 458,
+    "h": 391
   },
   "zombie-ath": {
     "file": "zombie-ath.webp",
-    "x": 24,
-    "y": 115,
-    "w": 464,
-    "h": 373
+    "x": 33,
+    "y": 68,
+    "w": 443,
+    "h": 374
   },
   "zombie-mom": {
     "file": "zombie-mom.webp",
-    "x": 30,
-    "y": 147,
-    "w": 442,
+    "x": 45,
+    "y": 86,
+    "w": 422,
     "h": 340
   },
   "zombie-lead": {
     "file": "zombie-lead.webp",
-    "x": 46,
-    "y": 24,
-    "w": 441,
-    "h": 411
+    "x": 44,
+    "y": 85,
+    "w": 423,
+    "h": 341
   },
   "zombie-skate": {
     "file": "zombie-skate.webp",
-    "x": 24,
-    "y": 24,
-    "w": 464,
-    "h": 412
+    "x": 34,
+    "y": 84,
+    "w": 443,
+    "h": 345
   },
   "zombie-swim": {
     "file": "zombie-swim.webp",
-    "x": 31,
-    "y": 24,
-    "w": 456,
-    "h": 415
+    "x": 38,
+    "y": 92,
+    "w": 435,
+    "h": 328
   },
   "zombie-basin": {
     "file": "zombie-basin.webp",
-    "x": 40,
-    "y": 24,
-    "w": 430,
-    "h": 411
+    "x": 50,
+    "y": 98,
+    "w": 411,
+    "h": 316
   },
   "zombie-vac": {
     "file": "zombie-vac.webp",
-    "x": 55,
-    "y": 55,
-    "w": 433,
-    "h": 397
+    "x": 27,
+    "y": 56,
+    "w": 458,
+    "h": 398
   },
   "zombie-box": {
     "file": "zombie-box.webp",
-    "x": 24,
-    "y": 105,
-    "w": 464,
-    "h": 361
+    "x": 56,
+    "y": 120,
+    "w": 399,
+    "h": 272
   },
   "zombie-ghost": {
     "file": "zombie-ghost.webp",
-    "x": 24,
+    "x": 28,
     "y": 75,
-    "w": 451,
-    "h": 374
+    "w": 457,
+    "h": 361
   },
   "zombie-robo": {
     "file": "zombie-robo.webp",
-    "x": 43,
-    "y": 91,
-    "w": 445,
-    "h": 333
+    "x": 26,
+    "y": 96,
+    "w": 460,
+    "h": 319
   },
   "zombie-owner": {
     "file": "zombie-owner.webp",
-    "x": 48,
-    "y": 24,
-    "w": 380,
-    "h": 464
+    "x": 115,
+    "y": 27,
+    "w": 282,
+    "h": 458
   },
   "basin": {
     "file": "basin.webp",
-    "x": 56,
-    "y": 141,
-    "w": 377,
-    "h": 303
+    "x": 57,
+    "y": 118,
+    "w": 398,
+    "h": 276
   },
   "vac-robot": {
     "file": "vac-robot.webp",
-    "x": 39,
-    "y": 132,
-    "w": 425,
-    "h": 210
+    "x": 36,
+    "y": 148,
+    "w": 439,
+    "h": 216
   },
   "zombie-skate-board": {
     "file": "zombie-skate-board.webp",
-    "x": 38,
-    "y": 145,
-    "w": 450,
-    "h": 202
+    "x": 82,
+    "y": 182,
+    "w": 347,
+    "h": 148
   },
   "zombie-thief": {
     "file": "zombie-thief.webp",
-    "x": 24,
-    "y": 127,
-    "w": 451,
-    "h": 229
+    "x": 26,
+    "y": 149,
+    "w": 460,
+    "h": 214
   },
   "bowl": {
     "file": "bowl.webp",
-    "x": 79,
-    "y": 225,
-    "w": 379,
-    "h": 225
+    "x": 109,
+    "y": 168,
+    "w": 295,
+    "h": 175
   },
   "hydrant": {
     "file": "hydrant.webp",
-    "x": 112,
-    "y": 73,
-    "w": 273,
-    "h": 400
+    "x": 150,
+    "y": 100,
+    "w": 212,
+    "h": 312
   },
   "pole": {
     "file": "pole.webp",
-    "x": 95,
-    "y": 49,
-    "w": 317,
-    "h": 439
+    "x": 133,
+    "y": 81,
+    "w": 246,
+    "h": 348
   },
   "taxi": {
     "file": "taxi.webp",
-    "x": 115,
-    "y": 84,
-    "w": 294,
-    "h": 404
+    "x": 141,
+    "y": 98,
+    "w": 229,
+    "h": 316
   },
   "truck": {
     "file": "truck.webp",
-    "x": 148,
-    "y": 38,
-    "w": 244,
-    "h": 444
+    "x": 161,
+    "y": 83,
+    "w": 189,
+    "h": 345
   },
   "shovel": {
     "file": "shovel.webp",
-    "x": 111,
-    "y": 66,
-    "w": 377,
-    "h": 403
+    "x": 140,
+    "y": 99,
+    "w": 232,
+    "h": 313
   },
   "mower": {
     "file": "mower.webp",
-    "x": 24,
-    "y": 24,
-    "w": 464,
-    "h": 441
+    "x": 90,
+    "y": 120,
+    "w": 331,
+    "h": 270
   },
   "wheel-gold": {
     "file": "wheel-gold.webp",
-    "x": 24,
-    "y": 24,
-    "w": 458,
-    "h": 461
+    "x": 75,
+    "y": 93,
+    "w": 361,
+    "h": 326
   },
   "ball-launcher-2": {
     "file": "ball-launcher-2.webp",
-    "x": 83,
-    "y": 83,
-    "w": 401,
-    "h": 375
+    "x": 100,
+    "y": 109,
+    "w": 312,
+    "h": 292
   },
   "ball-launcher-3": {
     "file": "ball-launcher-3.webp",
-    "x": 82,
-    "y": 40,
-    "w": 401,
-    "h": 421
+    "x": 100,
+    "y": 92,
+    "w": 312,
+    "h": 327
   },
   "spr-2": {
     "file": "spr-2.webp",
-    "x": 24,
-    "y": 81,
-    "w": 464,
-    "h": 367
+    "x": 65,
+    "y": 114,
+    "w": 382,
+    "h": 284
   },
   "shock-2": {
     "file": "shock-2.webp",
-    "x": 24,
-    "y": 28,
-    "w": 434,
-    "h": 438
+    "x": 112,
+    "y": 89,
+    "w": 288,
+    "h": 336
   },
   "fx-ball": {
     "file": "fx-ball.webp",
-    "x": 102,
-    "y": 160,
-    "w": 311,
-    "h": 315
+    "x": 135,
+    "y": 134,
+    "w": 242,
+    "h": 244
   },
   "fx-splash": {
     "file": "fx-splash.webp",
-    "x": 52,
-    "y": 92,
-    "w": 402,
-    "h": 393
+    "x": 99,
+    "y": 103,
+    "w": 313,
+    "h": 306
   },
   "fx-boom": {
     "file": "fx-boom.webp",
-    "x": 42,
-    "y": 63,
-    "w": 440,
-    "h": 425
+    "x": 85,
+    "y": 88,
+    "w": 342,
+    "h": 333
   },
   "fx-cucumber": {
     "file": "fx-cucumber.webp",
-    "x": 48,
-    "y": 131,
-    "w": 419,
-    "h": 322
+    "x": 93,
+    "y": 130,
+    "w": 325,
+    "h": 251
   },
   "event-rain": {
     "file": "event-rain.webp",
-    "x": 59,
-    "y": 63,
-    "w": 396,
-    "h": 425
+    "x": 102,
+    "y": 108,
+    "w": 308,
+    "h": 296
   },
   "event-blackout": {
     "file": "event-blackout.webp",
-    "x": 86,
-    "y": 63,
-    "w": 347,
-    "h": 390
+    "x": 121,
+    "y": 104,
+    "w": 270,
+    "h": 304
   },
   "event-pension": {
     "file": "event-pension.webp",
-    "x": 41,
-    "y": 24,
-    "w": 406,
-    "h": 450
+    "x": 98,
+    "y": 98,
+    "w": 316,
+    "h": 315
   },
   "event-pipe": {
     "file": "event-pipe.webp",
-    "x": 58,
-    "y": 72,
-    "w": 421,
-    "h": 401
+    "x": 92,
+    "y": 99,
+    "w": 327,
+    "h": 312
   },
   "event-neighbor": {
     "file": "event-neighbor.webp",
-    "x": 49,
-    "y": 24,
-    "w": 434,
-    "h": 453
+    "x": 87,
+    "y": 75,
+    "w": 337,
+    "h": 361
   },
   "event-roadwork": {
     "file": "event-roadwork.webp",
-    "x": 48,
-    "y": 28,
-    "w": 421,
-    "h": 424
+    "x": 92,
+    "y": 91,
+    "w": 327,
+    "h": 330
   },
   "puddle": {
     "file": "puddle.webp",
-    "x": 41,
-    "y": 123,
-    "w": 433,
-    "h": 290
+    "x": 87,
+    "y": 143,
+    "w": 337,
+    "h": 225
   },
   "roadwork-barrier": {
     "file": "roadwork-barrier.webp",
-    "x": 59,
-    "y": 55,
-    "w": 407,
-    "h": 382
+    "x": 98,
+    "y": 107,
+    "w": 316,
+    "h": 298
   },
   "roof-flat-1": {
     "file": "roof-flat-1.webp",
-    "x": 76,
+    "x": 101,
     "y": 122,
-    "w": 399,
-    "h": 344
+    "w": 310,
+    "h": 268
   },
   "roof-flat-2": {
     "file": "roof-flat-2.webp",
-    "x": 64,
-    "y": 100,
-    "w": 405,
-    "h": 378
+    "x": 98,
+    "y": 110,
+    "w": 315,
+    "h": 292
   },
   "roof-flat-3": {
     "file": "roof-flat-3.webp",
-    "x": 55,
-    "y": 114,
-    "w": 406,
-    "h": 360
+    "x": 98,
+    "y": 117,
+    "w": 316,
+    "h": 278
   },
   "gateway": {
     "file": "gateway.webp",
-    "x": 45,
-    "y": 101,
-    "w": 415,
-    "h": 364
+    "x": 95,
+    "y": 114,
+    "w": 322,
+    "h": 283
   },
   "door-open": {
     "file": "door-open.webp",
-    "x": 97,
-    "y": 70,
-    "w": 329,
-    "h": 380
+    "x": 128,
+    "y": 108,
+    "w": 256,
+    "h": 296
   },
   "prop-busstop": {
     "file": "prop-busstop.webp",
-    "x": 31,
-    "y": 104,
-    "w": 452,
-    "h": 384
+    "x": 80,
+    "y": 135,
+    "w": 351,
+    "h": 243
   },
   "prop-hydrant-street": {
     "file": "prop-hydrant-street.webp",
-    "x": 105,
-    "y": 77,
-    "w": 383,
-    "h": 411
+    "x": 145,
+    "y": 122,
+    "w": 221,
+    "h": 267
   },
   "prop-bike": {
     "file": "prop-bike.webp",
-    "x": 24,
-    "y": 93,
-    "w": 427,
-    "h": 395
+    "x": 85,
+    "y": 132,
+    "w": 341,
+    "h": 247
   },
   "prop-flowerbox": {
     "file": "prop-flowerbox.webp",
-    "x": 68,
-    "y": 106,
-    "w": 416,
-    "h": 286
+    "x": 93,
+    "y": 145,
+    "w": 324,
+    "h": 222
   },
   "house-roof-clean": {
     "file": "house-roof-clean.webp",
-    "x": 33,
-    "y": 24,
-    "w": 455,
-    "h": 403
+    "x": 70,
+    "y": 91,
+    "w": 373,
+    "h": 329
   },
   "prop-tree-far": {
     "file": "prop-tree-far.webp",
-    "x": 24,
-    "y": 24,
-    "w": 464,
-    "h": 433
+    "x": 90,
+    "y": 73,
+    "w": 331,
+    "h": 365
   },
   "prop-lamp-tall": {
     "file": "prop-lamp-tall.webp",
-    "x": 24,
-    "y": 24,
-    "w": 366,
-    "h": 434
+    "x": 180,
+    "y": 65,
+    "w": 151,
+    "h": 381
   },
   "menu-slab": {
     "file": "menu-slab.webp",
-    "x": 47,
-    "y": 275,
-    "w": 441,
-    "h": 213
+    "x": 54,
+    "y": 163,
+    "w": 404,
+    "h": 186
   },
   "menu-sign": {
     "file": "menu-sign.webp",
-    "x": 24,
-    "y": 46,
-    "w": 464,
-    "h": 442
+    "x": 98,
+    "y": 85,
+    "w": 315,
+    "h": 341
   },
   "menu-almanac": {
     "file": "menu-almanac.webp",
-    "x": 24,
-    "y": 130,
-    "w": 464,
-    "h": 358
+    "x": 99,
+    "y": 107,
+    "w": 313,
+    "h": 297
   },
   "menu-stake-sign": {
     "file": "menu-stake-sign.webp",
-    "x": 24,
+    "x": 116,
     "y": 88,
-    "w": 421,
-    "h": 400
+    "w": 279,
+    "h": 336
   },
   "blueprint-card": {
     "file": "blueprint-card.webp",
-    "x": 65,
-    "y": 24,
-    "w": 423,
-    "h": 456
+    "x": 72,
+    "y": 106,
+    "w": 368,
+    "h": 299
   },
   "loot-sack": {
     "file": "loot-sack.webp",
-    "x": 24,
-    "y": 24,
-    "w": 463,
-    "h": 464
+    "x": 106,
+    "y": 101,
+    "w": 300,
+    "h": 309
   },
   "survival-badge": {
     "file": "survival-badge.webp",
-    "x": 55,
-    "y": 24,
-    "w": 433,
-    "h": 464
+    "x": 90,
+    "y": 88,
+    "w": 332,
+    "h": 337
   },
   "mower-broken": {
     "file": "mower-broken.webp",
-    "x": 24,
-    "y": 24,
-    "w": 450,
-    "h": 464
+    "x": 73,
+    "y": 83,
+    "w": 365,
+    "h": 345
   },
   "pot": {
     "file": "pot.webp",
-    "x": 96,
-    "y": 88,
-    "w": 343,
-    "h": 348
+    "x": 122,
+    "y": 120,
+    "w": 267,
+    "h": 271
   },
   "can": {
     "file": "can.webp",
-    "x": 50,
-    "y": 24,
-    "w": 438,
-    "h": 428
+    "x": 51,
+    "y": 103,
+    "w": 410,
+    "h": 306
   },
   "seed-bag": {
     "file": "seed-bag.webp",
-    "x": 24,
-    "y": 24,
-    "w": 464,
-    "h": 444
+    "x": 110,
+    "y": 95,
+    "w": 291,
+    "h": 322
   },
   "leaf-mint": {
     "file": "leaf-mint.webp",
-    "x": 24,
-    "y": 24,
-    "w": 396,
-    "h": 431
+    "x": 133,
+    "y": 107,
+    "w": 246,
+    "h": 298
   },
   "plant-catnip-1": {
     "file": "plant-catnip-1.webp",
-    "x": 157,
-    "y": 230,
-    "w": 208,
-    "h": 228
+    "x": 158,
+    "y": 148,
+    "w": 195,
+    "h": 214
   },
   "plant-catnip-2": {
     "file": "plant-catnip-2.webp",
-    "x": 92,
-    "y": 103,
-    "w": 278,
-    "h": 355
+    "x": 125,
+    "y": 89,
+    "w": 261,
+    "h": 334
   },
   "plant-catnip-3": {
     "file": "plant-catnip-3.webp",
-    "x": 37,
-    "y": 58,
-    "w": 364,
-    "h": 409
+    "x": 84,
+    "y": 67,
+    "w": 343,
+    "h": 376
   },
   "plant-chili-1": {
     "file": "plant-chili-1.webp",
-    "x": 157,
-    "y": 201,
-    "w": 208,
-    "h": 235
+    "x": 158,
+    "y": 146,
+    "w": 195,
+    "h": 220
   },
   "plant-chili-2": {
     "file": "plant-chili-2.webp",
-    "x": 74,
-    "y": 50,
-    "w": 290,
-    "h": 418
+    "x": 120,
+    "y": 74,
+    "w": 272,
+    "h": 363
   },
   "plant-chili-3": {
     "file": "plant-chili-3.webp",
-    "x": 25,
-    "y": 44,
-    "w": 393,
-    "h": 424
+    "x": 71,
+    "y": 69,
+    "w": 370,
+    "h": 371
   },
   "plant-volt-1": {
     "file": "plant-volt-1.webp",
     "x": 157,
-    "y": 155,
-    "w": 211,
-    "h": 283
+    "y": 122,
+    "w": 198,
+    "h": 266
   },
   "plant-volt-2": {
     "file": "plant-volt-2.webp",
-    "x": 97,
-    "y": 43,
-    "w": 280,
-    "h": 396
+    "x": 125,
+    "y": 63,
+    "w": 263,
+    "h": 385
   },
   "plant-volt-3": {
     "file": "plant-volt-3.webp",
-    "x": 37,
-    "y": 44,
-    "w": 399,
-    "h": 395
+    "x": 68,
+    "y": 57,
+    "w": 376,
+    "h": 398
   },
   "plant-pump-1": {
     "file": "plant-pump-1.webp",
-    "x": 134,
-    "y": 211,
-    "w": 261,
-    "h": 262
+    "x": 112,
+    "y": 112,
+    "w": 287,
+    "h": 288
   },
   "plant-pump-2": {
     "file": "plant-pump-2.webp",
-    "x": 71,
-    "y": 113,
-    "w": 357,
-    "h": 363
+    "x": 60,
+    "y": 57,
+    "w": 392,
+    "h": 399
   },
   "plant-pump-3": {
     "file": "plant-pump-3.webp",
-    "x": 44,
-    "y": 54,
-    "w": 421,
-    "h": 426
+    "x": 29,
+    "y": 27,
+    "w": 453,
+    "h": 458
   },
   "plant-cuke-1": {
     "file": "plant-cuke-1.webp",
-    "x": 134,
-    "y": 156,
-    "w": 256,
-    "h": 302
+    "x": 115,
+    "y": 89,
+    "w": 281,
+    "h": 334
   },
   "plant-cuke-2": {
     "file": "plant-cuke-2.webp",
-    "x": 70,
-    "y": 65,
-    "w": 350,
-    "h": 398
+    "x": 63,
+    "y": 37,
+    "w": 385,
+    "h": 438
   },
   "plant-cuke-3": {
     "file": "plant-cuke-3.webp",
-    "x": 34,
-    "y": 35,
-    "w": 430,
-    "h": 430
-  },
-  "building-pharmacy-night": {
-    "file": "building-pharmacy-night.webp",
-    "x": 41,
-    "y": 61,
-    "w": 430,
-    "h": 427,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-bakery-night": {
-    "file": "building-bakery-night.webp",
-    "x": 59,
-    "y": 64,
-    "w": 411,
-    "h": 424,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-fish-night": {
-    "file": "building-fish-night.webp",
-    "x": 59,
-    "y": 61,
-    "w": 408,
-    "h": 426,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-florist-night": {
-    "file": "building-florist-night.webp",
-    "x": 64,
-    "y": 60,
-    "w": 401,
-    "h": 428,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-garage-night": {
-    "file": "building-garage-night.webp",
-    "x": 51,
-    "y": 24,
-    "w": 428,
-    "h": 409,
-    "door": [
-      256,
-      409
-    ]
-  },
-  "building-kiosk-night": {
-    "file": "building-kiosk-night.webp",
-    "x": 114,
-    "y": 24,
-    "w": 312,
-    "h": 415,
-    "door": [
-      256,
-      367
-    ]
-  },
-  "building-home-night": {
-    "file": "building-home-night.webp",
-    "x": 43,
-    "y": 34,
-    "w": 410,
-    "h": 411,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-workshop-night": {
-    "file": "building-workshop-night.webp",
-    "x": 56,
-    "y": 24,
-    "w": 412,
-    "h": 421,
-    "door": [
-      256,
-      418
-    ]
+    "x": 27,
+    "y": 26,
+    "w": 458,
+    "h": 459
   },
   "zombie-boss": {
     "file": "zombie-boss.webp",
-    "x": 32,
+    "x": 25,
     "y": 102,
-    "w": 452,
-    "h": 303
+    "w": 463,
+    "h": 308
   },
   "menu-cattree": {
     "file": "menu-cattree.webp",
-    "x": 105,
-    "y": 31,
-    "w": 309,
-    "h": 451
-  },
-  "building-pharmacy-night-open": {
-    "file": "building-pharmacy-night-open.webp",
-    "x": 41,
-    "y": 60,
-    "w": 432,
-    "h": 428,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-bakery-night-open": {
-    "file": "building-bakery-night-open.webp",
-    "x": 56,
-    "y": 63,
-    "w": 415,
-    "h": 425,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-fish-night-open": {
-    "file": "building-fish-night-open.webp",
-    "x": 55,
-    "y": 60,
-    "w": 413,
-    "h": 428,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-florist-night-open": {
-    "file": "building-florist-night-open.webp",
-    "x": 60,
-    "y": 60,
-    "w": 406,
-    "h": 428,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-garage-night-open": {
-    "file": "building-garage-night-open.webp",
-    "x": 49,
+    "x": 97,
     "y": 24,
-    "w": 432,
-    "h": 410,
-    "door": [
-      256,
-      409
-    ]
-  },
-  "building-kiosk-night-open": {
-    "file": "building-kiosk-night-open.webp",
-    "x": 112,
-    "y": 24,
-    "w": 316,
-    "h": 416,
-    "door": [
-      256,
-      367
-    ]
-  },
-  "building-home-night-open": {
-    "file": "building-home-night-open.webp",
-    "x": 41,
-    "y": 35,
-    "w": 413,
-    "h": 411,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-workshop-night-open": {
-    "file": "building-workshop-night-open.webp",
-    "x": 52,
-    "y": 24,
-    "w": 418,
-    "h": 423,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-pharmacy-open": {
-    "file": "building-pharmacy-open.webp",
-    "x": 36,
-    "y": 45,
-    "w": 446,
-    "h": 443,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-bakery-open": {
-    "file": "building-bakery-open.webp",
-    "x": 52,
-    "y": 46,
-    "w": 426,
-    "h": 442,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-fish-open": {
-    "file": "building-fish-open.webp",
-    "x": 47,
-    "y": 43,
-    "w": 430,
-    "h": 445,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-florist-open": {
-    "file": "building-florist-open.webp",
-    "x": 52,
-    "y": 43,
-    "w": 416,
-    "h": 445,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-garage-open": {
-    "file": "building-garage-open.webp",
-    "x": 44,
-    "y": 24,
-    "w": 442,
-    "h": 416,
-    "door": [
-      256,
-      409
-    ]
-  },
-  "building-kiosk-open": {
-    "file": "building-kiosk-open.webp",
-    "x": 25,
-    "y": 24,
-    "w": 407,
-    "h": 424,
-    "door": [
-      256,
-      367
-    ]
-  },
-  "building-home-open": {
-    "file": "building-home-open.webp",
-    "x": 39,
-    "y": 24,
-    "w": 421,
-    "h": 429,
-    "door": [
-      256,
-      418
-    ]
-  },
-  "building-workshop-open": {
-    "file": "building-workshop-open.webp",
-    "x": 49,
-    "y": 24,
-    "w": 424,
-    "h": 431,
-    "door": [
-      256,
-      418
-    ]
+    "w": 317,
+    "h": 464
   },
   "front-gateway": {
     "file": "front-gateway.webp",
-    "x": 61,
-    "y": 60,
-    "w": 427,
-    "h": 423
+    "x": 26,
+    "y": 70,
+    "w": 460,
+    "h": 372
   },
   "front-gap-yard": {
     "file": "front-gap-yard.webp",
-    "x": 24,
-    "y": 60,
-    "w": 464,
-    "h": 424
+    "x": 110,
+    "y": 27,
+    "w": 291,
+    "h": 456
   },
   "front-prop-bench": {
     "file": "front-prop-bench.webp",
-    "x": 24,
-    "y": 180,
-    "w": 429,
-    "h": 271
+    "x": 27,
+    "y": 111,
+    "w": 458,
+    "h": 288
   },
   "front-prop-bin": {
     "file": "front-prop-bin.webp",
-    "x": 105,
-    "y": 116,
-    "w": 381,
-    "h": 314
+    "x": 46,
+    "y": 83,
+    "w": 419,
+    "h": 345
   },
   "front-prop-bike": {
     "file": "front-prop-bike.webp",
-    "x": 135,
-    "y": 42,
-    "w": 271,
-    "h": 419
+    "x": 107,
+    "y": 27,
+    "w": 297,
+    "h": 459
   },
   "front-prop-planter": {
     "file": "front-prop-planter.webp",
-    "x": 30,
-    "y": 146,
-    "w": 407,
-    "h": 236
+    "x": 31,
+    "y": 127,
+    "w": 449,
+    "h": 259
   },
   "front-house-1": {
     "file": "front-house-1.webp",
-    "x": 62,
-    "y": 84,
-    "w": 413,
-    "h": 366,
+    "x": 26,
+    "y": 51,
+    "w": 460,
+    "h": 408,
     "door": [
-      191,
-      396
+      174,
+      376
     ]
   },
   "front-house-2": {
     "file": "front-house-2.webp",
     "x": 26,
-    "y": 74,
-    "w": 432,
-    "h": 388,
+    "y": 50,
+    "w": 460,
+    "h": 412,
     "door": [
-      163,
-      405
+      157,
+      379
     ]
   },
   "front-house-3": {
     "file": "front-house-3.webp",
-    "x": 57,
-    "y": 71,
-    "w": 416,
-    "h": 347,
+    "x": 26,
+    "y": 64,
+    "w": 460,
+    "h": 384,
     "door": [
-      186,
-      379
+      169,
+      372
     ]
   },
   "front-house-4": {
     "file": "front-house-4.webp",
-    "x": 24,
-    "y": 59,
-    "w": 433,
-    "h": 365,
+    "x": 26,
+    "y": 61,
+    "w": 460,
+    "h": 389,
     "door": [
-      256,
-      407
+      255,
+      391
     ]
   },
   "front-house-1-open": {
     "file": "front-house-1-open.webp",
-    "x": 61,
-    "y": 82,
-    "w": 416,
-    "h": 370,
+    "x": 26,
+    "y": 52,
+    "w": 460,
+    "h": 408,
     "door": [
-      191,
-      396
+      174,
+      377
     ]
   },
   "front-house-2-open": {
     "file": "front-house-2-open.webp",
-    "x": 25,
-    "y": 72,
-    "w": 435,
-    "h": 392,
+    "x": 26,
+    "y": 48,
+    "w": 460,
+    "h": 415,
     "door": [
-      163,
-      405
+      157,
+      380
     ]
   },
   "front-house-3-open": {
     "file": "front-house-3-open.webp",
-    "x": 56,
-    "y": 72,
-    "w": 419,
-    "h": 349,
+    "x": 26,
+    "y": 64,
+    "w": 460,
+    "h": 383,
     "door": [
-      186,
-      379
+      169,
+      372
     ]
   },
   "front-house-4-open": {
     "file": "front-house-4-open.webp",
-    "x": 24,
-    "y": 59,
-    "w": 435,
-    "h": 368,
+    "x": 26,
+    "y": 62,
+    "w": 459,
+    "h": 388,
     "door": [
-      256,
-      407
+      255,
+      392
     ]
   },
   "front-house-1-night": {
     "file": "front-house-1-night.webp",
-    "x": 61,
-    "y": 83,
-    "w": 416,
-    "h": 369,
+    "x": 26,
+    "y": 52,
+    "w": 460,
+    "h": 407,
     "door": [
-      191,
-      396
+      170,
+      376
     ]
   },
   "front-house-2-night": {
     "file": "front-house-2-night.webp",
-    "x": 25,
-    "y": 73,
-    "w": 435,
-    "h": 391,
+    "x": 26,
+    "y": 49,
+    "w": 460,
+    "h": 414,
     "door": [
-      163,
-      405
+      153,
+      379
     ]
   },
   "front-house-3-night": {
     "file": "front-house-3-night.webp",
-    "x": 56,
-    "y": 72,
-    "w": 419,
-    "h": 349,
+    "x": 26,
+    "y": 64,
+    "w": 460,
+    "h": 384,
     "door": [
-      186,
-      379
+      165,
+      372
     ]
   },
   "front-house-4-night": {
     "file": "front-house-4-night.webp",
-    "x": 24,
-    "y": 59,
-    "w": 434,
-    "h": 368,
+    "x": 26,
+    "y": 61,
+    "w": 460,
+    "h": 389,
     "door": [
-      256,
-      407
+      268,
+      399
     ]
   },
   "front-house-1-night-open": {
     "file": "front-house-1-night-open.webp",
-    "x": 61,
-    "y": 82,
-    "w": 416,
-    "h": 370,
+    "x": 26,
+    "y": 51,
+    "w": 460,
+    "h": 409,
     "door": [
-      191,
-      396
+      170,
+      377
     ]
   },
   "front-house-2-night-open": {
     "file": "front-house-2-night-open.webp",
-    "x": 25,
-    "y": 72,
-    "w": 435,
-    "h": 393,
+    "x": 26,
+    "y": 47,
+    "w": 460,
+    "h": 416,
     "door": [
-      163,
-      405
+      153,
+      379
     ]
   },
   "front-house-3-night-open": {
     "file": "front-house-3-night-open.webp",
-    "x": 56,
-    "y": 72,
-    "w": 419,
-    "h": 351,
+    "x": 26,
+    "y": 63,
+    "w": 460,
+    "h": 386,
     "door": [
-      186,
-      379
+      165,
+      373
     ]
   },
   "front-house-4-night-open": {
     "file": "front-house-4-night-open.webp",
-    "x": 24,
-    "y": 59,
-    "w": 435,
-    "h": 370,
+    "x": 26,
+    "y": 60,
+    "w": 459,
+    "h": 391,
     "door": [
-      256,
-      407
+      268,
+      400
     ]
   },
   "front-house-5": {
     "file": "front-house-5.webp",
-    "x": 51,
-    "y": 106,
-    "w": 429,
-    "h": 341,
+    "x": 26,
+    "y": 73,
+    "w": 460,
+    "h": 365,
     "door": [
-      395,
-      381
+      382,
+      345
     ]
   },
   "front-house-6": {
     "file": "front-house-6.webp",
-    "x": 36,
-    "y": 62,
-    "w": 432,
-    "h": 403,
+    "x": 26,
+    "y": 41,
+    "w": 460,
+    "h": 428,
     "door": [
-      140,
-      393
+      146,
+      377
     ]
   },
   "front-house-7": {
     "file": "front-house-7.webp",
-    "x": 49,
-    "y": 100,
-    "w": 428,
-    "h": 302,
+    "x": 26,
+    "y": 94,
+    "w": 460,
+    "h": 324,
     "door": [
-      191,
-      360
+      196,
+      328
     ]
   },
   "front-house-8": {
     "file": "front-house-8.webp",
-    "x": 31,
-    "y": 66,
-    "w": 438,
-    "h": 352,
+    "x": 27,
+    "y": 71,
+    "w": 459,
+    "h": 369,
     "door": [
-      149,
-      370
+      132,
+      340
     ]
   },
   "front-house-5-open": {
     "file": "front-house-5-open.webp",
-    "x": 51,
-    "y": 106,
-    "w": 429,
-    "h": 342,
+    "x": 26,
+    "y": 73,
+    "w": 461,
+    "h": 366,
     "door": [
-      395,
-      381
+      383,
+      346
     ]
   },
   "front-house-6-open": {
     "file": "front-house-6-open.webp",
-    "x": 36,
-    "y": 62,
-    "w": 432,
-    "h": 404,
+    "x": 26,
+    "y": 40,
+    "w": 460,
+    "h": 430,
     "door": [
-      140,
-      393
+      146,
+      378
     ]
   },
   "front-house-7-open": {
     "file": "front-house-7-open.webp",
-    "x": 49,
-    "y": 100,
-    "w": 429,
-    "h": 304,
+    "x": 26,
+    "y": 93,
+    "w": 460,
+    "h": 326,
     "door": [
-      191,
-      360
+      196,
+      329
     ]
   },
   "front-house-8-open": {
     "file": "front-house-8-open.webp",
-    "x": 31,
-    "y": 67,
-    "w": 439,
-    "h": 354,
+    "x": 26,
+    "y": 69,
+    "w": 460,
+    "h": 373,
     "door": [
-      149,
-      370
+      132,
+      341
     ]
   },
   "front-house-5-night": {
     "file": "front-house-5-night.webp",
-    "x": 51,
-    "y": 106,
-    "w": 429,
-    "h": 342,
+    "x": 26,
+    "y": 72,
+    "w": 461,
+    "h": 367,
     "door": [
-      395,
-      381
+      389,
+      346
     ]
   },
   "front-house-6-night": {
     "file": "front-house-6-night.webp",
-    "x": 36,
-    "y": 62,
-    "w": 433,
-    "h": 404,
+    "x": 26,
+    "y": 41,
+    "w": 460,
+    "h": 429,
     "door": [
-      140,
-      393
+      152,
+      377
     ]
   },
   "front-house-7-night": {
     "file": "front-house-7-night.webp",
-    "x": 49,
-    "y": 100,
-    "w": 429,
-    "h": 304,
+    "x": 26,
+    "y": 93,
+    "w": 460,
+    "h": 326,
     "door": [
-      191,
-      360
+      186,
+      330
     ]
   },
   "front-house-8-night": {
     "file": "front-house-8-night.webp",
-    "x": 30,
-    "y": 67,
-    "w": 440,
-    "h": 354,
+    "x": 26,
+    "y": 71,
+    "w": 460,
+    "h": 370,
     "door": [
-      149,
-      370
+      139,
+      342
     ]
   },
   "front-house-5-night-open": {
     "file": "front-house-5-night-open.webp",
-    "x": 50,
-    "y": 105,
-    "w": 431,
-    "h": 344,
+    "x": 26,
+    "y": 72,
+    "w": 460,
+    "h": 367,
     "door": [
-      395,
-      381
+      389,
+      346
     ]
   },
   "front-house-6-night-open": {
     "file": "front-house-6-night-open.webp",
-    "x": 35,
-    "y": 61,
-    "w": 436,
-    "h": 407,
+    "x": 26,
+    "y": 42,
+    "w": 460,
+    "h": 428,
     "door": [
-      140,
-      393
+      152,
+      378
     ]
   },
   "front-house-7-night-open": {
     "file": "front-house-7-night-open.webp",
-    "x": 49,
-    "y": 100,
-    "w": 430,
-    "h": 307,
+    "x": 26,
+    "y": 92,
+    "w": 460,
+    "h": 328,
     "door": [
-      191,
-      360
+      186,
+      331
     ]
   },
   "front-house-8-night-open": {
     "file": "front-house-8-night-open.webp",
-    "x": 30,
-    "y": 67,
-    "w": 441,
-    "h": 356,
+    "x": 26,
+    "y": 71,
+    "w": 460,
+    "h": 370,
     "door": [
-      149,
-      370
+      139,
+      342
     ]
   },
   "kitten-thief": {
     "file": "kitten-thief.webp",
-    "x": 24,
-    "y": 127,
-    "w": 451,
-    "h": 229
+    "x": 26,
+    "y": 149,
+    "w": 460,
+    "h": 214
   }
 }
