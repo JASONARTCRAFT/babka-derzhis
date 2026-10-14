@@ -103,7 +103,14 @@ function drawCut(dt){CUT.t+=dt;let sc=SCENES[CUT.i];if(CUT.t>sc.d){if(CUT.i<SCEN
  const{x,W,H}=fitCanvas($('#cutCv')),c=cover(W,H*.82,.5),p=CUT.t/sc.d,z=1+p*.05;c.oy=Math.min(c.oy,0);x.fillStyle='#000';x.fillRect(0,0,W,H);
  x.save();x.translate(W/2,H/2);x.scale(z,z);x.translate(-W/2,-H/2);x.translate(c.ox,c.oy);x.scale(c.s,c.s);sc.draw(x,CUT.t,p);x.restore();
  const fa=Math.max(0,1-CUT.t/.45);if(fa>0){x.fillStyle=`rgba(0,0,0,${fa})`;x.fillRect(0,0,W,H)}}
-function sceneHome(x,t){x.fillStyle='#f6e3c4';x.fillRect(0,0,1280,720);for(let i=0;i<32;i++){x.fillStyle=i%2?'rgba(233,150,160,.25)':'rgba(255,255,255,.15)';x.fillRect(i*40,0,20,520)}
+// Painted intro backgrounds (intro-*): the characters are laid on top by code.
+function introBg(x,key){if(!hasSprite(key))return false;comicSprite(x,key,0,0,1280,720);return true}
+function zzz(x,cx,cy,t){for(let i=0;i<3;i++){const q=(t*.35+i/3)%1;x.globalAlpha=Math.sin(q*Math.PI)*.9;inkText(x,'z',cx+q*40+i*6,cy-q*70,`700 ${18+q*16|0}px "Balsamiq Sans",Nunito,sans-serif`,'#fff2d9',INK,3)}x.globalAlpha=1}
+function sceneHome(x,t){if(introBg(x,'intro-home')){
+  // Granny knits in the empty armchair; the cats are already asleep on the sofa in the painting.
+  x.save();x.translate(205,420);x.scale(3.2,3.2);drawGranny(x,{mood:'calm',item:'knit',wave:t*2});x.restore();
+  zzz(x,1000,250,t);return}
+ x.fillStyle='#f6e3c4';x.fillRect(0,0,1280,720);for(let i=0;i<32;i++){x.fillStyle=i%2?'rgba(233,150,160,.25)':'rgba(255,255,255,.15)';x.fillRect(i*40,0,20,520)}
  x.fillStyle='#a1673a';x.fillRect(0,520,1280,200);for(let i=0;i<10;i++)ln(x,'#8a5530',2,0,540+i*20,1280,540+i*20);
  rr(x,820,120,320,260,8,'#fff');rr(x,836,136,288,228,4,lgrad(x,0,136,0,364,[[0,'#90caf9'],[1,'#e3f2fd']]));
  for(let i=0;i<4;i++)rr(x,850+i*70,280-i%2*30,60,90,2,['#e8a87c','#a8d5a2','#9fc5e8','#f4d06f'][i]);ln(x,'#fff',6,980,136,980,364);ln(x,'#fff',6,836,250,1124,250);
@@ -113,7 +120,11 @@ function sceneHome(x,t){x.fillStyle='#f6e3c4';x.fillRect(0,0,1280,720);for(let i
  el(x,640,640,240,40,'#7b1fa2');x.save();x.translate(560,650);x.scale(2.6,2.6);sleepyCat(x,'#9e9e9e',t*2);x.restore();
  x.save();x.translate(780,650);x.scale(2.4,2.4);niceCat(x,'#5d4037',{ph:t,blink:1});x.restore();
  const bx=1000+Math.sin(t*1.5)*60;el(x,bx,640,18,18,'#26a69a');x.save();x.translate(bx+60,650);x.scale(1.8,1.8);niceCat(x,'#ffcc80',{ph:t*2});x.restore()}
-function sceneStreet(x,t){x.fillStyle=lgrad(x,0,0,0,720,[[0,'#3a2a5e'],[.6,'#c2616b'],[1,'#f2a65a']]);x.fillRect(0,0,1280,720);el(x,1050,140,50,50,'#fff3c4');
+function sceneStreet(x,t){if(introBg(x,'intro-street')){
+  // Neighbours and zombie cats are part of the painting: only the scream and panic marks move.
+  if((t*3|0)%2){x.save();x.translate(250,120+Math.sin(t*20)*3);x.rotate(-.08);inkText(x,'А-А-А!',0,0,'700 52px Oswald,Impact,sans-serif','#fff2d9',INK,7);x.restore()}
+  return}
+ x.fillStyle=lgrad(x,0,0,0,720,[[0,'#3a2a5e'],[.6,'#c2616b'],[1,'#f2a65a']]);x.fillRect(0,0,1280,720);el(x,1050,140,50,50,'#fff3c4');
  for(let i=0;i<9;i++){const h=180+(i*53%120);rr(x,i*150-20,560-h,140,h,0,['#4a3466','#3d2a57','#55407a'][i%3]);for(let w=0;w<4;w++)if((i+w)%3)rr(x,i*150+(w%2)*60,600-h+(w>>1)*60-30,30,34,2,'rgba(255,224,138,.7)')}
  x.fillStyle='#55565e';x.fillRect(0,560,1280,160);ln(x,'#fff',4,0,640,1280,640);
  const px=1300-t*230;x.save();x.translate(px,620);x.scale(-2.4,2.4);drawPerson(x,{ph:t*14,run:1,panic:1,coat:'#5c6bc0'});x.restore();
@@ -125,7 +136,15 @@ function sceneAngry(x,t){x.fillStyle=rgrad(x,640,360,40,800,[[0,'#ffb74d'],[1,'#
  x.save();x.translate(640,360);x.rotate(t*.2);for(let i=0;i<24;i++){x.rotate(Math.PI/12);poly(x,'rgba(255,255,255,.08)',0,0,900,-60,900,60)}x.restore();
  x.save();x.translate(640,380+Math.sin(t*8)*3);x.scale(7.5,7.5);drawGranny(x,{mood:'angry',item:'pin',wave:t*4});x.restore();
  if(t>1.2){const a=Math.min(1,(t-1.2)*3);x.globalAlpha=a;sparkle(x,560,360,40*a,'#fff');sparkle(x,720,360,30*a,'#fff');x.globalAlpha=1}}
-function sceneBuild(x,t){
+function sceneBuild(x,t){if(introBg(x,'intro-workshop')){
+  // Granddaughter tightens the launcher; cats carry parts across the floor; the nine devices pop up in a row.
+  // The lower ~20% of the frame sits under the caption, so everything stays above y≈560.
+  x.save();x.translate(1070,560);x.rotate(Math.sin(t*5)*.018);comicFit(x,'granddaughter',0,0,240,400);x.restore();
+  x.save();x.translate(890,548);x.scale(1.9,1.9);drawUnit(x,{t:'ball',lv:1,ph:t,fire:(Math.sin(t*6)>0?.08:0),hp:1,max:1});x.restore();
+  [['#9e9e9e',60,'#cc6f7b'],['#5d4037',300,'#a1c6a4']].forEach(([fur,x0,part],i)=>{const cx=x0+((t*45+i*90)%300);x.save();x.translate(cx,462);
+   if(hasSprite('cat-walk-side')){x.scale(-1,1);comicFit(x,'cat-walk-side',0,0,104,76);rr(x,-14,-66,26,16,3,part)}else{x.scale(2,2);niceCat(x,fur,{ph:t*3,blink:1});rr(x,8,-33,20,14,2,part)}x.restore()});
+  ['wheel','ball','spr','shock','fence','cuc','laser','yarn','mine'].forEach((ty,k)=>{const start=.8+k*.6;if(t<start)return;const pop=Math.min(1,(t-start)*4),cx=60+k*78;x.save();x.translate(cx,560);x.scale(1.15*pop,1.15*pop);drawUnit(x,{t:ty,lv:1,ph:t,fire:0,hp:1,max:1,charges:8,arm:0});x.restore();if(t-start<.25)sparkle(x,cx,500,10,'#f5d56b')});
+  return}
  x.fillStyle='#e7d3b4';x.fillRect(0,0,1280,720);
  for(let i=0;i<18;i++)ln(x,'rgba(108,71,61,.16)',2,i*76,0,i*76,720);
  rr(x,45,60,460,240,6,'#fff2da');x.strokeStyle='#352a30';x.lineWidth=4;x.strokeRect(45,60,460,240);
@@ -143,7 +162,15 @@ function sceneBuild(x,t){
  const devices=['wheel','ball','spr','shock','fence','cuc','laser','yarn','mine'];
  devices.forEach((ty,k)=>{const start=.8+k*.6;if(t<start)return;const pop=Math.min(1,(t-start)*4),cx=130+k*125;x.save();x.translate(cx,585);x.scale(1.5*pop,1.5*pop);drawUnit(x,{t:ty,lv:1,ph:t,fire:0,hp:1,max:1,charges:8,arm:0});x.restore();if(t-start<.25)sparkle(x,cx,500,10,'#f5d56b')});
 }
-function sceneTitle(x,t){x.fillStyle=lgrad(x,0,0,0,720,[[0,'#2b1d4e'],[.6,'#a24b6a'],[1,'#f3a65f']]);x.fillRect(0,0,1280,720);
+function sceneTitle(x,t){if(introBg(x,'intro-title')&&hasSprite('menu-logo')){
+  // Same rule as the workshop: the caption strip hides the bottom, so feet stand at y≈590.
+  for(let i=0;i<5;i++){const cx=1330-i*75+Math.sin(t+i)*8;x.save();x.translate(cx,560+(i%2)*30);x.scale(1.2,1.2);drawCat(x,{type:'cat',ph:t*6+i});x.restore()}
+  x.save();x.translate(400,590-52*3.8);x.scale(3.8,3.8);drawGranny(x,{mood:'angry',item:'pin',wave:t*5});x.restore();
+  [[190,'#f0a04b'],[620,'#9e9e9e']].forEach(([cx,col],k)=>{x.save();x.translate(cx,590);x.scale(2.4,2.4);niceCat(x,col,{ph:t*2+k,blink:1});x.restore()});
+  const b=Math.min(1,t*1.6),sc=1+Math.sin(b*Math.PI)*.15;x.save();x.translate(860,345);x.scale(sc*b,sc*b);x.rotate(-.03);comicFit(x,'menu-logo',0,0,460,250);x.restore();
+  if(t>1.5){x.globalAlpha=.6+.4*Math.sin(t*4);inkText(x,'Нажми, чтобы начать',860,392,'800 28px Nunito,sans-serif','#fff2d9',INK,6);x.globalAlpha=1}
+  return}
+ x.fillStyle=lgrad(x,0,0,0,720,[[0,'#2b1d4e'],[.6,'#a24b6a'],[1,'#f3a65f']]);x.fillRect(0,0,1280,720);
  x.fillStyle='#3a6b24';x.fillRect(0,520,1280,200);
  for(let i=0;i<6;i++){const cx=1300-i*60+Math.sin(t+i)*8,cy=560+(i%3)*40;el(x,cx,cy,22,18,'#1e1430');poly(x,'#1e1430',cx-16,cy-6,cx-14,cy-30,cx-4,cy-16);poly(x,'#1e1430',cx+16,cy-6,cx+14,cy-30,cx+4,cy-16);el(x,cx-6,cy-4,3,3,'#c6ff4d');el(x,cx+6,cy-4,3,3,'#c6ff4d')}
  x.save();x.translate(420,520);x.scale(4.2,4.2);drawGranny(x,{mood:'angry',item:'pin',wave:t*5});x.restore();

@@ -86,9 +86,10 @@ function catTree(x,t){
  // Crown platform carries the title plate.
  const pop=RM?1:1+Math.max(0,.06-MENU.t*.04)*Math.sin(MENU.t*14),bob=RM?0:Math.sin(t*1.2)*2;
  x.save();x.translate(900,112+bob);x.scale(pop,pop);x.rotate(-.02);
- inkBox(x,-214,-78,428,150,12,'#fff2d9',5);
+ if(hasSprite('menu-logo'))comicFit(x,'menu-logo',0,86,360,190);
+ else{inkBox(x,-214,-78,428,150,12,'#fff2d9',5);
  inkText(x,'БАБКА ПРОТИВ',0,-34,'700 50px Oswald,Impact,sans-serif',INK);
- inkText(x,'ЗОМБИ!',0,26,'700 72px Oswald,Impact,sans-serif','#c66382',INK,8);
+ inkText(x,'ЗОМБИ!',0,26,'700 72px Oswald,Impact,sans-serif','#c66382',INK,8)}
  x.restore()}
 function almanacBook(x,t){const r=MENU.items.bAlm,k=hotK('bAlm'),cx=r.x+r.w/2,by=r.y+r.h;
  comicFit(x,'prop-bench',cx,by+6,200,110);

@@ -904,10 +904,14 @@
   },
   "front-gateway": {
     "file": "front-gateway.webp",
-    "x": 26,
-    "y": 70,
-    "w": 460,
-    "h": 372
+    "x": 24,
+    "y": 44,
+    "w": 464,
+    "h": 424,
+    "door": [
+      255,
+      287
+    ]
   },
   "front-gap-yard": {
     "file": "front-gap-yard.webp",
@@ -1302,5 +1306,51 @@
     "y": 149,
     "w": 460,
     "h": 214
+  },
+  "front-gateway-open": {
+    "file": "front-gateway-open.webp",
+    "x": 24,
+    "y": 44,
+    "w": 464,
+    "h": 424,
+    "door": [
+      255,
+      287
+    ]
+  },
+  "menu-logo": {
+    "file": "menu-logo.webp",
+    "x": 13,
+    "y": 13,
+    "w": 874,
+    "h": 683
+  },
+  "intro-home": {
+    "file": "intro-home.webp",
+    "x": 0,
+    "y": 0,
+    "w": 1672,
+    "h": 941
+  },
+  "intro-street": {
+    "file": "intro-street.webp",
+    "x": 0,
+    "y": 0,
+    "w": 1672,
+    "h": 941
+  },
+  "intro-workshop": {
+    "file": "intro-workshop.webp",
+    "x": 0,
+    "y": 0,
+    "w": 1672,
+    "h": 941
+  },
+  "intro-title": {
+    "file": "intro-title.webp",
+    "x": 0,
+    "y": 0,
+    "w": 1672,
+    "h": 941
   }
 }

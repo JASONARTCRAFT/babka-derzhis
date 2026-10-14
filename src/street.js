@@ -152,5 +152,9 @@ function frontHouses(y,h){const xr=Math.max(WW,camX+VW)+C,night=S.lv.night,doors
   for(let q=x+n*W;q<b-1;q+=C*.5)comicFit(g,'front-gap-yard',q+C*.25,bt,C*.5,h+C*.04);
   for(let k=0;k<n;k++){const hx=x+k*W+W/2,idx=Math.floor(hx/W);put(variant(keys[(idx*3+S.i)%keys.length],false),hx,W*.98,null);
    const pk=hash1(idx*7.7+S.i);if(hx>FX(YC)&&pk<.4)comicFit(g,['front-prop-bench','front-prop-bin','front-prop-bike','front-prop-planter'][Math.floor(pk*10)%4],hx,y-C*.02,C*.5,C*.36)}};
- let x=0;opens.forEach((o,k)=>{fill(x,o.cx-W/2,k);put(variant(keys[(Math.floor(o.cx/W)*3+S.i+1)%keys.length],true),o.cx,W*.98,o.di);x=o.cx+W/2});fill(x,xr,99)}
+ // Zombie doors are arch gateways (narrower than a house): the gates swing open just before a cat comes out.
+ const gate=hasSprite('front-gateway'),ow=gate?W*.72:W,gateKey=di=>S.spawns.some(s=>s.d===di&&s.t-S.t<4)||S.doorOpen[di]>0?'front-gateway-open':'front-gateway';
+ let x=0;opens.forEach((o,k)=>{fill(x,o.cx-ow/2,k);
+  if(gate){if(night)g.filter='brightness(.62) saturate(.85)';put(gateKey(o.di),o.cx,ow*.98,o.di);g.filter='none'}
+  else put(variant(keys[(Math.floor(o.cx/W)*3+S.i+1)%keys.length],true),o.cx,W*.98,o.di);x=o.cx+ow/2});fill(x,xr,99)}
 function districtBuildings(){}function districtProps(){}
